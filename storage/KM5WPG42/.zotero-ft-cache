@@ -1,0 +1,2850 @@
+Lecture Notes
+by Thomas H. Cormen
+to Accompany
+Introduction to Algorithms
+Fourth Edition
+by Thomas H. Cormen Charles E. Leiserson Ronald L. Rivest Clifford Stein
+The MIT Press Cambridge, Massachusetts London, England
+
+
+Instructor’s Manual to Accompany Introduction to Algorithms, Fourth Edition by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein
+Published by the MIT Press. Copyright © 2022 by The Massachusetts Institute of Technology. All rights reserved.
+No part of this publication may be reproduced or distributed in any form or by any means, or stored in a database or retrieval system, without the prior written consent of The MIT Press, including, but not limited to, network or other electronic storage or transmission, or broadcast for distance learning.
+
+
+Contents
+Revision History R-1
+Preface P-1
+Chapter 2: Getting Started Lecture Notes 2-1
+Chapter 3: Characterizing Running Times Lecture Notes 3-1
+Chapter 4: Divide-and-Conquer Lecture Notes 4-1
+Chapter 5: Probabilistic Analysis and Randomized Algorithms Lecture Notes 5-1
+Chapter 6: Heapsort Lecture Notes 6-1
+Chapter 7: Quicksort Lecture Notes 7-1
+Chapter 8: Sorting in Linear Time Lecture Notes 8-1
+Chapter 9: Medians and Order Statistics Lecture Notes 9-1
+Chapter 10: Elementary Data Structures Lecture Notes 10-1
+Chapter 11: Hash Tables Lecture Notes 11-1
+Chapter 12: Binary Search Trees Lecture Notes 12-1
+Chapter 13: Red-Black Trees Lecture Notes 13-1
+Chapter 14: Dynamic Programming Lecture Notes 14-1
+Chapter 15: Greedy Algorithms Lecture Notes 15-1
+Chapter 16: Amortized Analysis Lecture Notes 16-1
+Chapter 17: Augmenting Data Structures Lecture Notes 17-1
+Chapter 19: Data Structures for Disjoint Sets Lecture Notes 19-1
+
+
+iv Contents
+Chapter 20: Elementary Graph Algorithms Lecture Notes 20-1
+Chapter 21: Minimum Spanning Trees Lecture Notes 21-1
+Chapter 22: Single-Source Shortest Paths Lecture Notes 22-1
+Chapter 23: All-Pairs Shortest Paths Lecture Notes 23-1
+Chapter 24: Maximum Flow Lecture Notes 24-1
+Chapter 25: Matchings in Bipartite Graphs Lecture Notes 25-1
+Chapter 30: Polynomials and the FFT Lecture Notes 30-1
+Chapter 32: String Matching Lecture Notes 32-1
+Chapter 35: Approximation Algorithms Lecture Notes 35-1
+
+
+Revision History
+Revisions to the lecture notes and solutions are listed by date rather than being numbered.
+14 March 2022. Initial release.
+
+
+
+
+Preface
+This document contains lecture notes to accompany Introduction to Algorithms, Fourth Edition, by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein. It is intended for use in a course on algorithms. You might also find some of the material herein to be useful for a CS 2-style course in data structures.
+We have not included lecture notes for every chapter. Future revisions of this document may include additional material.
+We have numbered the pages using the format CC-PP, where CC is a chapter number of the text and PP is the page number within that chapter. The PP numbers restart from 1 at the beginning of each chapter. We chose this form of page numbering so that if we add or change material, the only pages whose numbering is affected are those for that chapter. Moreover, if we add material for currently uncovered chapters, the numbers of the existing pages will remain unchanged.
+The lecture notes
+The lecture notes are based on three sources:
+Some are from the first-edition manual; they correspond to Charles Leiserson’s lectures in MIT’s undergraduate algorithms course, 6.046.
+Some are from Tom Cormen’s lectures in Dartmouth College’s undergraduate algorithms course, COSC 31.
+Some are written just for this document.
+You will find that the lecture notes are more informal than the text, as is appropriate for a lecture situation. In some places, we have simplified the material for lecture presentation or even omitted certain considerations. Some sections of the textusually starred—are omitted from the lecture notes.
+In several places in the lecture notes, we have included “asides” to the instructor. The asides are typeset in a slanted font and are enclosed in square brackets. [Here isan aside.] Some of the asides suggest leaving certain material on the board, since you will be coming back to it later. If you are projecting a presentation rather than writing on a blackboard or whiteboard, you might want to replicate slides containing this material so that you can easily reprise them later in the lecture.
+
+
+P-2 Preface
+We have chosen not to indicate how long it takes to cover material, as the time necessary to cover a topic depends on the instructor, the students, the class schedule, and other variables.
+Pseudocode in this document omits line numbers, which are inconvenient to include when writing pseudocode on the board. We have also minimized the use of shading in figures within lecture notes, since drawing a figure with shading on a blackboard or whiteboard is difficult.
+Source files
+For several reasons, we are unable to publish or transmit source files for this document. We apologize for this inconvenience.
+You can use the clrscode4e package for LATEX 2" to typeset pseudocode in the same way that we do. You can find it at https://mitp-content-server.mit.edu/books/ content/sectbyfn/books pres 0/11599/clrscode4e.sty and its documentation at https://mitp-content-server.mit.edu/books/content/sectbyfn/books pres 0/11599/ clrscode4e.pdf. Make sure to use the clrscode4e package, not the clrscode or clrscode3e packages, which are for earlier editions of the book.
+Reporting errors and suggestions
+Undoubtedly, this document contains errors. Please report errors by sending email to clrs-manual-bugs@mit.edu.
+As usual, if you find an error in the text itself, please verify that it has not already been posted on the errata web page, https://mitp-content-server.mit.edu/books/ content/sectbyfn/books pres 0/11599/e4-bugs.html, before you submit it. You also can use the MIT Press web site for the text, https://mitpress.mit.edu/books/ introduction-algorithms-fourth-edition, to locate the errata web page and to submit an error report.
+We thank you in advance for your assistance in correcting errors in both this document and the text.
+How we produced this document
+Like the fourth edition of Introduction to Algorithms, this document was produced in LATEX 2". We used the Times font with mathematics typeset using the MathTime Pro 2 fonts. As in all four editions of the textbook, we compiled the index using Windex, a C program that we wrote. We drew the illustrations using MacDraw Pro, with some of the mathematical expressions in illustrations laid in with the psfrag package for LATEX 2". We created the PDF files for this document on a MacBook Pro running OS 12.2.1.
+Acknowledgments
+This document borrows heavily from the manuals for the first three editions. Julie Sussman, P.P.A., wrote the first-edition manual. Julie did such a superb job on the
+
+
+Preface P-3
+first-edition manual, finding numerous errors in the first-edition text in the process, that we were thrilled to have her serve as technical copyeditor for the subsequent editions of the book. Charles Leiserson also put in large amounts of time working with Julie on the first-edition manual.
+The manual for the second edition was written by Tom Cormen, Clara Lee, and Erica Lin. Clara and Erica were undergraduate computer science majors at Dartmouth at the time, and they did a superb job.
+The other three Introduction to Algorithms authors—Charles Leiserson, Ron Rivest, and Cliff Stein—provided helpful comments and suggestions for solutions to exercises and problems. Some of the solutions are modifications of those written over the years by teaching assistants for algorithms courses at MIT and Dartmouth. At this point, we do not know which TAs wrote which solutions, and so we simply thank them collectively. Several of the solutions to new exercises and problems in the third edition were written by Sharath Gururaj and Priya Natarajan. Neerja Thakkar contributed many lecture notes and solutions for the fourth edition manual.
+We also thank the MIT Press and our editors, Marie Lee and Elizabeth Swayze, for moral and financial support.
+THOMAS H. CORMEN
+Lebanon, New Hampshire March 2022
+
+
+
+
+Lecture Notes for Chapter 2:
+Getting Started
+Chapter 2 overview
+Goals
+Start using frameworks for describing and analyzing algorithms.
+Examine two algorithms for sorting: insertion sort and merge sort.
+See how to describe algorithms in pseudocode.
+Begin using asymptotic notation to express running-time analysis.
+Learn the technique of “divide and conquer” in the context of merge sort.
+Insertion sort
+The sorting problem
+Input: A sequence of n numbers ha1; a2; : : : ; ani.
+Output: A permutation (reordering) ha0
+1; a0
+2; : : : ; a0
+ni of the input sequence such
+that a0
+1 a0
+2 a0
+n.
+The sequences are typically stored in arrays.
+We also refer to the numbers as keys. Along with each key may be additional information, known as satellite data. [You might want to clarify that “satellite data” does not necessarily come fromasatellite.]
+We will see several ways to solve the sorting problem. Each way will be expressed as an algorithm: a well-defined computational procedure that takes some value, or set of values, as input and produces some value, or set of values, as output.
+Expressing algorithms
+We express algorithms in whatever way is the clearest and most concise.
+English is sometimes the best way.
+When issues of control need to be made perfectly clear, we often use pseudocode.
+
+
+2-2 Lecture Notes for Chapter 2: Getting Started
+Pseudocode is similar to C, C++, Java, Python, JavaScript, and many other frequently used programming languages. If you know any of these languages, you should be able to understand pseudocode.
+Pseudocode is designed for expressing algorithms to humans. Software engineering issues of data abstraction, modularity, and error handling are often ignored.
+We sometimes embed English statements into pseudocode. Therefore, unlike for “real” programming languages, we cannot create a compiler that translates pseudocode to machine code.
+Insertion sort
+A good algorithm for sorting a small number of elements.
+It works the way you might sort a hand of playing cards:
+Start with an empty left hand and the cards face down on the table.
+Then remove one card at a time from the table, and insert it into the correct position in the left hand.
+To find the correct position for a card, compare it with each of the cards already in the hand, from right to left.
+At all times, the cards held in the left hand are sorted, and these cards were originally the top cards of the pile on the table.
+Pseudocode
+We use a procedure INSERTION-SORT.
+Takes as parameters an array AŒ1 W n and the length n of the array.
+We use “W” to denote a range or subarray within an array. The notation AŒi W j denotes the j i C 1 array elements AŒi through and including AŒj . [Note that the meaning of our subarray notation differs from its meaning in Python. InPython, AŒi W j denotes the j i array elements AŒi through AŒj 1 ,but doesnotinclude AŒj . Furthermore,inPython,negativeindicescountfromthe end. Wedonot use negative indices.]
+[Weusuallyuse1-originindexing,aswedohere. Thereareafewplacesinlater chapters where we use 0-origin indexing instead. If you are translating pseudocode to C, C++, Java, Python, or JavaScript, which use 0-origin indexing, youneed tobe careful toget the indices right. Oneoption is toadjust all index calculationstocompensate. Aneasieroptionis,whenusinganarray AŒ1 W n ,to allocate thearraytobeoneentrylonger—AŒ0 W n —andjustdon’t usetheentry at index 0. We are always clear about the bounds of an array, so that students knowwhether it’s 0-origin or 1-origin indexed.]
+The array A is sorted in place: the numbers are rearranged within the array, with at most a constant number outside the array at any time.
+
+
+Lecture Notes for Chapter 2: Getting Started 2-3
+INSERTION-SORT.A; n/ cost times
+for i D 2 to n c1 n
+key D AŒi c2 n 1 // Insert AŒi into the sorted subarray AŒ1 W i 1 . 0 n 1 j D i 1 c4 n 1 while j > 0 and AŒj > key c5
+Pn
+iD2 ti
+AŒj C 1 D AŒj c6
+Pn
+iD2.ti 1/ j D j 1 c7
+Pn
+iD2.ti 1/ AŒj C 1 D key c8 n 1
+[Leave this on the board, but show only the pseudocode for now. We’ll put in the “cost” and“times” columns later.]
+Example
+123456 524613
+123456 254613
+123456 245613
+123456 245613
+123456 124563
+123456 123456
+iii
+ii
+[Readthis figure row byrow. Eachpart shows what happens for a particular iteration with the value of i indicated. i indexes the “current card” being inserted into the hand. Elements to the left of AŒi that are greater than AŒi move one position to the right, and AŒi moves into the evacuated position. The heavy vertical lines separate the part of the array in which an iteration works—AŒ1 W i —from the part of the array that is unaffected by this iteration—AŒi C 1 W n . The last part of the figure showsthe finalsorted array.]
+Correctness
+We often use a loop invariant to help us understand why an algorithm gives the correct answer. Here’s the loop invariant for INSERTION-SORT:
+Loop invariant: At the start of each iteration of the “outer” for loopthe loop indexed by i—the subarray AŒ1 W i 1 consists of the elements originally in AŒ1 W i 1 but in sorted order.
+To use a loop invariant to prove correctness, we must show three things about it:
+Initialization: It is true prior to the first iteration of the loop.
+Maintenance: If it is true before an iteration of the loop, it remains true before the next iteration.
+Termination: The loop terminates, and when it does, the invariant—usually along with the reason that the loop terminated—gives us a useful property that helps show that the algorithm is correct.
+Using loop invariants is like mathematical induction:
+
+
+2-4 Lecture Notes for Chapter 2: Getting Started
+To prove that a property holds, you prove a base case and an inductive step.
+Showing that the invariant holds before the first iteration is like the base case.
+Showing that the invariant holds from iteration to iteration is like the inductive step.
+The termination part differs from the usual use of mathematical induction, in which the inductive step is used infinitely. We stop the “induction” when the loop terminates.
+We can show the three parts in any order.
+For insertion sort
+Initialization: Just before the first iteration, i D 2. The subarray AŒ1 W i 1 is the single element AŒ1 , which is the element originally in AŒ1 , and it is trivially sorted.
+Maintenance: To be precise, we would need to state and prove a loop invariant for the “inner” while loop. Rather than getting bogged down in another loop invariant, we instead note that the body of the inner while loop works by moving AŒi 1 , AŒi 2 , AŒi 3 , and so on, by one position to the right until the proper position for key (which has the value that started out in AŒi ) is found. At that point, the value of key is placed into this position.
+Termination: The outer for loop starts with i D 2. Each iteration increases i by 1. The loop ends when i > n, which occurs when i D n C 1. Therefore, the loop terminates and i 1 D n at that time. Plugging n in for i 1 in the loop invariant, the subarray AŒ1 W n consists of the elements originally in AŒ1 W n but in sorted order. In other words, the entire array is sorted.
+Pseudocode conventions
+[See bookpages 21–24 for moredetail.]
+Indentation indicates block structure. Saves space and writing time. [Readers are sometimes confused by how we indent if-else statements. We indent else at the same level as its matching if. The first executable line of an else clause appearsonthesamelineasthekeywordelse. Multiwaytestsuseelseiffortests after the first one. When an if statement is the first line in an else clause, it appears onthe line following else toavoid it beingmisconstrued aselseif.]
+Looping constructs are like in C, C++, Java, Python, and JavaScript. We assume that the loop variable in a for loop is still defined when the loop exits and has the value it had that caused the loop to terminate (such as i D n C 1 in INSERTIONSORT.)
+// indicates that the remainder of the line is a comment.
+Variables are local, unless otherwise specified.
+We often use objects, which have attributes. For an attribute attr of object x, we write x:attr. (This notation matches x:attr in many object-oriented languages and is equivalent to x->attr in C++.) Attributes can cascade, so that if x:y is an object and this object has attribute attr, then x:y:attr indicates this object’s attribute. That is, x:y:attr is implicitly parenthesized as .x:y/:attr.
+
+
+Lecture Notes for Chapter 2: Getting Started 2-5
+Objects are treated as references, like in most object-oriented languages. If x and y denote objects, then the assignment y D x makes x and y reference the same object. It does not cause attributes of one object to be copied to another.
+Parameters are passed by value. When an object is passed by value, it is actually a reference (or pointer) that is passed; changes to the reference itself are not seen by the caller, but changes to the object’s attributes are.
+return statements are allowed to return multiple values to the caller (as Python can do with tuples).
+The boolean operators “and” and “or” are short-circuiting: if after evaluating the left-hand operand, we know the result of the expression, then we don’t evaluate the right-hand operand. (If x is FALSE in “x and y” then we don’t evaluate y. If x is TRUE in “x or y” then we don’t evaluate y.)
+error means that conditions were wrong for the procedure to be called. The procedure immediately terminates. The caller is responsible for handling the error. This situation is somewhat like an exception in many programming languages, but we do not want to get into the details of handling exceptions.
+Analyzing algorithms
+We want to predict the resources that the algorithm requires. Usually, running time.
+Why analyze?
+Why not just code up the algorithm, run the code, and time it?
+Because that would tell you how long the code takes to run
+on your particular computer,
+on that particular input,
+with your particular implementation,
+using your particular compiler or interpreter,
+with the particular libraries linked in,
+with the particular background tasks running at the time.
+You wouldn’t be able to predict how long the code would take on a different computer, with a different input, if implemented in a different programming language, etc.
+Instead, devise a formula that characterizes the running time.
+Random-access machine (RAM) model
+In order to predict resource requirements, we need a computational model.
+Instructions are executed one after another. No concurrent operations.
+It’s too tedious to define each of the instructions and their associated time costs.
+
+
+2-6 Lecture Notes for Chapter 2: Getting Started
+Instead, we recognize that we’ll use instructions commonly found in real computers:
+Arithmetic: add, subtract, multiply, divide, remainder, floor, ceiling). Also, shift left/shift right (good for multiplying/dividing by 2k). Data movement: load, store, copy. Control: conditional/unconditional branch, subroutine call and return.
+Each of these instructions takes a constant amount of time. Ignore memory hierarchy (cache and virtual memory).
+The RAM model uses integer and floating-point types.
+We don’t worry about precision, although it is crucial in certain numerical applications.
+There is a limit on the word size: when working with inputs of size n, assume that integers are represented by c lg n bits for some constant c 1. (lg n is a very frequently used shorthand for log2 n.)
+c 1 ) we can hold the value of n ) we can index the individual elements. c is a constant ) the word size cannot grow arbitrarily.
+How do we analyze an algorithm’s running time?
+The time taken by an algorithm depends on the input.
+Sorting 1000 numbers takes longer than sorting 3 numbers.
+A given sorting algorithm may even take differing amounts of time on two inputs of the same size.
+For example, we’ll see that insertion sort takes less time to sort n elements when they are already sorted than when they are in reverse sorted order.
+Input size
+Depends on the problem being studied.
+Usually, the number of items in the input. Like the size n of the array being sorted.
+But could be something else. If multiplying two integers, could be the total number of bits in the two integers.
+Could be described by more than one number. For example, graph algorithm running times are usually expressed in terms of the number of vertices and the number of edges in the input graph.
+Running time
+On a particular input, it is the number of primitive operations (steps) executed.
+Want to define steps to be machine-independent.
+Figure that each line of pseudocode requires a constant amount of time.
+
+
+Lecture Notes for Chapter 2: Getting Started 2-7
+One line may take a different amount of time than another, but each execution of line k takes the same amount of time ck.
+This is assuming that the line consists only of primitive operations.
+If the line is a subroutine call, then the actual call takes constant time, but the execution of the subroutine being called might not. If the line specifies operations other than primitive ones, then it might take more than constant time. Example: “sort the points by x-coordinate.”
+Analysis of insertion sort
+[Now add statement costs and number of times executed to INSERTION-SORT pseudocode.]
+Assume that the kth line takes time ck, which is a constant. (Since the third line is a comment, it takes no time.)
+For i D 2; 3; : : : ; n, let ti be the number of times that the while loop test is executed for that value of i.
+Note that when a for or while loop exits in the usual way—due to the test in the loop header—the test is executed one time more than the loop body.
+The running time of the algorithm is
+X
+all statements
+.cost of statement/ .number of times statement is executed/ :
+Let T .n/ D running time of INSERTION-SORT.
+T .n/ D c1n C c2.n 1/ C c4.n 1/ C c5
+Xn
+i D2
+ti C c6
+Xn
+i D2
+.ti 1/
+C c7
+Xn
+i D2
+.ti 1/ C c8.n 1/ :
+The running time depends on the values of ti . These vary according to the input.
+Best case
+The array is already sorted.
+Always find that AŒi key upon the first time the while loop test is run (when i D i 1).
+All ti are 1.
+Running time is
+T .n/ D c1n C c2.n 1/ C c4.n 1/ C c5.n 1/ C c8.n 1/
+D .c1 C c2 C c4 C c5 C c8/n .c2 C c4 C c5 C c8/ :
+Can express T .n/ as an C b for constants a and b (that depend on the statement costs ck) ) T .n/ is a linear function of n.
+
+
+2-8 Lecture Notes for Chapter 2: Getting Started
+Worst case
+The array is in reverse sorted order.
+Always find that AŒi > key in while loop test.
+Have to compare key with all elements to the left of the ith position ) compare with i 1 elements.
+Since the while loop exits because i reaches 0, there’s one additional test after the i 1 tests ) ti D i .
+Xn
+i D2
+ti D
+Xn
+i D2
+i and
+Xn
+i D2
+.ti 1/ D
+Xn
+i D2
+.i 1/.
+Xn
+i D1
+i is known as an arithmetic series, and equation (A.1) shows that it equals
+n.n C 1/
+2.
+Since
+n X
+i D2
+iD
+Xn
+i D1
+i
+!
+1, it equals n.n C 1/
+2 1.
+[The parentheses around the summation are not strictly necessary. They are there for clarity, but it might be a good idea to remind the students that the meaning ofthe expression wouldbe the sameevenwithout the parentheses.]
+Letting l D i 1, we see that
+Xn
+i D2
+.i 1/ D
+n1
+X
+l D1
+l D n.n 1/
+2.
+Running time is
+T .n/ D c1n C c2.n 1/ C c4.n 1/ C c5
+n.n C 1/
+21
+C c6
+n.n 1/
+2 C c7
+n.n 1/
+2 C c8.n 1/
+D c5
+2 C c6
+2 C c7
+2 n2 C c1 C c2 C c4 C c5
+2
+c6 2
+c7
+2 C c8 n
+.c2 C c4 C c5 C c8/ :
+Can express T .n/ as an2 C bn C c for constants a; b; c (that again depend on statement costs) ) T .n/ is a quadratic function of n.
+Worst-case and average-case analysis
+We usually concentrate on finding the worst-case running time: the longest running time for any input of size n.
+Reasons
+The worst-case running time gives a guaranteed upper bound on the running time for any input.
+For some algorithms, the worst case occurs often. For example, when searching, the worst case often occurs when the item being searched for is not present, and searches for absent items may be frequent.
+
+
+Lecture Notes for Chapter 2: Getting Started 2-9
+Why not analyze the average case? Because it’s often about as bad as the worst case.
+Example: Suppose that we randomly choose n numbers as the input to insertion sort.
+On average, the key in AŒi is less than half the elements in AŒ1 W i 1 and it’s greater than the other half. ) On average, the while loop has to look halfway through the sorted subarray AŒ1 W i 1 to decide where to drop key. ) ti i=2.
+Although the average-case running time is approximately half of the worst-case running time, it’s still a quadratic function of n.
+Order of growth
+Another abstraction to ease analysis and focus on the important features.
+Look only at the leading term of the formula for running time.
+Drop lower-order terms.
+Ignore the constant coefficient in the leading term.
+Example: For insertion sort, we already abstracted away the actual statement costs to conclude that the worst-case running time is an2 C bn C c. Drop lower-order terms ) an2. Ignore constant coefficient ) n2.
+But we cannot say that the worst-case running time T .n/ equals n2.
+It grows like n2. But it doesn’t equal n2.
+We say that the running time is ‚.n2/ to capture the notion that the order of growth is n2.
+We usually consider one algorithm to be more efficient than another if its worstcase running time has a smaller order of growth.
+Designing algorithms
+There are many ways to design algorithms.
+For example, insertion sort is incremental: having sorted AŒ1 W i 1 , place AŒi correctly, so that AŒ1 W i is sorted.
+Divide and conquer
+Another common approach.
+Divide the problem into a number of subproblems that are smaller instances of the same problem.
+
+
+2-10 Lecture Notes for Chapter 2: Getting Started
+Conquer the subproblems by solving them recursively. Base case: If the subproblems are small enough, just solve them by brute force.
+[Are your students comfortable with recursion? If they are not, then they will have ahardtime understanding divide andconquer.]
+Combine the subproblem solutions to give a solution to the original problem.
+Merge sort
+A sorting algorithm based on divide and conquer. Its worst-case running time has a lower order of growth than insertion sort.
+Because we are dealing with subproblems, we state each subproblem as sorting a subarray AŒp W r . Initially, p D 1 and r D n, but these values change as we recurse through subproblems.
+To sort AŒp W r :
+Divide by splitting into two subarrays AŒp W q and AŒq C 1 W r , where q is the halfway point of AŒp W r .
+Conquer by recursively sorting the two subarrays AŒp W q and AŒq C 1 W r .
+Combine by merging the two sorted subarrays AŒp W q and AŒq C 1 W r to produce a single sorted subarray AŒp W r . To accomplish this step, we’ll define a procedure MERGE.A; p; q; r/.
+The recursion bottoms out when the subarray has just 1 element, so that it’s trivially sorted.
+MERGE-SORT.A; p; r/ if p r // zero or one element? return
+q D b.p C r/=2c // midpoint of AŒp W r
+MERGE-SORT.A; p; q/ // recursively sort AŒp W q MERGE-SORT.A; q C 1; r/ // recursively sort AŒq C 1 W r // Merge AŒp W q and AŒq C 1 W r into AŒp W r . MERGE.A; p; q; r/
+Initial call: MERGE-SORT.A; 1; n/
+[It is astounding how often students forget how easy it is to compute the halfway point of p and r as their average .p C r/=2. We of course have to take the floor toensure that we get aninteger index q. But itis common tosee students perform calculations like p C .r p/=2,orevenmoreelaborate expressions, forgetting the easy waytocompute anaverage.]
+
+
+Lecture Notes for Chapter 2: Getting Started 2-11
+Example
+MERGE-SORT on an array with n D 8: [Indices p; q; r appear above their values. Numbers in italics indicate the order of calls of MERGE and MERGE-SORT after the initial call MERGE-SORT.A; 1; 8/.]
+12 3 7 9 14 6 11 2
+12345678
+12 3 7 9 14 6 11 2
+1234 5678
+pq r
+pq r pq r
+12 3 7 9
+12 34
+p,q r
+3
+12
+p,r
+3 12
+12
+p,q r
+divide
+divide
+divide
+merge
+1
+2
+3
+5
+6
+4
+11
+p,q r
+14 6 11 2
+56 78
+p,q r
+12 16
+p,q r
+p,r
+12 9
+34
+p,r
+78
+p,r
+76
+56
+p,r
+13 14
+p,r
+14 2
+78
+p,r
+17 18
+p,r
+11
+79
+34
+p,q r
+9
+6 14
+56
+p,q r
+15
+2 11
+78
+p,q r
+19
+merge
+3 7 9 12 2 6 11 14
+1234 5678
+pq r pq r
+10
+2 3 6 7 9 11 12 14
+12345678
+pq r
+merge 21
+20
+
+
+2-12 Lecture Notes for Chapter 2: Getting Started
+Example
+Bottom-up view for n D 8: [Heavylinesdemarcatesubarraysusedinsubproblems. Gothrough thefollowing twofigures bottom totop.]
+12345678
+52471326
+25471326
+initial array
+merge
+24571236
+merge
+1 234567
+merge
+sorted array
+2
+12345678
+[Examples when n is a power of 2 are most straightforward, but students might alsowant anexample when n is nota powerof 2.]
+Bottom-up view for n D 11:
+12345678
+47261473
+initial array
+merge
+merge
+merge
+sorted array
+526
+9 10 11
+47216437526
+24714635726
+12446723567
+12234456677
+1 2 3 4 5 6 7 8 9 10 11
+merge
+[Here, at the next-to-last level of recursion, some of the subproblems have only 1 element. Therecursion bottoms out onthese single-element subproblems.]
+
+
+Lecture Notes for Chapter 2: Getting Started 2-13
+Merging
+What remains is the MERGE procedure.
+Input: Array A and indices p; q; r such that
+p q < r.
+Subarray AŒp W q is sorted and subarray AŒq C 1 W r is sorted. By the restrictions on p; q; r, neither subarray is empty.
+Output: The two subarrays are merged into a single sorted subarray in AŒp W r .
+We implement it so that it takes ‚.n/ time, where n D r p C 1 D the number of elements being merged.
+What is n? Until now, n has stood for the size of the original problem. But now we’re using it as the size of a subproblem. We will use this technique when we analyze recursive algorithms. Although we may denote the original problem size by n, in general n will be the size of a given subproblem.
+Idea behind linear-time merging
+Think of two piles of cards.
+Each pile is sorted and placed face-up on a table with the smallest cards on top.
+Merge these two piles into a single sorted pile, face-down on the table.
+A basic step:
+Choose the smaller of the two top cards. Remove it from its pile, thereby exposing a new top card. Place the chosen card face-down onto the output pile.
+Repeatedly perform basic steps until one input pile is empty.
+Once one input pile empties, just take the remaining input pile and place it face-down onto the output pile.
+Each basic step should take constant time, since checking just the two top cards.
+There are n basic steps, since each basic step removes one card from the input piles, and started with n cards in the input piles.
+Therefore, this procedure should take ‚.n/ time.
+More details on the MERGE prodecure, which copies the two subarrays AŒp W q and AŒq C 1 W r into temporary arrays L and R (“left” and “right”), and then merges the values in L and R back into AŒp W r :
+First compute the lengths nL and nR of the subarrays AŒp W q and AŒq C 1 W r , respectively.
+Then create arrays LŒ0 W nL 1 and RŒ0 W nR 1 with respective lengths nL and nR.
+The two for loops copy the subarrays AŒp W q into L and AŒq C 1 W r into R.
+The first while loop repeatedly identifies the smallest value in L and R that has yet to be copied back into AŒp W r and copies it back in.
+
+
+2-14 Lecture Notes for Chapter 2: Getting Started
+As the comments indicate, the index k gives the position of A that is being filled in, and the indices i and j give the positions in L and R, respectively, of the smallest remaining values.
+Eventually, either all of L or all of R will be copied back into AŒp W r , and this loop terminates.
+If the loop terminated because all of R was copied back, that is, because j D nR, then i is still less than nL, so that some of L has yet to be copied back, and these values are the greatest in both L and R.
+In this case, the second while loop copies these remaining values of L into the last few positions of AŒp W r .
+Because j D nR, the third while loop iterates zero times.
+If instead the first while loop terminated because i D nL, then all of L has already been copied back into AŒp W r , and the third while loop copies the remaining values of R back into the end of AŒp W r .
+[The second and third editions of the book added a sentinel value of 1 to the end of the L and R arrays. Doing so avoids one test ineach iteration of the first while loop, and it eliminates the last two while loops. We removed the sentinel in the fourtheditionbecause inpractice, theremightnotbeaclearchoiceforthesentinel value, depending onthe types ofthe keys being compared.]
+
+
+Lecture Notes for Chapter 2: Getting Started 2-15
+Pseudocode
+MERGE.A; p; q; r/
+nL D q p C 1 // length of AŒp W q nR D r q // length of AŒq C 1 W r let LŒ0 W nL 1 and RŒ0 W nR 1 be new arrays
+for i D 0 to nL 1 // copy AŒp W q into LŒ0 W nL 1 LŒi D AŒp C i for j D 0 to nR 1 // copy AŒq C 1 W r into RŒ0 W nR 1 RŒj D AŒq C j C 1
+i D 0 // i indexes the smallest remaining element in L j D 0 // j indexes the smallest remaining element in R k D p // k indexes the location in A to fill // As long as each of the arrays L and R contains an unmerged element, // copy the smallest unmerged element back into AŒp W r . while i < nL and j < nR if LŒi RŒj AŒk D LŒi i D iC1 else AŒk D RŒj j D j C1 k D kC1
+// Having gone through one of L and R entirely, copy the // remainder of the other to the end of AŒp W r . while i < nL
+AŒk D LŒi i D iC1 k D kC1 while j < nR
+AŒk D RŒj j D j C1 k D kC1
+[Exercise 2.3-3 in the book asks the reader to use a loop invariant to establish that MERGE works correctly. In a lecture situation, it is probably better to use an example to show that the procedure works correctly. Arrays L and R are indexed from0,rather thanfrom 1,tomake theloop invariant simpler.]
+Example
+A call of MERGE.9; 12; 16/
+
+
+2-16 Lecture Notes for Chapter 2: Getting Started
+A
+LR
+123
+ij
+k
+2467 1235
+A
+LR ij
+k
+2467
+1
+1235
+24671235 4671235
+A
+LR
+9 10 11 12 13 14 15 16
+ij
+k
+2467
+1
+1235
+2671235 A
+LR ij
+k
+2467
+1
+1235
+2271235
+9 10 11 12 13 14 15 16
+9 10 11 12 13 14 15 16
+8 9 10 11 12 13 14 15 16 ...
+17 ...
+8 ...
+17 ...
+8 ...
+17 ...
+8 ...
+17 ...
+A
+LR
+ij
+k
+2467
+1
+1235
+2231235 A
+LR
+ij
+k
+2467
+1
+1235
+2234235
+A
+LR
+ij
+k
+2467
+1
+1235
+2234535 A
+LR
+4
+ij
+k
+2467
+1
+1235
+2234567
+9 10 11 12 13 14 15 16
+9 10 11 12 13 14 15 16
+9 10 11 12 13 14 15 16
+9 10 11 12 13 14 15 16
+8 ...
+17 ...
+8 ...
+17 ...
+8 ...
+17 ...
+8 ...
+17 ...
+0 0123 0123 0123
+0123 0123 0123 0123
+0123 0123 0123 0123
+0123 01234 01234 0123
+pq r pq r
+pq r pq r
+pq r pq r
+pq r pq r
+[Read this figure row by row. The first part shows the arrays at the start of the “for k D p to r”loop, where AŒp W q iscopied into LŒ0 W nL 1 and AŒq C 1 W r is copied into RŒ0 W nR 1 . Succeeding parts show the situation at the start of successive iterations. Entries in A with slashes have had their values copied to either L or R andhavenothadavaluecopiedbackinyet. Entriesin L and R with slashes have been copied back into A. In the last part, because all of R has been copied back into A, but the last two entries in L have not, the remainder of L is copiedintotheendof AŒp W r withoutbeingcomparedwithanyentriesin R. Now the subarrays are merged backinto AŒp W r ,whichisnowsorted.]
+Running time
+The first two for loops take ‚.nL C nR/ D ‚.n/ time. Each of the three lines before and after the for loops takes constant time.
+Each iteration of the three while loops copies exactly one value from L or R into A, and every value is copied back into A exactly one time. Therefore, these three loops make a total of n iterations, each taking constant time, for ‚.n/ time. Total running time: ‚.n/.
+
+
+Lecture Notes for Chapter 2: Getting Started 2-17
+Analyzing divide-and-conquer algorithms
+Use a recurrence equation (more commonly, a recurrence) to describe the running time of a divide-and-conquer algorithm.
+Let T .n/ D running time on a problem of size n.
+If the problem size is small enough (say, n n0 for some constant n0), have a base case. The brute-force solution takes constant time: ‚.1/.
+Otherwise, divide into a subproblems, each 1=b the size of the original. (In merge sort, a D b D 2.)
+Let the time to divide a size-n problem be D.n/.
+Have a subproblems to solve, each of size n=b ) each subproblem takes T .n=b/ time to solve ) spend aT .n=b/ time solving subproblems.
+Let the time to combine solutions be C.n/.
+Get the recurrence
+T .n/ D
+(
+‚.1/ if n n0 ;
+aT .n=b/ C D.n/ C C.n/ otherwise :
+Analyzing merge sort
+For simplicity, assume that n is a power of 2 ) each divide step yields two subproblems, both of size exactly n=2.
+The base case occurs when n D 1.
+When n 2, time for merge sort steps:
+Divide: Just compute q as the average of p and r ) D.n/ D ‚.1/.
+Conquer: Recursively solve 2 subproblems, each of size n=2 ) 2T .n=2/.
+Combine: MERGE on an n-element subarray takes ‚.n/ time ) C.n/ D ‚.n/.
+Since D.n/ D ‚.1/ and C.n/ D ‚.n/, summed together they give a function that is linear in n: ‚.n/ ) recurrence for merge sort running time is
+T .n/ D
+(
+‚.1/ if n D 1 ;
+2T .n=2/ C ‚.n/ if n > 1 :
+Solving the merge-sort recurrence
+By the master theorem in Chapter 4, we can show that this recurrence has the solution T .n/ D ‚.n lg n/. [Reminder: lg n stands for log2 n.]
+Compared to insertion sort (‚.n2/ worst-case time), merge sort is faster. Trading a factor of n for a factor of lg n is a good deal.
+On small inputs, insertion sort may be faster. But for large enough inputs, merge sort will always be faster, because its running time grows more slowly than insertion sort’s.
+We can understand how to solve the merge-sort recurrence without the master theorem.
+
+
+2-18 Lecture Notes for Chapter 2: Getting Started
+Let c1 be a constant that describes the running time for the base case and c2 be a constant for the time per array element for the divide and conquer steps.
+Assume that the base case occurs for n D 1, so that n0 D 1.
+Rewrite the recurrence as
+T .n/ D
+(
+c1 if n D 1 ;
+2T .n=2/ C c2n if n > 1 :
+Draw a recursion tree, which shows successive expansions of the recurrence.
+For the original problem, have a cost of c2n, plus the two subproblems, each costing T .n=2/:
+c2n
+T(n/2) T(n/2)
+For each of the size-n=2 subproblems, have a cost of c2n=2, plus two subproblems, each costing T .n=4/:
+c2n
+c2n/2
+T(n/4) T(n/4)
+c2n/2
+T(n/4) T(n/4)
+Continue expanding until the problem sizes get down to 1:
+c2n
+c2n
+...
+Total: c2n lg n + c1n
+c1n
+lg n + 1
+c2n
+n
+c1 c1 c1 c1 c1 c1 c1
+...
+c2n
+c2n/2
+c2n/4 c2n/4
+c2n/2
+c2n/4 c2n/4
+
+
+Lecture Notes for Chapter 2: Getting Started 2-19
+Each level except the bottom has cost c2n.
+The top level has cost c2n. The next level down has 2 subproblems, each contributing cost c2n=2. The next level has 4 subproblems, each contributing cost c2n=4.
+Each time we go down one level, the number of subproblems doubles but the cost per subproblem halves ) cost per level stays the same.
+There are lg n C 1 levels (height is lg n).
+Use induction. Base case: n D 1 ) 1 level, and lg 1 C 1 D 0 C 1 D 1. Inductive hypothesis is that a tree for a problem size of 2i has lg 2i C1 D i C1 levels.
+Because we assume that the problem size is a power of 2, the next problem size up after 2i is 2iC1. A tree for a problem size of 2iC1 has one more level than the size-2i tree ) i C 2 levels. Since lg 2iC1 C 1 D i C 2, we’re done with the inductive argument.
+Total cost is sum of costs at each level. Have lg n C 1 levels. Each level except the bottom costs c2n ) c2n lg n. The bottom level has n leaves in the recursion tree, each costing c1 ) c1n.
+Total cost is c2n lg n C c1n. Ignore low-order term of c1n and constant coefficient c2 ) ‚.n lg n/.
+
+
+Lecture Notes for Chapter 3:
+Characterizing Running Times
+Chapter 3 overview
+A way to describe behavior of functions in the limit. We’re studying asymptotic efficiency.
+Describe growth of functions.
+Focus on what’s important by abstracting away low-order terms and constant factors.
+How we indicate running times of algorithms.
+A way to compare “sizes” of functions:
+O
+‚D o< !>
+O-notation, -notation, and ‚-notation
+[Section 3.1 does not go over formal definitions of O-notation, -notation, and ‚-notation, but is intended toinformally introduce the three most commonly used types of asymptotic notation and show how to use these notations to reason about the worst-case running timeofinsertion sort.]
+O-notation
+O-notation characterizes an upper bound on the asymptotic behavior of a function: it says that a function grows no faster than a certain rate. This rate is based on the highest order term.
+For example, f .n/ D 7n3 C 100n2 20n C 6 is O.n3/, since the highest order term is 7n3, and therefore the function grows no faster than n3.
+Te function f .n/ is also O.n5/; O.n6/, and O.nc/ for any constant c 3.
+
+
+3-2 Lecture Notes for Chapter 3: Characterizing Running Times
+-notation
+-notation characterizes a lower bound on the asymptotic behavior of a function: it says that a function grows at least as fast as a certain rate. This rate is again based on the highest-order term.
+For example, f .n/ D 7n3 C 100n2 20n C 6 is .n3/, since the highest-order term, n3, grows at least as fast as n3.
+The function f .n/ is also .n2/; .n/, and .nc/ for any constant c 3.
+‚-notation
+‚-notation characterizes a tight bound on the asymptotic behavior of a function: it says that a function grows precisely at a certain rate, again based on the highestorder term.
+If a function is both O.f .n// and .f .n//, then a function is ‚.f .n//.
+Example: Insertion sort
+We will characterize insertion sort’s ‚.n2/ worst-case running time as an example of how to work with asymptotic notation.
+Here is the INSERTION-SORT procedure, from Chapter 2:
+INSERTION-SORT.A; n/
+for i D 2 to n key D AŒi
+// Insert AŒi into the sorted subarray AŒ1 W i 1 . j Di 1 while j > 0 and AŒj > key AŒj C 1 D AŒj j Dj 1 AŒj C 1 D key
+First, show that INSERTION-SORT is runs inO.n2/ time, regardless of the input:
+The outer for loop runs n 1 times regardless of the values being sorted.
+The inner while loop iterates at most i 1 times.
+The exact number of iterations the while loop makes depends on the values it iterates over, but it will definitely iterate between 0 and i 1 times.
+Since i is at most n, the total number of iterations of the inner loop is at most .n 1/.n 1/, which is less than n2.
+Since each iteration of the inner loop takes constant time, the total time spent in the inner loop is at most cn2 for some constant c, or O.n2/.
+Now show that INSERTION-SORT has a worst-case running time of .n2/ by demonstrating an input that makes the running time be at least some constant times n2:
+
+
+Lecture Notes for Chapter 3: Characterizing Running Times 3-3
+Observe that for a value to end up k positions to the right of where it started, the line AŒj C 1 D AŒj must have been executed k times.
+Assume that n is a multiple of 3 so that we can divide the array A into groups of n=3 positions.
+each of the n/3 largest values moves
+through each of these n/3 positions
+to somewhere in these n/3 positions
+n/3 n/3 n/3
+Suppose that the input to INSERTION-SORT has the n=3 largest values in the first n=3 array positions AŒ1 W n=3 . The order within the first n=3 positions does not matter.
+Once the array has been sorted, each of these n=3 values will end up somewhere in the last n=3 positions AŒ2n=3 C 1 W n .
+For that to happen, each of these n=3 values must pass through each of the middle n=3 positions AŒn=3 C 1 W 2n=3 .
+Because at least n=3 values must pass through at least n=3 positions, the line AŒj C 1 D AŒj executes at least .n=3/.n=3/ D n2=9 times, which is .n2/. For this input, INSERTION-SORT takes time .n2/.
+Since we have shown that INSERTION-SORT runs in O.n2/ time in all cases and that there is an input that makes it take .n2/ time, we can conclude that the worst-case running time of INSERTION-SORT is ‚.n2/. The constant factors for the upper and lower bounds may differ. That doesn’t matter. The important point is to characterize the worst-case running time to within constant factors. We’re focusing on just the worst-case running time here, since the best-case running time for insertion sort is ‚.n/.
+Asymptotic notation: formal definitions
+O-notation
+O.g.n// D ff .n/ W there exist positive constants c and n0 such that 0 f .n/ cg.n/ for all n n0g :
+n0
+n
+f(n)
+cg(n)
+
+
+3-4 Lecture Notes for Chapter 3: Characterizing Running Times
+g.n/ is an asymptotic upper bound for f .n/.
+If f .n/ 2 O.g.n//, we write f .n/ D O.g.n// (will precisely explain this soon).
+Example
+2n2 D O.n3/, with c D 1 and n0 D 2.
+Examples of functions in O.n2/:
+n2
+n2 C n n2 C 1000n 1000n2 C 1000n Also, n
+n=1000
+n1:99999
+n2= lg lg lg n
+-notation
+.g.n// D ff .n/ W there exist positive constants c and n0 such that 0 cg.n/ f .n/ for all n n0g :
+n0
+n
+f(n)
+cg(n)
+g.n/ is an asymptotic lower bound for f .n/.
+Example
+pn D .lg n/, with c D 1 and n0 D 16.
+Examples of functions in .n2/:
+n2
+n2 C n n2 n 1000n2 C 1000n 1000n2 1000n Also, n3
+n2:00001
+n2 lg lg lg n
+22n
+
+
+Lecture Notes for Chapter 3: Characterizing Running Times 3-5
+‚-notation
+‚.g.n// D ff .n/ W there exist positive constants c1, c2, and n0 such that 0 c1g.n/ f .n/ c2g.n/ for all n n0g :
+n0
+n
+f(n)
+c1g(n)
+c2g(n)
+g.n/ is an asymptotically tight bound for f .n/.
+Example
+n2=2 2n D ‚.n2/, with c1 D 1=4, c2 D 1=2, and n0 D 8.
+Theorem
+f .n/ D ‚.g.n// if and only if f D O.g.n// and f D .g.n// :
+Leading constants and low-order terms don’t matter.
+Can express a constant factor as O.1/ or ‚.1/, since it’s within a constant factor of 1.
+Asymptotic notation and running times
+Need to be careful to use asymptotic notation correctly when characterizing a running time. Asymptotic notation describes functions, which in turn describe running times. Must be careful to specify which running time.
+For example, the worst-case running time for insertion sort is O.n2/, .n2/, and ‚.n2/; all are correct. Prefer to use ‚.n2/ here, since it’s the most precise. The best-case running time for insertion sort is O.n/, .n/, and ‚.n/; prefer ‚.n/.
+But cannot say that the running time for insertion sort is ‚.n2/, with “worst-case” omitted. Omitting the case means making a blanket statement that covers all cases, and insertion sort does not run in ‚.n2/ time in all cases.
+Can make the blanket statement that the running time for insertion sort is O.n2/, or that it’s .n/, because these asymptotic running times are true for all cases.
+For merge sort, its running time is ‚.n lg n/ in all cases, so it’s OK to omit which case.
+Common error: conflating O-notation with ‚-notation by using O-notation to indicate an asymptotically tight bound. O-notation gives only an asymptotic upper
+
+
+3-6 Lecture Notes for Chapter 3: Characterizing Running Times
+bound. Saying “an O.n lg n/-time algorithm runs faster than an O.n2/-time algorithm” is not necessarily true. An algorithm that runs in ‚.n/ time also runs in O.n2/ time. If you really mean an asymptotically tight bound, then use ‚-notation.
+Use the simplest and most precise asymptotic notation that applies. Suppose that an algorithm’s running time is 3n2 C 20n. Best to say that it’s ‚.n2/. Could say that it’s O.n3/, but that’s less precise. Could say that it’s ‚.3n2 C 20n/, but that obscures the order of growth.
+Asymptotic notation in equations
+When on right-hand side
+O.n2/ stands for some anonymous function in the set O.n2/.
+2n2 C 3n C 1 D 2n2 C ‚.n/ means 2n2 C 3n C 1 D 2n2 C f .n/ for some f .n/ 2 ‚.n/. In particular, f .n/ D 3n C 1.
+Interpret the number of anonymous functions as equaling the number of times the asymptotic notation appears:
+Xn
+i D1
+O.i/ OK: 1 anonymous function
+O.1/ C O.2/ C C O.n/ not OK: n hidden constants ) no clean interpretation
+When on left-hand side
+No matter how the anonymous functions are chosen on the left-hand side, there is a way to choose the anonymous functions on the right-hand side to make the equation valid.
+Interpret 2n2 C ‚.n/ D ‚.n2/ as meaning for all functions f .n/ 2 ‚.n/, there exists a function g.n/ 2 ‚.n2/ such that 2n2 C f .n/ D g.n/.
+Can chain together:
+2n2 C 3n C 1 D 2n2 C ‚.n/
+D ‚.n2/ :
+Interpretation:
+First equation: There exists f .n/ 2 ‚.n/ such that 2n2 C3nC1 D 2n2 Cf .n/.
+Second equation: For all g.n/ 2 ‚.n/ (such as the f .n/ used to make the first equation hold), there exists h.n/ 2 ‚.n2/ such that 2n2 C g.n/ D h.n/.
+Proper abuses of asymptotic notation
+It’s usually clear what variable in asymptotic notation is tending toward 1: in O.g.n//, looking at the growth of g.n/ as n grows.
+What about O.1/? There’s no variable appearing in the asymptotic notation. Use the context to disambiguate: in f .n/ D O.1/, the variable is n, even though it does not appear in the right-hand side of the equation.
+
+
+Lecture Notes for Chapter 3: Characterizing Running Times 3-7
+Subtle point: asymptotic notation in recurrences
+Often abuse asymptotic notation when writing recurrences: T .n/ D O.1/ for n < 3. Strictly speaking, this statement is meaningless. Definition of O-notation says that T .n/ is bounded above by a constant c > 0 for n n0, for some n0 > 0. The value of T .n/ for n < n0 might not be bounded. So when we say T .n/ D O.1/ for n < 3, cannot determine any constraint on T .n/ when n < 3 because could have n0 > 3.
+What we really mean is that there exists a constant c > 0 such that T .n/ c for n < 3. This convention allows us to avoid naming the bounding constant so that we can focus on the more important part of the recurrence.
+Asymptotic notation defined for only subsets
+Suppose that an algorithm assumes that its input size is a power of 2. Can still use asymptotic notation to describe the growth of its running time. In general, can use asymptotic notation for f .n/ defined on only a subset of N or R.
+o-notation
+o.g.n// D ff .n/ W for all constants c > 0, there exists a constant
+n0 > 0 such that 0 f .n/ < cg.n/ for all n n0g :
+Another view, probably easier to use: nli!m1
+f .n/
+g.n/ D 0.
+n1:9999 D o.n2/
+n2= lg n D o.n2/
+n2 ¤ o.n2/ (just like 2 6< 2) n2=1000 ¤ o.n2/
+!-notation
+!.g.n// D ff .n/ W for all constants c > 0, there exists a constant
+n0 > 0 such that 0 cg.n/ < f .n/ for all n n0g :
+Another view, again, probably easier to use: nli!m1
+f .n/
+g.n/ D 1.
+n2:0001 D !.n2/
+n2 lg n D !.n2/ n2 ¤ !.n2/
+Comparisons of functions
+Relational properties:
+Transitivity:
+f .n/ D ‚.g.n// and g.n/ D ‚.h.n// ) f .n/ D ‚.h.n//. Same for O; ; o; and !.
+
+
+3-8 Lecture Notes for Chapter 3: Characterizing Running Times
+Reflexivity:
+f .n/ D ‚.f .n//. Same for O and .
+Symmetry:
+f .n/ D ‚.g.n// if and only if g.n/ D ‚.f .n//.
+Transpose symmetry:
+f .n/ D O.g.n// if and only if g.n/ D .f .n//. f .n/ D o.g.n// if and only if g.n/ D !.f .n//.
+Comparisons:
+f .n/ is asymptotically smaller than g.n/ if f .n/ D o.g.n//. f .n/ is asymptotically larger than g.n/ if f .n/ D !.g.n//.
+No trichotomy. Although intuitively, we can liken O to , to , etc., unlike real numbers, where a < b, a D b, or a > b, we might not be able to compare functions. Example: n1Csin n and n, since 1 C sin n oscillates between 0 and 2.
+Standard notations and common functions
+[You probably do not want to use lecture time going over all the definitions and properties given in Section 3.3, but it might be worth spending a few minutes of lecture time onsome ofthe following.]
+Monotonicity
+f .n/ is monotonically increasing if m n ) f .m/ f .n/.
+f .n/ is monotonically decreasing if m n ) f .m/ f .n/. f .n/ is strictly increasing if m < n ) f .m/ < f .n/. f .n/ is strictly decreasing if m > n ) f .m/ > f .n/.
+Exponentials
+Useful identities: a 1 D 1=a ;
+.am/n D amn ; aman D amCn :
+Can relate rates of growth of polynomials and exponentials: for all real constants a and b such that a > 1,
+nli!m1
+nb
+an D 0 ;
+which implies that nb D o.an/. A suprisingly useful inequality: for all real x,
+ex 1 C x :
+As x gets closer to 0, ex gets closer to 1 C x.
+
+
+Lecture Notes for Chapter 3: Characterizing Running Times 3-9
+Logarithms
+Notations:
+lg n D log2 n (binary logarithm) ,
+ln n D loge n (natural logarithm) ,
+lgk n D .lg n/k (exponentiation) ,
+lg lg n D lg.lg n/ (composition) .
+Logarithm functions apply only to the next term in the formula, so that lg n C k means .lg n/ C k, and not lg.n C k/.
+In the expression logb a:
+Hold b constant ) the expression is strictly increasing as a increases.
+Hold a constant ) the expression is strictly decreasing as b increases.
+Useful identities for all real a > 0, b > 0, c > 0, and n, and where logarithm bases are not 1:
+a D blogb a ;
+logc.ab/ D logc a C logc b ;
+logb an D n logb a ;
+logb a D logc a
+logc b ; logb.1=a/ D logb a ;
+logb a D 1
+loga b ;
+alogb c D clogb a :
+[Forthelast equality, can showby taking logb ofboth sides:
+logb alogb c D .logb c/.logb a/ ;
+logb clogb a D .logb a/.logb c/ : ]
+Changing the base of a logarithm from one constant to another only changes the value by a constant factor, so we usually don’t worry about logarithm bases in asymptotic notation. Convention is to use lg within asymptotic notation, unless the base actually matters.
+Just as polynomials grow more slowly than exponentials, logarithms grow more
+slowly than polynomials. In nli!m1
+nb
+an D 0, substitute lg n for n and 2a for a:
+nli!m1
+lgb n
+.2a/lg n D nli!m1
+lgb n
+na D 0 ;
+implying that lgb n D o.na/.
+Factorials
+nŠ D 1 2 3 n. Special case: 0Š D 1.
+Can use Stirling’s approximation,
+
+
+3-10 Lecture Notes for Chapter 3: Characterizing Running Times
+nŠ D p2 n n
+e
+n
+1C‚ 1
+n;
+to derive that lg.nŠ/ D ‚.n lg n/.
+
+
+Lecture Notes for Chapter 4:
+Divide-and-Conquer
+Chapter 4 overview
+Recall the divide-and-conquer paradigm, which we used for merge sort:
+Divide the problem into one or more subproblems that are smaller instances of the same problem.
+Conquer the subproblems by solving them recursively. Base case: If the subproblems are small enough, just solve them by brute force.
+Combine the subproblem solutions to form a solution to the original problem.
+We look at two algorithms for multiplying square matrices, based on divide-andconquer.
+Analyzing divide-and-conquer algorithms
+Use a recurrence to characterize the running time of a divide-and-conquer algorithm. Solving the recurrence gives us the asymptotic running time.
+A recurrence is a function is defined in terms of
+one or more base cases, and
+itself, with smaller arguments.
+A recurrence could have 0, 1, or more functions that satisfy it. Well defined if at least 1 function satisfies; otherwise, ill defined.
+Algorithmic recurrences
+Interested in recurrences that describe running times of algorithms.
+A recurrence T .n/ is algorithmic if for every sufficiently large threshold constant n0 > 0:
+For all n < n0, T .n/ D ‚.1/. [Can consider the running time constant for small problem sizes.]
+For all n n0, every path of recursion terminates in a defined base case within a finite number of recursive invocations. [Therecursive algorithm terminates.]
+
+
+4-2 Lecture Notes for Chapter 4: Divide-and-Conquer
+Conventions
+Will often state recurrences without base cases. When analyzing algorithms, assume that if no base case is given, the recurrence is algorithmic. Allows us to pick any sufficiently large threshold constant n0 without changing the asymptotic behavior of the solution.
+Ceilings and floors in divide-and-conquer recurrences don’t change the asymptotic solution ) often state algorithmic recurrences without floors and ceilings, even though to be precise, they should be there. [Example: recurrence for merge sort is really T .n/ D T .dn=2e/ C T .bn=2c/ C ‚.n/.]
+Some recurrences are inequalities rather than equations. Example: T .n/ 2T .n=2/ C ‚.n/ gives only an upper bound on T .n/, so state the solution using O-notation rather than ‚-notation.
+Examples of recurrences arising from divide-and-conquer algorithms
+n n matrix multiplication by breaking into 8 subproblems of size n=2 n=2: T .n/ D 8T .n=2/ C ‚.1/. Solution: T .n/ D ‚.n3/. [The first printing of the fourth edition says 4 subproblems. Thatis anerror.]
+Strassen’s algorithm for n n matrix multiplication by breaking into 7 subproblems of size n=2 n=2: T .n/ D 7T .n=2/ C ‚.1/. Solution: T .n/ D ‚.nlg 7/ D O.n2:81/.
+An algorithm that breaks a problem of size n into one subproblem of size n=3 and another of size 2n=3, taking ‚.n/ time to divide and combine: T .n/ D T .n=3/ C T .2n=3/ C ‚.n/. Solution: T .n/ D ‚.n lg n/.
+An algorithm that breaks a problem of size n into one subproblem of size n=5 and another of size 7n=10, taking ‚.n/ time to divide and combine: T .n/ D T .n=5/ C T .7n=10/ C ‚.n/. Solution: T .n/ D ‚.n/. [This is the recurrence for order-statistic algorithm in Chapter 9 that takes linear time in the worst case.]
+Subproblems don’t always have to be a constant fraction of the original problem size. Example: recursive linear search creates one subproblem and it has one element less than the original problem. Time to divide and combine is ‚.1/, giving T .n/ D T .n 1/ C ‚.1/. Solution: T .n/ D ‚.n/.
+Methods for solving recurrences
+The chapter contains four methods for solving recurrences. Each gives asymptotic bounds.
+Substitution method: Guess the solution, then use induction to prove that it’s correct.
+Recursion-tree method: Draw out a recursion tree, determine the costs at each level, and sum them up. Useful for coming up with a guess for the substitution method.
+Master method: A cookbook method for recurrences of the form T .n/ D aT .n=b/ C f .n/, where a > 0 and b > 1 are constants, subject to certain
+
+
+Lecture Notes for Chapter 4: Divide-and-Conquer 4-3
+conditions. Requires memorizing three cases, but applies to many divide-andconquer algorithms.
+Akra-Bazzi method: A general method for solving divide-and-conquer recurrences. Requires calculus, but applies to recurrences beyond those solved by the master method. [Theselecture notesdonotcovertheAkra-Bazzi method.]
+[In my course, there are only two acceptable ways of solving recurrences: the substitution method and the master method. Unless the recursion tree is carefully accounted for, I do not accept it as a proof of a solution, though I certainly accept a recursion tree as a way to generate a guess for substitution method. You may choose toallowrecursion treesasproofs inyourcourse, inwhichcasesomeofthe substitution proofs inthe solutions for this chapter become recursion trees.
+I also never use the iteration method, which had appeared in the first edition of Introduction to Algorithms. I find that it is too easy to make an error in parenthesization, and that recursion trees give a better intuitive idea than iterating the recurrence ofhowthe recurrence progresses.]
+Multiplying square matrices
+Input: Three n n (square) matrices, A D .aij /, B D .bij /, and C D .cij /.
+Result: The matrix product A B is added into C , so that
+cij D cij C
+Xn
+kD1
+aik bkj
+for i; j D 1; 2; : : : ; n.
+If only the product A B is needed, then zero out all entries of C beforehand.
+Straightforward method
+MATRIX-MULTIPLY .A; B; C; n/
+for i D 1 to n // compute entries in each of n rows for j D 1 to n // compute n entries in row i for k D 1 to n
+cij D cij C aik bkj // add in another term
+Time: ‚.n3/ because of triply nested loops.
+Simple divide-and-conquer algorithm
+For simplicity, assume that C is initialized to 0, so computing C D A B.
+If n > 1, partition each of A; B; C into four n=2 n=2 matrices:
+A D A11 A12
+A21 A22
+; B D B11 B12
+B21 B22
+; C D C11 C12
+C21 C22
+:
+
+
+4-4 Lecture Notes for Chapter 4: Divide-and-Conquer
+Rewrite C D A B as
+C11 C12
+C21 C22 D A11 A12
+A21 A22
+B11 B12
+B21 B22
+;
+giving the four equations
+C11 D A11 B11 C A12 B21 ;
+C12 D A11 B12 C A12 B22 ;
+C21 D A21 B11 C A22 B21 ;
+C22 D A21 B12 C A22 B22 :
+Each of these equations multiplies two n=2 n=2 matrices and then adds their n=2 n=2 products. Assume that n is an exact power of 2, so that submatrix dimensions are always integer.
+Use these equations to get a divide-and-conquer algorithm:
+MATRIX-MULTIPLY-RECURSIVE .A; B; C; n/
+if n == 1
+// Base case.
+c11 D c11 C a11 b11
+return // Divide. partition A, B, and C into n=2 n=2 submatrices
+A11; A12; A21; A22; B11; B12; B21; B22; and C11; C12; C21; C22; respectively // Conquer. MATRIX-MULTIPLY-RECURSIVE.A11; B11; C11; n=2/ MATRIX-MULTIPLY-RECURSIVE.A11; B12; C12; n=2/ MATRIX-MULTIPLY-RECURSIVE.A21; B11; C21; n=2/ MATRIX-MULTIPLY-RECURSIVE.A21; B12; C22; n=2/ MATRIX-MULTIPLY-RECURSIVE.A12; B21; C11; n=2/ MATRIX-MULTIPLY-RECURSIVE.A12; B22; C12; n=2/ MATRIX-MULTIPLY-RECURSIVE.A22; B21; C21; n=2/ MATRIX-MULTIPLY-RECURSIVE.A22; B22; C22; n=2/
+[Thebookbrieflydiscusses thequestionofhowtoavoidcopyingentrieswhenpartitioning matrices. Canpartition matrices without copying entries byinstead using index calculations. Identify a submatrix by ranges of row and column matrices from the original matrix. End up representing a submatrix differently from how we represent the original matrix. The advantage of avoiding copying is that partitioning would take only constant time, instead of ‚.n2/ time. The result of the asymptotic analysis won’t change, but using index calculations to avoid copying gives better constant factors.]
+Analysis
+Let T .n/ be the time to multiply two n n matrices.
+Base case: n D 1. Perform one scalar multiplication: ‚.1/.
+
+
+Lecture Notes for Chapter 4: Divide-and-Conquer 4-5
+Recursive case: n > 1.
+Dividing takes ‚.1/ time, using index calculations. [Otherwise, ‚.n2/ time.]
+Conquering makes 8 recursive calls, each multiplying n=2 n=2 matrices ) 8T .n=2/.
+No combine step, because C is updated in place.
+Recurrence (omitting the base case) is T .n/ D 8T .n=2/ C ‚.1/. Can use master method to show that it has solution T .n/ D ‚.n3/. Asymptotically, no better than the obvious method.
+Bushiness of recursion trees: Compare this recurrence with the merge-sort recurrence T .n/ D 2T .n=2/ C ‚.n/. If we draw out the recursion trees, the factor of 2 in the merge-sort recurrenece says that each non-leaf node has 2 children. But the factor of 8 in the recurrence for MATRIX-MULTIPLY-RECURSIVE says that each non-leaf node has 8 children. Get a bushier tree with many more leaves, even though internal nodes have a smaller cost.
+Strassen’s algorithm
+Idea: Make the recursion tree less bushy. Perform only 7 recursive multiplications of n=2 n=2 matrices, rather than 8. Will cost several additions/subtractions of n=2 n=2 matrices.
+Since a subtraction is a “negative addition,” just refer to all additions and subtractions as additions.
+Example of reducing multiplications: Given x and y, compute x2 y2. Obvious way uses 2 multiplications and one subtraction. But observe:
+x2 y2 D x2 xy C xy y2
+D x.x y/ C y.x y/
+D .x C y/.x y/ ;
+so at the expense of one extra addition, can get by with only 1 multiplication. Not a big deal if x; y are scalars, but can make a difference if they are matrices.
+The algorithm:
+1. Same base case as before, when n D 1.
+2. When n > 1, then as in the recursive method, partition each of the matrices into four n=2 n=2 submatrices. Time: ‚.1/, using index calculations.
+3. Create 10 matrices S1; S2; : : : ; S10. Each is n=2 n=2 and is the sum or difference of two matrices created in previous step. Time: ‚.n2/ to create all 10 matrices.
+4. Create and zero the entries of 7 matrices P1; P2; : : : ; P7, each n=2 n=2. Time: ‚.n2/.
+5. Using the submatrices of A and B and the matrices S1; S2; : : : ; S10, recursively compute P1; P2; : : : ; P7. Time: 7T .n=2/.
+6. Update the four n=2 n=2 submatrices C11; C12; C21; C22 of C by adding and subtracting various combinations of the Pi . Time: ‚.n2/.
+
+
+4-6 Lecture Notes for Chapter 4: Divide-and-Conquer
+Analysis
+Recurrence will be T .n/ D 7T .n=2/ C ‚.n2/. By the master method, solution is T .n/ D ‚.nlg 7/. Since lg 7 < 2:81, the running time is O.n2:81/, beating the ‚.n3/-time methods.
+Details
+Step 2: Create the 10 matrices
+S1 D B12 B22 ;
+S2 D A11 C A12 ;
+S3 D A21 C A22 ;
+S4 D B21 B11 ;
+S5 D A11 C A22 ;
+S6 D B11 C B22 ;
+S7 D A12 A22 ;
+S8 D B21 C B22 ;
+S9 D A11 A21 ;
+S10 D B11 C B12 :
+Add or subtract n=2 n=2 matrices 10 times ) time is ‚.n2/.
+Step 4: Compute the 7 matrices
+P1 D A11 S1 D A11 B12 A11 B22 ;
+P2 D S2 B22 D A11 B22 C A12 B22 ;
+P3 D S3 B11 D A21 B11 C A22 B11 ;
+P4 D A22 S4 D A22 B21 A22 B11 ;
+P5 D S5 S6 D A11 B11 C A11 B22 C A22 B11 C A22 B22 ;
+P6 D S7 S8 D A12 B21 C A12 B22 A22 B21 A22 B22 ;
+P7 D S9 S10 D A11 B11 C A11 B12 A21 B11 A21 B12 :
+The only multiplications needed are in the middle column; right-hand column just shows the products in terms of the original submatrices of A and B.
+Step 5: Add and subtract the Pi to construct submatrices of C :
+C11 D P5 C P4 P2 C P6 ;
+C12 D P1 C P2 ;
+C21 D P3 C P4 ;
+C22 D P5 C P1 P3 P7 :
+To see how these computations work, expand each right-hand side, replacing each Pi with the submatrices of A and B that form it, and cancel terms: [We expand out all four right-hand sides here. Youmight want todojust one or twoof them, toconvince students that itworks.]
+
+
+Lecture Notes for Chapter 4: Divide-and-Conquer 4-7
+A11 B11 C A11 B22 C A22 B11 C A22 B22
+A22 B11 C A22 B21
+A11 B22 A12 B22
+A22 B22 A22 B21 C A12 B22 C A12 B21
+A11 B11 C A12 B21
+A11 B12 A11 B22
+C A11 B22 C A12 B22
+A11 B12 C A12 B22
+A21 B11 C A22 B11
+A22 B11 C A22 B21
+A21 B11 C A22 B21
+A11 B11 C A11 B22 C A22 B11 C A22 B22
+A11 B22 C A11 B12
+A22 B11 A21 B11
+A11 B11 A11 B12 C A21 B11 C A21 B12
+A22 B22 C A21 B12
+Theoretical and practical notes
+Strassen’s algorithm was the first to beat ‚.n3/ time, but it’s not the asymptotically fastest known. A method by Coppersmith and Winograd runs in O.n2:376/ time. Current best asymptotic bound (not practical) is O.n2:37286/.
+Practical issues against Strassen’s algorithm:
+Higher constant factor than the obvious ‚.n3/-time method.
+Not good for sparse matrices.
+Not numerically stable: larger errors accumulate than in the obvious method.
+Submatrices consume space, especially if copying.
+Numerical stability problem is not as bad as previously thought. And can use index calculations to reduce space requirement.
+Various researchers have tried to find the crossover point, where Strassen’s algorthm runs faster than the obvious ‚.n3/-time method. Answers vary.
+Substitution method
+1. Guess the solution.
+
+
+4-8 Lecture Notes for Chapter 4: Divide-and-Conquer
+2. Use induction to find the constants and show that the solution works.
+Usually use the substitution method to establish either an upper bound (O-bound) or a lower bound ( -bound).
+Example
+Determine an asymptotic upper bound on T .n/ D 2T .bn=2c/ C ‚.n/. Similar to the merge-sort recurrence except for the floor function. (Ensures that T .n/ is defined over integers.)
+Guess same asymptotic upper bound as merge-sort recurrence: T .n/ D O.n lg n/.
+Inductive hypothesis: T .n/ cn lg n for all n n0. Will choose constants c; n0 > 0 later, once we know their constraints.
+Inductive step: Assume that T .n/ cn lg n for all numbers n0 and < n. If n 2n0, holds for bn=2c ) T .bn=2c/ c bn=2c lg bn=2c. Substitute into the recurrence:
+T .n/ 2.c bn=2c lg.bn=2c// C ‚.n/
+2.c.n=2/ lg.n=2// C ‚.n/
+D cn lg.n=2/ C ‚.n/
+D cn lg n cn lg 2 C ‚.n/
+D cn lg n cn C ‚.n/
+cn lg n :
+The last step holds if c; n0 are sufficiently large that for n 2n0, cn dominates the ‚.n/ term.
+Base cases: Need to show that T .n/ cn lg n when n0 n < 2n0. Add new constraint: n0 > 1 ) lg n > 0 ) n lg n > 0. Pick n0 D 2. Because no base case is given in the recurrence, it’s algorithmic ) T .2/; T .3/ are constant. Choose c D max fT .2/; T .3/g ) T .2/ c < .2 lg 2/c and T .3/ c < .3 lg 3/c ) inductive hypothesis established for the base cases.
+Wrap up: Have T .n/ cn lg n for all n 2 ) T .n/ D O.n lg n/.
+In practice: Don’t usually write out substitution proofs this detailed, especially regarding base cases. For most algorithmic recurrences, the base cases are handled the same way.
+Making a good guess
+No general way to make a good guess. Experience helps. Can also draw out a recursion tree.
+If the recurrence is similar to one you’ve seen before, try guessing a similar solution. Example: T .n/ D 2T .n=2C17/ C‚.n/. This looks a lot like the merge-sort recurrence .n/ D 2T .n=2/ C ‚.n/ except for the added 17. When n is large, the difference between n=2 and n=2C17 is small, since both cut n nearly in half. Guess that the solution to the merge-sort recurrence, T .n/ D O.n lg n/ works here. (It does.)
+
+
+Lecture Notes for Chapter 4: Divide-and-Conquer 4-9
+When the additive term uses asymptotic notation
+Name the constant in the additive term.
+Show the upper (O) and lower ( ) bounds separately. Might need to use different constants for each.
+[Inthe book, wedon’t show howtohandle this situation until Section4.4.]
+Example
+T .n/ D 2T .n=2/ C ‚.n/. If we want to show an upper bound of T .n/ D 2T .n=2/ C O.n/, we write T .n/ 2T .n=2/ C cn for some positive constant c.
+Important: We get to name the constant hidden in the asymptotic notation (c in this case), but we do not get to choose it, other than assume that it’s enough to handle the base case of the recursion.
+1. Upper bound:
+Guess: T .n/ d n lg n for some positive constant d . This is the inductive hypothesis.
+Important: We get to both name and choose the constant in the inductive hypothesis (d in this case). It OK for the constant in the inductive hypothesis (d ) to depend on the constant hidden in the asymptotic notation (c).
+Substitution:
+T .n/ 2T .n=2/ C cn
+D 2 dn
+2 lg n
+2 C cn
+D d n lg n
+2 C cn
+D d n lg n d n C cn
+d n lg n if d n C cn 0 ; dc
+Therefore, T .n/ D O.n lg n/.
+2. Lower bound: Write T .n/ 2T .n=2/ C cn for some positive constant c.
+Guess: T .n/ d n lg n for some positive constant d .
+Substitution:
+T .n/ 2T .n=2/ C cn
+D 2 dn
+2 lg n
+2 C cn
+D d n lg n
+2 C cn
+D d n lg n d n C cn
+d n lg n if d n C cn 0 ; dc
+Therefore, T .n/ D .n lg n/.
+Therefore, T .n/ D ‚.n lg n/. [Forthisparticularrecurrence,wecanused D c for boththeupper-bound andlower-boundproofs. Thatwon’talwaysbethecase.]
+
+
+4-10 Lecture Notes for Chapter 4: Divide-and-Conquer
+Subtracting a low-order term
+Might guess the right asymptotic bound, but the math doesn’t go through in the proof. Resolve by subtracting a lower-order term.
+Example
+T .n/ D 2T .n=2/ C ‚.1/. Guess that T .n/ D O.n/, and try to show T .n/ cn for n n0, where we choose c; n0:
+T .n/ 2.c.n=2// C ‚.1/
+D cn C ‚.1/ :
+But this doesn’t say that T .n/ cn for any choice of c.
+Could try a larger guess, such as T .n/ D O.n2/, but not necessary. We’re off only by ‚.1/, a lower-order term. Try subtracting a lower-order term in the guess: T .n/ cn d , where d 0 is a constant:
+T .n/ 2.c.n=2/ d / C ‚.1/
+D cn 2d C ‚.1/
+cn d .d ‚.1//
+cn d
+as long as d is larger than the constant in ‚.1/.
+Why subtract off a lower-order term, rather than add it? Notice that it’s subtracted twice. Adding a lower-order term twice would take us further away from the inductive hypothesis. Subtracting it twice gives us T .n/ cn d .d ‚.1//, and it’s easy to choose d to make that inequality hold.
+Important: Once again, we get to name and choose the constant c in the inductive hypothesis. And we also get to name and choose the constant d that we subtract off.
+Be careful when using asymptotic notation
+A false proof for the recurrence T .n/ D 2T .bn=2c/ C ‚.n/, that T .n/ D O.n/:
+T .n/ 2 O.bn=2c/ C ‚.n/
+D 2 O.n/ C ‚.n/
+D O.n/ : wrong!
+This “proof” changes the constant in the ‚-notation. Can see this by using an explicit constant. Assume T .n/ cn for all n n0:
+T .n/ 2.c bn=2c/ C ‚.n/
+cn C ‚.n/ ;
+but cn C ‚.n/ > cn.
+Recursion trees
+Use to generate a guess. Then verify by substitution method.
+
+
+Lecture Notes for Chapter 4: Divide-and-Conquer 4-11
+Example
+T .n/ D 3T .n=4/ C ‚.n2/.
+Draw out a recursion tree for T .n/ D 3T .n=4/ C cn2:
+...
+...
+cn2 cn2
+cn
+4
+2
+cn
+4
+2
+cn
+4
+2
+cn
+16
+2
+cn
+16
+2
+cn
+16
+2
+cn
+16
+2
+cn
+16
+2
+cn
+16
+2
+cn
+16
+2
+cn
+16
+2
+cn
+16
+2
+3
+16 cn2
+3 16
+2
+cn2
+log4 n
+3log4 n D nlog4 3
+‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.nlog4 3/
+Total: O.n2/
+[Youmight want todrawit outprogressively, as inFigure 4.1inthe book.]
+For simplicity, assume that n is a power of 4 and the base case is T .1/ D ‚.1/. Subproblem size for nodes at depth i is n=4i . Get to base case when n=4i D 1 ) n D 4i ) i D log4 n.
+Each level has 3 times as many nodes as the level above, so that depth i has 3i nodes. Each internal node at depth i has cost c.n=4i /2 ) total cost at depth i (except for leaves) is 3i c.n=4i /2 D .3=16/i cn2. Bottom level has depth log4 n )
+number of leaves is 3log4 n D nlog4 3. Since each leaf contributes ‚.1/, total cost of leaves is ‚.nlog4 3/.
+Add up costs over all levels to determine cost for the entire tree:
+T .n/ D
+log4 n
+X
+i D0
+3
+16
+i
+cn2 C ‚.nlog4 3/
+<
+X 1
+i D0
+3
+16
+i
+cn2 C ‚.nlog4 3/
+D1
+1 .3=16/ cn2 C ‚.nlog4 3/
+D 16
+13 cn2 C ‚.nlog4 3/
+D O.n2/ :
+Idea: Coefficients of cn2 form a decreasing geometric series. Bound it by an infinite series, and get a bound of 16=13 on the coefficients.
+
+
+4-12 Lecture Notes for Chapter 4: Divide-and-Conquer
+Use substitution method to verify O.n2/ upper bound. Show that T .n/ d n2 for constant d > 0:
+T .n/ 3T .n=4/ C cn2
+3d.n=4/2 C cn2
+D3
+16 d n2 C cn2
+d n2 ;
+by choosing d .16=13/c. [Again, we get to name but not choose c, and we get tonameandchoose d.]
+That gives an upper bound of O.n2/. The lower bound of .n2/ is obvious because the recurrence contains a ‚.n2/ term. Hence, T .n/ D ‚.n2/.
+Irregular example
+T .n/ D T .n=3/ C T .2n=3/ C ‚.n/.
+For upper bound, rewrite as T .n/ T .n=3/ C T .2n=3/ C cn; for lower bound, as T .n/ T .n=3/ C T .2n=3/ C cn.
+By summing across each level, the recursion tree shows the cost at each level of recursion (minus the costs of recursive calls, which appear in subtrees):
+...
+cn cn
+cn
+cn
+c(n/3) c(2n/3)
+c(n/9) c(2n/9) c(2n/9) c(4n/9)
+leftmost branch reaches n = 1 after log3 n levels
+rightmost branch reaches n = 1 after log3/2 n levels
+[This isasimpler waytodrawtherecursion tree than inFigure 4.2inthe book.]
+There are log3 n full levels (going down the left side), and after log3=2 n levels, the problem size is down to 1 (going down the right side).
+Each level contributes cn.
+Lower bound guess: d n log3 n D .n lg n/ for some positive constant d .
+Upper bound guess: d n log3=2 n D O.n lg n/ for some positive constant d .
+Then prove by substitution.
+1. Upper bound:
+Guess: T .n/ d n lg n.
+Substitution:
+T .n/ T .n=3/ C T .2n=3/ C cn
+d.n=3/ lg.n=3/ C d.2n=3/ lg.2n=3/ C cn
+
+
+Lecture Notes for Chapter 4: Divide-and-Conquer 4-13
+D .d.n=3/ lg n d.n=3/ lg 3/
+C .d.2n=3/ lg n d.2n=3/ lg.3=2// C cn
+D d n lg n d..n=3/ lg 3 C .2n=3/ lg.3=2// C cn
+D d n lg n d..n=3/ lg 3 C .2n=3/ lg 3 .2n=3/ lg 2/ C cn
+D d n lg n d n.lg 3 2=3/ C cn
+d n lg n if d n.lg 3 2=3/ C cn 0 ;
+dc
+lg 3 2=3 : Therefore, T .n/ D O.n lg n/.
+[As before, can name but not choose the constant c hidden inthe additive term of ‚.n/. Can both name and choose the constant d in the guess (inductive hypothesis).]
+2. Lower bound:
+Guess: T .n/ d n lg n.
+Substitution: Same as for the upper bound, but replacing by . End up needing
+0<d c
+lg 3 2=3 :
+Therefore, T .n/ D .n lg n/.
+Since T .n/ D O.n lg n/ and T .n/ D .n lg n/, conclude that T .n/ D ‚.n lg n/.
+[Omittingthe analysis forthe number ofleaves.]
+Master method
+Used for many divide-and-conquer master recurrences of the form
+T .n/ D aT .n=b/ C f .n/ ;
+where a 1, b > 1, and f .n/ is an asymptotically nonnegative function defined over all sufficiently large positive numbers.
+Master recurrences describe recursive algorithms that divide a problem of size n into a subproblems, each of size n=b. Each recursive subproblem takes time T .n=b/ (unless it’s a base case). Call f .n/ the driving function.
+In reality, subproblem sizes are integers, so that the real recurrence is more like
+T .n/ D a0T .bn=bc/ C a00T .dn=be/ C f .n/ ;
+where a0; a00 0 and a0 C a00 D a. Ignoring floors and ceilings does not change the asymptotic solution to the recurrence.
+Based on the master theorem (Theorem 4.1):
+Let a; b; n0 > 0 be constants, f .n/ be a driving function defined and nonnegative on all sufficiently large reals. Define recurrence T .n/ on n 2 N by
+T .n/ D aT .n=b/ C f .n/ ;
+
+
+4-14 Lecture Notes for Chapter 4: Divide-and-Conquer
+and where aT .n=b/ actually means a0T .bn=bc/ C a00T .dn=be/ for some constants a0; a00 0 satsifying a D a0 C a00.
+[The mathematics requires only that a > 0, but since in practice the number of subproblems isatleast 1,therecurrences wesee allhave a 1.]
+Then you can solve the recurrence by comparing nlogb a vs. f .n/:
+Case 1: f .n/ D O.nlogb a / for some constant > 0. (f .n/ is polynomially smaller than nlogb a.) Solution: T .n/ D ‚.nlogb a/.
+(Intuitively: cost is dominated by leaves.)
+Case 2: f .n/ D ‚.nlogb a lgk n/, where k 0 is a constant. (f .n/ is within a polylog factor of nlogb a, but not smaller.) Solution: T .n/ D ‚.nlogb a lgkC1 n/.
+(Intuitively: cost is nlogb a lgk n at each level, and there are ‚.lg n/ levels.) Simple case: k D 0 ) f .n/ D ‚.nlogb a/ ) T .n/ D ‚.nlogb a lg n/.
+[Intheprevious editions ofthe book, case 2was statedfor only k D 0.]
+Case 3: f .n/ D .nlogb aC / for some constant > 0 and f .n/ satisfies the regularity condition af .n=b/ cf .n/ for some constant c < 1 and all sufficiently large n. (f .n/ is polynomially greater than nlogb a.) Solution: T .n/ D ‚.f .n//.
+(Intuitively: cost is dominated by root.)
+What’s with the Case 3 regularity condition?
+Generally not a problem.
+It always holds whenever f .n/ D nk and f .n/ D .nlogb aC / for constant > 0. [Proving this makes a nice homework exercise. See below.] So you don’t need to check it when f .n/ is a polynomial.
+[Here’s a proof that the regularity condition holds when f .n/ D nk and f .n/ D .nlogb aC / for constant > 0.
+Since f .n/ D .nlogb aC / and f .n/ D nk, we have that k > logb a. Using a
+base of b and treating both sides as exponents, we have bk > blogb a D a, and so a=bk < 1. Since a, b,and k are constants, if welet c D a=bk,then c isaconstant strictly less than 1. We have that af .n=b/ D a.n=b/k D .a=bk/nk D cf .n/,and sothe regularity condition issatisfied.]
+Call nlogb a the watershed function. Master method compares the driving function f .n/ with the watershed function nlogb a.
+If the watershed function grows polynomially faster than the driving function, then case 1 applies. Example (not likely to see in algorithm analysis): T .n/ D 4T .n=2/ C n1:99. Watershed function is nlog2 4 D n2, which is polynomially larger than n1:99 by a factor of n0:01. Case 1 would apply ) T .n/ D ‚.n2/.
+If the driving function grows polynomially faster than the watershed function and the regularity condition holds, then case 3 applies. Example: T .n/ D 4T .n=2/ C n2:01. Now the driving function is polynomially larger than the watershed function by a factor of n0:01. Case 3 would apply ) T .n/ D ‚.n2:01/.
+
+
+Lecture Notes for Chapter 4: Divide-and-Conquer 4-15
+There are gaps between cases 1 and 2 and between cases 2 and 3. Example: T .n/ D 2T .n=2/ C n= lg n ) watershed function is nlog2 2 D n and driving function is f .n/ D n= lg n. Have f .n/ D o.n/, so that f .n/ grows more slowly than n, it doesn’t grow polynomially slower. In terms of the master theorem, have f .n/ D n lg 1 n, so that k D 1. Master theorem holds only for k 0, so case 2 does not apply.
+Examples [different fromthose inthe book]
+T .n/ D 5T .n=2/ C ‚.n2/
+nlog2 5 vs. n2
+Since log2 5 D 2 for some constant > 0, use case 1 ) T .n/ D ‚.nlg 5/
+T .n/ D 27T .n=3/ C ‚.n3 lg n/ nlog3 27 D n3 vs. n3 lg n Use case 2 with k D 1 ) T .n/ D ‚.n3 lg2 n/
+T .n/ D 5T .n=2/ C ‚.n3/
+nlog2 5 vs. n3
+Now lg 5 C D 3 for some constant > 0 Check regularity condition (don’t really need to since f .n/ is a polynomial): af .n=b/ D 5.n=2/3 D 5n3=8 cn3 for c D 5=8 < 1 Use case 3 ) T .n/ D ‚.n3/
+T .n/ D 27T .n=3/ C ‚.n3= lg n/
+nlog3 27 D n3 vs. n3= lg n D n3 lg 1 n ¤ ‚.n3 lgk n/ for any k 0. Cannot use the master method.
+[Wedon’tprovethemastertheoreminouralgorithmscourse. Wesometimesprove asimplifiedversionforrecurrencesoftheform T .n/ D aT .n=b/Cnc. Section4.6 of the text has the full proof of the continuous version of the master theorem, and Section 4.7 discusses the technicalities of floors and ceilings in recurrences. Section 4.7 also briefly covers the Akra-Bazzi method, which applies to divideand-conquer recurrences such as T .n/ D T .2n=3/ C T .n=3/ C ‚.n/.]
+
+
+Lecture Notes for Chapter 5:
+Probabilistic Analysis and Randomized
+Algorithms
+[This chapter introduces probabilistic analysis and randomized algorithms. It assumes that the student is familiar with the basic probability material in Appendix C.
+Theprimarygoals ofthese notes areto
+explain the difference between probabilistic analysis and randomized algorithms,
+present thetechnique ofindicator random variables, and
+give another example of the analysis of a randomized algorithm (permuting an array inplace).
+These notes omit thestarred Section5.4.]
+The hiring problem
+Scenario
+You are using an employment agency to hire a new office assistant.
+The agency sends you one candidate each day.
+You interview the candidate and must immediately decide whether or not to hire that person. But if you hire, you must also fire your current office assistant —even if it’s someone you have recently hired.
+Cost to interview is ci per candidate (interview fee paid to agency).
+Cost to hire is ch per candidate (includes cost to fire current office assistant + hiring fee paid to agency).
+Assume that ch > ci .
+You are committed to having hired, at all times, the best candidate seen so far. Meaning that whenever you interview a candidate who is better than your current office assistant, you must fire the current office assistant and hire the candidate. Since you must have someone hired at all times, you will always hire the first candidate that you interview.
+Goal
+Determine what the price of this strategy will be.
+
+
+5-2 Lecture Notes for Chapter 5: Probabilistic Analysis and Randomized Algorithms
+Pseudocode to model this scenario
+Assumes that the candidates are numbered 1 to n and that after interviewing each candidate, you can determine if they’re better than the current office assistant. Uses a dummy candidate 0 that is worse than all others, so that the first candidate is always hired.
+H I R E-A SSI S TA N T .n/
+best D 0 // candidate 0 is a least-qualified dummy candidate for i D 1 to n
+interview candidate i if candidate i is better than candidate best best D i
+hire candidate i
+Cost
+If n candidates, and you hire m of them, the cost is O.nci C mch/.
+Have to pay nci to interview, no matter how many you hire.
+So we focus on analyzing the hiring cost mch.
+mch varies with each run—it depends on the order in which you interview the candidates.
+This is a model of a common paradigm: need to find the maximum or minimum in a sequence by examining each element and maintaining a current “winner.” The variable m denotes how many times we change our notion of which element is currently winning.
+Worst-case analysis
+In the worst case, you hire all n candidates.
+This happens if each one is better than all who came before. In other words, if the candidates appear in increasing order of quality.
+If you hire all n, then the cost is O.ci n C chn/ D O.chn/ (since ch > ci ).
+Probabilistic analysis
+In general, you have no control over the order in which candidates appear.
+We could assume that they come in a random order:
+Assign a rank to each candidate: rank.i/ is a unique integer in the range 1 to n.
+The ordered list hrank.1/; rank.2/; : : : ; rank.n/i is a permutation of the candidate numbers h1; 2; : : : ; ni.
+The list of ranks is equally likely to be any one of the nŠ permutations.
+Equivalently, the ranks form a uniform random permutation: each of the possible nŠ permutations appears with equal probability.
+
+
+Lecture Notes for Chapter 5: Probabilistic Analysis and Randomized Algorithms 5-3
+Essential idea of probabilistic analysis
+Use knowledge of, or make assumptions about, the distribution of inputs.
+The expectation is over this distribution.
+This technique requires that we can make a reasonable characterization of the input distribution.
+Randomized algorithms
+Might not know the distribution of inputs, or might not be able to model it computationally.
+Instead, use randomization within the algorithm in order to impose a distribution on the inputs.
+For the hiring problem
+Change the scenario:
+The employment agency sends you a list of all n candidates in advance.
+On each day, you randomly choose a candidate from the list to interview (but considering only those not yet interviewed).
+Instead of relying on the candidates being presented in a random order, take control of the process and enforce a random order.
+What makes an algorithm randomized
+An algorithm is randomized if its behavior is determined in part by values produced by a random-number generator.
+RANDOM.a; b/ returns an integer r, where a r b and each of the b a C 1 possible values of r is equally likely.
+In practice, RANDOM is implemented by a pseudorandom-number generator, which is a deterministic method returning numbers that “look” random and pass statistical tests.
+Indicator random variables
+A simple yet powerful technique for computing the expected value of a random variable. Provides an easy way to convert a probability to an expectation.
+Helpful in situations in which there may be dependence.
+Given a sample space and an event A, define the indicator random variable
+I fAg D
+(
+1 if A occurs ;
+0 if A does not occur :
+Lemma
+For an event A, let XA D I fAg. Then E ŒXA D Pr fAg.
+
+
+5-4 Lecture Notes for Chapter 5: Probabilistic Analysis and Randomized Algorithms
+Proof Letting A be the complement of A, we have
+E ŒXA D E ŒI fAg
+D 1 Pr fAg C 0 Pr  ̊A (definition of expected value)
+D Pr fAg : (lemma)
+Simple example
+Determine the expected number of heads from one flip of a fair coin.
+Sample space is fH; T g.
+Pr fH g D Pr fT g D 1=2.
+Define indicator random variable XH D I fH g. XH counts the number of heads in one flip.
+Since Pr fH g D 1=2, lemma says that E ŒXH D 1=2.
+Slightly more complicated example
+Determine the expected number of heads in n coin flips.
+Let X be a random variable for the number of heads in n flips.
+Could compute E ŒX D Pn
+kD0 k Pr fX D kg. In fact, this is what the book does in equation (C.41).
+Instead, use indicator random variables.
+For i D 1; 2; : : : ; n, define Xi D I fthe ith flip results in event H g.
+Then X D Pn
+iD1 Xi .
+Lemma says that E ŒXi D Pr fH g D 1=2 for i D 1; 2; : : : ; n.
+Expected number of heads is E ŒX D E ŒPn
+iD1 Xi .
+Problem: We want E ŒPn
+iD1 Xi . We have only the individual expectations E ŒX1 ; E ŒX2 ; : : : ; E ŒXn .
+Solution: Linearity of expectation (equation (C.24)) says that the expectation of the sum equals the sum of the expectations. Thus,
+E ŒX D E
+"Xn
+i D1
+Xi
+#
+D
+Xn
+i D1
+E ŒXi
+D
+Xn
+i D1
+1=2
+D n=2 :
+Linearity of expectation applies even when there is dependence among the random variables. [Not an issue in this example, but it can be a great help. The hat-check problem ofExercise 5.2-5 isaproblem withlots of dependence.]
+
+
+Lecture Notes for Chapter 5: Probabilistic Analysis and Randomized Algorithms 5-5
+Analysis of the hiring problem
+Assume that the candidates arrive in a random order.
+Let X be a random variable that equals the number of times you hire a new office assistant.
+Define indicator random variables X1; X2; : : : ; Xn, where
+Xi D I fcandidate i is hiredg :
+Useful properties:
+X D X1 C X2 C C Xn.
+Lemma ) E ŒXi D Pr fcandidate i is hiredg.
+Need to determine Pr fcandidate i is hiredg.
+Candidate i is hired if and only if candidate i is better than each of candidates 1; 2; : : : ; i 1.
+Assumption that the candidates arrive in random order ) candidates 1; 2; : : : ; i arrive in random order ) any one of these first i candidates is equally likely to be the best one so far.
+Thus, Pr fcandidate i is the best so farg D 1=i.
+Which, by the lemma, implies E ŒXi D 1=i .
+Now compute E ŒX :
+E ŒX D E
+"Xn
+i D1
+Xi
+#
+D
+n X
+i D1
+E ŒXi
+D
+n X
+i D1
+1= i
+D ln n C O.1/ (equation (A.9): the sum is a harmonic series) .
+Thus, the expected hiring cost is O.ch ln n/, which is much better than the worstcase cost of O.chn/.
+Randomized algorithms
+Instead of assuming a distribution of the inputs, impose a distribution.
+The hiring problem
+For the hiring problem, the algorithm is deterministic:
+For any given input, the number of times you hire a new office assistant will always be the same.
+
+
+5-6 Lecture Notes for Chapter 5: Probabilistic Analysis and Randomized Algorithms
+The number of times you hire a new office assistant depends only on the input.
+In fact, it depends only on the ordering of the candidates’ ranks that it is given.
+Some rank orderings will always produce a high hiring cost. Example: h1; 2; 3; 4; 5; 6i, where each candidate is hired.
+Some will always produce a low hiring cost. Example: any ordering in which the best candidate is the first one interviewed. Then only the best candidate is hired.
+Some may be in between.
+Instead of always interviewing the candidates in the order presented, what if you first randomly permuted this order?
+The randomization is now in the algorithm, not in the input distribution.
+Given a particular input, we can no longer say what its hiring cost will be. Each run of the algorithm can result in a different hiring cost.
+In other words, in each run of the algorithm, the execution depends on the random choices made.
+No particular input always elicits worst-case behavior.
+Bad behavior occurs only if you get “unlucky” numbers from the randomnumber generator.
+Pseudocode for randomized hiring problem
+R A N D O M I ZED -H I R E- A S S I S TA N T .n/
+randomly permute the list of candidates
+HIRE-ASSISTANT .n/
+Lemma
+The expected hiring cost of RANDOMIZED-HIRE-ASSISTANT is O.ch ln n/.
+Proof After permuting the input array, we have a situation identical to the probabilistic analysis of deterministic HIRE-ASSISTANT.
+Randomly permuting an array
+Goal
+Produce a uniform random permutation (each of the nŠ permutations is equally likely to be produced).
+Non-goal: Show that for each element AŒi , the probability that AŒi moves to position j is 1=n.
+The following procedure permutes the array AŒ1 W n in place (i.e., no auxiliary array is required).
+RANDOMLY-PERMUTE.A; n/
+for i D 1 to n
+swap AŒi with AŒRANDOM.i; n/
+
+
+Lecture Notes for Chapter 5: Probabilistic Analysis and Randomized Algorithms 5-7
+Idea
+In iteration i, choose AŒi randomly from AŒi W n .
+Will never alter AŒi after iteration i.
+Time
+O.1/ per iteration ) O.n/ total.
+Correctness
+Given a set of n elements, a k-permutation is a sequence containing k of the n elements. There are nŠ=.n k/Š possible k-permutations. (On page 1180 in Appendix C.)
+Lemma
+RANDOMLY-PERMUTE computes a uniform random permutation.
+Proof Use a loop invariant:
+Loop invariant: Just prior to the ith iteration of the for loop, for each possible .i 1/-permutation, subarray AŒ1 W i 1 contains this .i 1/permutation with probability .n i C 1/Š=nŠ.
+Initialization: Just before first iteration, i D 1. Loop invariant says that for each possible 0-permutation, subarray AŒ1 W 0 contains this 0-permutation with probability nŠ=nŠ D 1. AŒ1 W 0 is an empty subarray, and a 0-permutation has no elements. So, AŒ1 W 0 contains any 0-permutation with probability 1.
+Maintenance: Assume that just prior to the ith iteration, each possible .i 1/permutation appears in AŒ1 W i 1 with probability .n i C 1/Š=nŠ. Will show that after the ith iteration, each possible i-permutation appears in AŒ1 W i with probability .n i/Š=nŠ. Incrementing i for the next iteration then maintains the invariant.
+Consider a particular i -permutation D hx1; x2; : : : ; xi i. It consists of an .i 1/-permutation 0 D hx1; x2; : : : ; xi 1i, followed by xi .
+Let E1 be the event that the algorithm actually puts 0 into AŒ1 W i 1 . By the loop invariant, Pr fE1g D .n i C 1/Š=nŠ.
+Let E2 be the event that the i th iteration puts xi into AŒi .
+We get the i -permutation in AŒ1 W i if and only if both E1 and E2 occur ) the probability that the algorithm produces in AŒ1 W i is Pr fE2 \ E1g.
+Equation (C.16) ) Pr fE2 \ E1g D Pr fE2 j E1g Pr fE1g.
+The algorithm chooses xi randomly from the n i C 1 possibilities in AŒi W n ) Pr fE2 j E1g D 1=.n i C 1/. Thus,
+Pr fE2 \ E1g D Pr fE2 j E1g Pr fE1g
+D1
+n iC1
+.n i C 1/Š
+nŠ D .n i/Š
+nŠ :
+
+
+5-8 Lecture Notes for Chapter 5: Probabilistic Analysis and Randomized Algorithms
+Termination: The loop terminates, since it’s a for loop iterating n times. At termination, i D n C 1, so we conclude that AŒ1 W n is a given n-permutation with probability .n n/Š=nŠ D 1=nŠ. (lemma)
+
+
+Lecture Notes for Chapter 6:
+Heapsort
+Chapter 6 overview
+Heapsort
+O.n lg n/ worst case—like merge sort.
+Sorts in place—like insertion sort.
+Combines the best of both algorithms.
+To understand heapsort, we’ll cover heaps and heap operations, and then we’ll take a look at priority queues.
+Heaps
+Heap data structure
+A heap (not garbage-collected storage) is a nearly complete binary tree.
+Height of node = # of edges on a longest simple path from the node down to a leaf. Height of heap D height of root D ‚.lg n/.
+A heap can be stored as an array A.
+Root of tree is AŒ1 . Parent of AŒi D AŒbi=2c . Left child of AŒi D AŒ2i . Right child of AŒi D AŒ2i C 1 .
+PARENT.i /
+return bi=2c
+LEFT.i /
+return 2i
+RIGHT.i /
+return 2i C 1
+
+
+6-2 Lecture Notes for Chapter 6: Heapsort
+Computing is fast with binary representation implementation.
+Attribute A:heap-size says how many elements are stored in A. Only the elements in AŒ1 W A:heap-size are in the heap.
+Example
+Of a max-heap in array with heap-size D 10. [Arcs above and below the array on the right go between parents and children. There is no significance to whether an arc isdrawnabove orbelow the array.]
+16 14 10 8 7 9 3 2 4 1
+1 2 3 4 5 6 7 8 9 10
+1
+23
+4 56 7
+8 9 10
+16
+14 10
+8 79 3
+241
+Heap property
+For max-heaps (largest element at root), max-heap property: for all nodes i, excluding the root, AŒPARENT.i / AŒi .
+For min-heaps (smallest element at root), min-heap property: for all nodes i, excluding the root, AŒPARENT.i / AŒi .
+By induction and transitivity of , the max-heap property guarantees that the maximum element of a max-heap is at the root. Similar argument for min-heaps.
+The heapsort algorithm we’ll show uses max-heaps.
+[Ingeneral, heaps canbe k-arytrees instead ofbinary trees.]
+Maintaining the heap property
+MAX-HEAPIFY is important for manipulating max-heaps. It is used to maintain the max-heap property.
+Before MAX-HEAPIFY, AŒi may be smaller than its children.
+Assume that left and right subtrees of i are max-heaps. (No violations of maxheap property within the left and right subtrees. The only violation within the subtree rooted at i could be between i and its children.)
+After MAX-HEAPIFY, subtree rooted at i is a max-heap.
+
+
+Lecture Notes for Chapter 6: Heapsort 6-3
+MAX-HEAPIFY.A; i /
+l D LEFT.i / r D RIGHT.i /
+if l A:heap-size and AŒl > AŒi largest D l else largest D i if r A:heap-size and AŒr > AŒlargest largest D r if largest ¤ i
+exchange AŒi with AŒlargest MAX-HEAPIFY.A; largest/
+The way MAX-HEAPIFY works:
+Compare AŒi , AŒLEFT.i / , and AŒRIGHT.i / .
+If necessary, swap AŒi with the larger of the two children to preserve heap property.
+Continue this process of comparing and swapping down the heap, until subtree rooted at i is max-heap. If we hit a leaf, then the subtree rooted at the leaf is trivially a max-heap.
+Run MAX-HEAPIFY on the following heap example.
+16
+4 10
+14 7 9
+281 (a)
+16
+14 10
+4 79 3
+281 (b)
+16
+14 10
+8 79 3
+241 (c)
+3
+1
+3
+4 56 7
+9 10
+2
+8
+1
+3
+4 56 7
+9 10
+2
+8
+1
+3
+4 56 7
+9 10
+2
+8
+i
+i
+i
+Node 2 violates the max-heap property.
+Compare node 2 with its children, and then swap it with the larger of the two children.
+Continue down the tree, swapping until the value is properly placed at the root of a subtree that is a max-heap. In this case, the max-heap is a leaf.
+
+
+6-4 Lecture Notes for Chapter 6: Heapsort
+Time
+O.lg n/.
+Analysis
+[Insteadofbook’sformalanalysiswithrecurrence, justcomeupwith O.lg n/ intuitively.] Heap is almost-complete binary tree, hence must process O.lg n/ levels, with constant work at each level (comparing 3 items and maybe swapping 2).
+Building a heap
+The following procedure, given an unordered array AŒ1 W n , will produce a maxheap of the n elements in A.
+BUILD-MAX-HEAP.A; n/
+A:heap-size D n
+for i D bn=2c downto 1 MAX-HEAPIFY.A; i /
+Example
+Building a max-heap by calling BUILD-MAX-HEAP.A; 10/ on the following unsorted array AŒ1 W 10 results in the first heap example.
+A:heap-size is set to 10.
+i starts off as 5.
+MAX-HEAPIFY is applied to subtrees rooted at nodes (in order): AŒ5 , AŒ4 , AŒ3 , AŒ2 , AŒ1 .
+1
+23
+4 56 7
+8 9 10
+1
+23
+4 56 7
+8 9 10
+4
+13
+2 9 10
+14 8 7
+16
+4 1 3 2 16 9 10 14 8 7
+16
+14 10
+8 93
+241
+7
+A
+i
+1 2 3 4 5 6 7 8 9 10
+Correctness
+Loop invariant: At start of every iteration of for loop, each node i C 1, i C 2, . . . , n is root of a max-heap.
+
+
+Lecture Notes for Chapter 6: Heapsort 6-5
+Initialization: By Exercise 6.1-8, we know that each node bn=2c C 1, bn=2c C 2, . . . , n is a leaf, which is the root of a trivial max-heap. Since i D bn=2c before the first iteration of the for loop, the invariant is initially true.
+Maintenance: Children of node i are indexed higher than i, so by the loop invariant, they are both roots of max-heaps. Correctly assuming that i C1; i C2; : : : ; n are all roots of max-heaps, MAX-HEAPIFY makes node i a max-heap root. Decrementing i reestablishes the loop invariant at each iteration.
+Termination: When i D 0, the loop terminates. By the loop invariant, each node, notably node 1, is the root of a max-heap.
+Analysis
+Simple bound: O.n/ calls to MAX-HEAPIFY, each of which takes O.lg n/ time ) O.n lg n/. [Agood approach to analysis in general is to start by proving an easy bound, then trytotighten it.]
+Tighter analysis: Observation: Time to run MAX-HEAPIFY is linear in the height of the node it’s run on, and most nodes have small heights. Have
+ ̇n=2hC1 nodes of height h (see Exercise 6.3-4), and height of heap is blg nc (Exercise 6.1-2).
+The time required by MAX-HEAPIFY when called on a node of height h is O.h/, so the total cost of BUILD-MAX-HEAP is
+blg nc
+X
+hD0
+ln
+2hC1
+m
+O.h/ D O n
+blg nc
+X
+hD0
+h 2h
+!
+:
+Evaluate the last summation by substituting x D 1=2 in the formula (A.11)
+P1
+kD0 kxk , which yields
+blg nc
+X
+hD0
+h
+2h <
+X 1
+hD0
+h 2h
+D 1=2
+.1 1=2/2 D 2:
+Thus, the running time of BUILD-MAX-HEAP is O.n/.
+Building a min-heap from an unordered array can be done by calling MINHEAPIFY instead of MAX-HEAPIFY, also taking linear time.
+The heapsort algorithm
+Given an input array, the heapsort algorithm acts as follows:
+Builds a max-heap from the array.
+Starting with the root (the maximum element), the algorithm places the maximum element into the correct place in the array by swapping it with the element in the last position in the array.
+
+
+6-6 Lecture Notes for Chapter 6: Heapsort
+“Discard” this last node (knowing that it is in its correct place) by decreasing the heap size, and calling MAX-HEAPIFY on the new (possibly incorrectly-placed) root.
+Repeat this “discarding” process until only one node (the smallest element) remains, and therefore is in the correct place in the array.
+HEAPSORT.A; n/
+BUILD-MAX-HEAP.A; n/ for i D n downto 2
+exchange AŒ1 with AŒi
+A:heap-size D A:heap-size 1 MAX-HEAPIFY.A; 1/
+Example
+Sort an example heap on the board. [Nodes withheavy outline arenolonger inthe heap.]
+(a) (b)
+(c) (d)
+(e)
+12347
+2
+13
+47
+1
+23
+47
+3
+21
+47
+4
+23
+17
+7
+43
+12
+A
+i
+i
+i
+i
+Analysis
+BUILD-MAX-HEAP: O.n/
+for loop: n 1 times
+exchange elements: O.1/
+MAX-HEAPIFY: O.lg n/
+Total time: O.n lg n/.
+Though heapsort is a great algorithm, a well-implemented quicksort usually beats it in practice.
+
+
+Lecture Notes for Chapter 6: Heapsort 6-7
+Priority queues
+Heaps efficiently implement priority queues. These notes will deal with maxpriority queues implemented with max-heaps. Min-priority queues are implemented with min-heaps similarly.
+A heap gives a good compromise between fast insertion but slow extraction and vice versa. Both operations take O.lg n/ time.
+Priority queue
+Maintains a dynamic set S of elements. Each set element has a key—an associated value. Max-priority queue supports dynamic-set operations:
+INSERT.S; x; k/: inserts element x with key k into set S. MAXIMUM.S/: returns element of S with largest key. EXTRACT-MAX.S/: removes and returns element of S with largest key. INCREASE-KEY.S; x; k/: increases value of element x’s key to k. Assumes k x’s current key value.
+Example max-priority queue application: schedule jobs on shared computer. Scheduler adds new jobs to run by calling INSERT and runs the job with the highest priority among those pending by calling EXTRACT-MAX. Min-priority queue supports similar operations:
+INSERT.S; x; k/: inserts element x with key k into set S. MINIMUM.S/: returns element of S with smallest key. EXTRACT-MIN.S/: removes and returns element of S with smallest key. DECREASE-KEY.S; x; k/: decreases value of element x’s key to k. Assumes k x’s current key value.
+Example min-priority queue application: event-driven simulator. Events are simulated in order of time of occurrence by calling EXTRACT-MIN.
+Elements in the priority queue correspond to objects in the application that uses the priority queue. Each object contains a key. Need to be able to map between application objects and array indices in the heap. Two suggested ways:
+Each heap element has a handle that allows access to an object in the application, and each object in the application has a handle (likely an array index) to access the heap element. Good software engineering practice is to make the handles opaque to the surrounding code.
+Store within the priority queue a mapping from application objects to array indices in the heap.
+Advantage: application objects don’t need to use handles.
+Disadvantage: need to establish and maintain the mapping.
+One option would be to use a hash table (see Chapter 11) [whichishowPython dictionaries are implemented] .
+Will examine how to implement max-priority queue operations.
+
+
+6-8 Lecture Notes for Chapter 6: Heapsort
+Finding the maximum element
+Getting the maximum element is easy: it’s the root. First, check that the heap is not empty.
+MAX-HEAP-MAXIMUM .A/
+if A:heap-size < 1
+error “heap underflow” return the element in AŒ1
+Time
+‚.1/.
+Extracting the maximum element
+Given the array A:
+Identify the maximum element by calling MAX-HEAP-MAXIMUM.
+Make the last node in the tree the new root.
+Remove the last node from the heap by decrementing heap-size.
+Re-heapify the heap by calling MAX-HEAPIFY. Implicitly assume that MAXHEAPIFY compares objects based on keys, and also that it updates the mapping between objects and array indices as necessary.
+Return the copy of the maximum element.
+MAX-HEAP-EXTRACT-MAX .A/
+max D MAX-HEAP-MAXIMUM .A/ AŒ1 D AŒA:heap-size
+A:heap-size D A:heap-size 1
+MAX-HEAPIFY.A; 1/ // remakes heap return max
+Analysis
+Constant-time assignments plus time for MAX-HEAPIFY.
+Time
+O.lg n/.
+Example
+Run HEAP-EXTRACT-MAX on first heap example.
+Take 16 out of node 1.
+Move 1 from node 10 to node 1.
+Erase node 10.
+MAX-HEAPIFY from the root to preserve max-heap property.
+Note that successive extractions will remove items in reverse sorted order.
+
+
+Lecture Notes for Chapter 6: Heapsort 6-9
+Increasing the value of an object’s key
+Given set S, object x, and new key value k:
+Make sure k x’s current key.
+Update x’s key value to k.
+Find where in the array where x occurs.
+Traverse the tree upward comparing the key to its parent’s key and swapping keys if necessary, until the node’s key is smaller than its parent’s key or reach the root. Update the mapping between objects and array indices as necessary.
+MAX-HEAP-INCREASE-KEY .A; x; k/
+if k < x:key
+error “new key is smaller than current key” x:key D k
+find the index i in array A where object x occurs while i > 1 and AŒPARENT.i / :key < AŒi :key
+exchange AŒi with AŒPARENT.i / , updating the information that maps priority queue objects to array indices i D PARENT.i /
+Analysis
+Upward path from node i has length O.lg n/ in an n-element heap.
+Time
+O.lg n/.
+Example
+Increase key of node 9 in first heap example to have value 15. Exchange keys of nodes 4 and 9, then of nodes 2 and 4.
+Inserting into the heap
+Given an object x to insert into the heap:
+Check that the heap has space for a new object.
+Add a new node to the heap by incrementing heap-size.
+Insert a new node in the last position in the heap, with key 1.
+Save the value of x’s key in the variable k, and set x’s key to 1.
+Make x be the last node in the heap, updating the mapping between objects and array indices as necessary.
+Increase the 1 key to k using the HEAP-INCREASE-KEY procedure defined above.
+
+
+6-10 Lecture Notes for Chapter 6: Heapsort
+MAX-HEAP-INSERT.A; x; n/
+if A:heap-size == n
+error “heap overflow”
+A:heap-size D A:heap-size C 1 k D x:key
+x:key D 1 AŒA:heap-size D x
+map x to index heap-size in the array MAX-HEAP-INCREASE-KEY .A; x; k/
+Analysis
+Constant time assignments C time for HEAP-INCREASE-KEY.
+Time
+O.lg n/.
+Min-priority queue operations are implemented similarly with min-heaps.
+
+
+Lecture Notes for Chapter 7:
+Quicksort
+Chapter 7 overview
+[Thetreatment inthesecond andlatereditions differs fromthatofthefirstedition. We use a different partitioning method—known as “Lomuto partitioning”—in the secondandthirdeditions, ratherthanthe“Hoarepartitioning” usedinthefirstedition. Using Lomuto partitioning helps simplify the analysis, which uses indicator random variables inthe second edition.]
+Quicksort
+Worst-case running time is ‚.n2/.
+Randomized version has expected running time ‚.n lg n/, assuming that all elements to be sorted are distinct.
+Constants hidden in ‚.n lg n/ are small.
+Sorts in place.
+Description of quicksort
+Quicksort is based on the three-step process of divide-and-conquer.
+To sort the subarray AŒp W r :
+Divide: Partition AŒp W r , into two (possibly empty) subarrays AŒp W q 1 and AŒq C1 W r , such that each element in the first subarray AŒp W q 1 is AŒq and AŒq is each element in the second subarray AŒq C 1 W r . Conquer: Sort the two subarrays by recursive calls to QUICKSORT.
+Combine: No work is needed to combine the subarrays, because they are sorted in place.
+Perform the divide step by a procedure PARTITION, which returns the index q that marks the position separating the subarrays.
+
+
+7-2 Lecture Notes for Chapter 7: Quicksort
+QUICKSORT.A; p; r/
+if p < r
+// Partition the subarray around the pivot, which ends up in AŒq . q D PARTITION.A; p; r/ QUICKSORT.A; p; q 1/ // recursively sort the low side QUICKSORT.A; q C 1; r/ // recursively sort the high side
+Initial call is QUICKSORT.A; 1; n/.
+Partitioning
+Partition subarray AŒp W r by the following procedure:
+PARTITION.A; p; r /
+x D AŒr // the pivot i D p 1 // highest index into the low side for j D p to r 1 // process each element other than the pivot if AŒj x // does this element belong on the low side? i D i C 1 // index of a new slot in the low side exchange AŒi with AŒj // put this element there exchange AŒi C 1 with AŒr // pivot goes just to the right of the low side return i C 1 // new index of the pivot
+PARTITION always selects the last element AŒr in the subarray AŒp W r as the pivot—the element around which to partition.
+As the procedure executes, the array is partitioned into four regions, some of which may be empty:
+Loop invariant:
+1. All entries in AŒp W i are pivot.
+2. All entries in AŒi C 1 W j 1 are > pivot.
+3. AŒr D pivot.
+It’s not needed as part of the loop invariant, but the fourth region is AŒj W r 1 , whose entries have not yet been examined, and so we don’t know how they compare to the pivot.
+Example
+On an 8-element subarray. [Differs from theexample onpage 185 inthe book.]
+
+
+Lecture Notes for Chapter 7: Quicksort 7-3
+81640395
+i p,j r
+81640395
+pj r
+18640395
+p,i j r
+18640395
+p,i j r
+14680395
+pi j r
+14086395
+pi jr
+14036895
+p i jr
+14036895
+pi r
+14035896
+pi r
+i
+A[r]: pivot A[j .. r–1]: not yet examined A[i+1 .. j–1]: known to be > pivot A[p .. i]: known to be ≤ pivot
+[Theindex j disappearsbecauseitisnolongerneededoncetheforloopisexited.]
+Correctness
+Use the loop invariant to prove correctness of PARTITION:
+Initialization: Before the loop starts, all the conditions of the loop invariant are satisfied, because r is the pivot and the subarrays AŒp W i and AŒi C 1 W j 1 are empty.
+Maintenance: While the loop is running, if AŒj pivot, then AŒj and AŒi C 1 are swapped and then i and j are incremented. If AŒj > pivot, then increment only j .
+Termination: When the loop terminates, j D r, so that all elements in A are partitioned into one of the three cases: AŒp W i pivot, AŒi C 1 W r 1 > pivot, and AŒr D pivot.
+The last two lines of PARTITION move the pivot element from the end of the array to between the two subarrays. This is done by swapping the pivot and the first element of the second subarray, i.e., by swapping AŒi C 1 and AŒr .
+Time for partitioning
+‚.n/ to partition an n-element subarray.
+
+
+7-4 Lecture Notes for Chapter 7: Quicksort
+Performance of quicksort
+The running time of quicksort depends on the partitioning of the subarrays:
+If the subarrays are balanced, then quicksort can run as fast as mergesort. If they are unbalanced, then quicksort can run as slowly as insertion sort.
+Worst case
+Occurs when the subarrays are completely unbalanced. Have 0 elements in one subarray and n 1 elements in the other subarray. Get the recurrence
+T .n/ D T .n 1/ C T .0/ C ‚.n/
+D T .n 1/ C ‚.n/
+D ‚.n2/ :
+Same worst-case running time as insertion sort.
+In fact, the worst-case running time occurs when quicksort takes a sorted array as input, but insertion sort runs in O.n/ time in this case.
+Best case
+Occurs when the subarrays are completely balanced every time. Each subarray has n=2 elements. For an upper bound, get the recurrence T .n/ D 2T .n=2/ C ‚.n/
+D ‚.n lg n/ :
+Balanced partitioning
+Quicksort’s average running time is much closer to the best case than to the worst case. Imagine that PARTITION always produces a 9-to-1 split. Get the recurrence
+T .n/ T .9n=10/ C T .n=10/ C ‚.n/
+D O.n lg n/ :
+Intuition: look at the recursion tree.
+It’s like the one for T .n/ D T .n=3/ C T .2n=3/ C O.n/ in Section 4.4. Except that here the constants are different: log10 n full levels and log10=9 n levels that are nonempty. As long as it’s a constant, the base of the log doesn’t matter in asymptotic notation. Any split of constant proportionality will yield a recursion tree of depth ‚.lg n/.
+
+
+Lecture Notes for Chapter 7: Quicksort 7-5
+Intuition for the average case
+Splits in the recursion tree will not always be constant.
+There will usually be a mix of good and bad splits throughout the recursion tree.
+To see that this doesn’t affect the asymptotic running time of quicksort, assume that levels alternate between best-case and worst-case splits.
+n
+0 n–1
+n
+(n–1)/2 (n–1)/2
+Θ(n) Θ(n)
+(n–1)/2 – 1 (n–1)/2
+The extra level in the left-hand figure only adds to the constant hidden in the ‚-notation.
+There are still the same number of subarrays to sort, and only twice as much work was done to get to that point.
+Both figures result in O.n lg n/ time, though the constant for the figure on the left is higher than that of the figure on the right.
+Randomized version of quicksort
+We have assumed that all input permutations are equally likely.
+This is not always true.
+To correct this, we add randomization to quicksort.
+We could randomly permute the input array.
+Instead, we use random sampling, or picking one element at random.
+Don’t always use AŒr as the pivot. Instead, randomly pick an element from the subarray that is being sorted.
+RANDOMIZED-PARTITION .A; p; r /
+i D RANDOM.p; r/ exchange AŒr with AŒi return PARTITION.A; p; r/
+Randomly selecting the pivot element will, on average, cause the split of the input array to be reasonably well balanced.
+RANDOMIZED-QUICKSORT.A; p; r /
+if p < r
+q D RANDOMIZED-PARTITION.A; p; r / RANDOMIZED-QUICKSORT.A; p; q 1/ RANDOMIZED-QUICKSORT.A; q C 1; r /
+
+
+7-6 Lecture Notes for Chapter 7: Quicksort
+Randomization of quicksort stops any specific type of array from causing worstcase behavior. For example, an already-sorted array causes worst-case behavior in non-randomized QUICKSORT, but is highly unlikely to in RANDOMIZED
+QUICKSORT.
+Analysis of quicksort
+We will analyze
+the worst-case running time of QUICKSORT and RANDOMIZED-QUICKSORT (the same), and
+the expected (average-case) running time of RANDOMIZED-QUICKSORT.
+Worst-case analysis
+We will prove that a worst-case split at every level produces a worst-case running time of O.n2/.
+Recurrence for the worst-case running time of QUICKSORT:
+T .n/ D max fT .q/ C T .n q 1// W 0 q n 1g C ‚.n/ :
+Because PARTITION produces two subproblems, totaling size n 1, q ranges from 0 to n 1.
+Guess: T .n/ cn2, for some c.
+Substituting our guess into the above recurrence:
+T .n/ max  ̊cq2 C c.n q 1/2 W 0 q n 1 C ‚.n/
+D c max  ̊q2 C .n q 1/2 W 0 q n 1 C ‚.n/ :
+The maximum value of q2 C .n q 1/2 occurs when q is either 0 or n 1. (Second derivative with respect to q is positive.) Therefore,
+max  ̊q2 C .n q 1/2 W 0 q n 1 .n 1/2
+D n2 2n C 1 :
+And thus,
+T .n/ cn2 c.2n 1/ C ‚.n/
+cn2 if c.2n 1/ ‚.n/ :
+Pick c so that c.2n 1/ dominates ‚.n/.
+Therefore, the worst-case running time of quicksort is O.n2/.
+Can also show that the recurrence’s solution is .n2/. Don’t really need to, since we saw that when partitioning is unbalanced, quicksort takes ‚.n2/ time. Thus, the worst-case running time is ‚.n2/.
+
+
+Lecture Notes for Chapter 7: Quicksort 7-7
+Average-case analysis
+Assume that all values being sorted are distinct. (No repeated values.)
+The dominant cost of the algorithm is partitioning.
+Assume that RANDOMIZED-PARTITION makes it so that the pivot selected by PARTITION is selected randomly from the subarray passed to these procedures.
+PARTITION removes the pivot element from future consideration each time.
+Thus, PARTITION is called at most n times.
+QUICKSORT recurses on the partitions.
+The amount of work that each call to PARTITION does is a constant plus the number of comparisons that are performed in its for loop.
+Let X D the total number of comparisons performed in all calls to PARTITION.
+Therefore, the total work done over the entire execution is O.n C X /.
+Need to compute a bound on the overall number of comparisons.
+For ease of analysis:
+Rename the elements of A as  ́1;  ́2; : : : ;  ́n, with  ́i being the i th smallest element. (So that the output order is  ́1;  ́2; : : : ;  ́n.)
+Define the set Zij D f ́i ;  ́iC1; : : : ;  ́j g to be the set of elements between  ́i and  ́j , inclusive.
+Each pair of elements is compared at most once, because elements are compared only with the pivot element, and then the pivot element is never in any later call to
+PARTITION.
+Let Xij D I f ́i is compared with  ́j g. (Considering whether  ́i is compared with  ́j at any time during the entire quicksort algorithm, not just during one call of PARTITION.)
+Since each pair is compared at most once, the total number of comparisons performed by the algorithm is
+XD
+n1
+X
+i D1
+n X
+j Di C1
+Xij :
+Take expectations of both sides, use Lemma 5.1 and linearity of expectation:
+E ŒX D E
+"n 1
+X
+i D1
+Xn
+j Di C1
+Xij
+#
+D
+n1
+X
+i D1
+Xn
+j Di C1
+E ŒXij
+D
+n1
+X
+i D1
+Xn
+j Di C1
+Pr f ́i is compared with  ́j g :
+Now all we have to do is find the probability that two elements are compared.
+Think about when two elements are not compared.
+
+
+7-8 Lecture Notes for Chapter 7: Quicksort
+For example, numbers in separate partitions will not be compared.
+In the previous example, h8; 1; 6; 4; 0; 3; 9; 5i and the pivot is 5, so that none of the set f1; 4; 0; 3g will ever be compared with any of the set f8; 6; 9g.
+Once a pivot x is chosen such that  ́i < x <  ́j , then  ́i and  ́j will never be compared at any later time.
+If either  ́i or  ́j is chosen before any other element of Zij , then it will be compared with all the elements of Zij , except itself.
+The probability that  ́i is compared with  ́j is the probability that either  ́i or  ́j is the first element chosen.
+There are j i C1 elements, and pivots are chosen randomly and independently. Thus, the probability that any particular one of them is the first one chosen is 1=.j i C 1/.
+Therefore,
+Pr f ́i is compared with  ́j g D Pr f ́i or  ́j is the first pivot chosen from Zij g
+D Pr f ́i is the first pivot chosen from Zij g
+C Pr f ́j is the first pivot chosen from Zij g
+D1
+j iC1 C 1
+j iC1
+D2
+j iC1 :
+[The second line follows because thetwoevents are mutually exclusive.]
+Substituting into the equation for E ŒX :
+E ŒX D
+n1
+X
+i D1
+Xn
+j Di C1
+2
+j iC1 :
+Evaluate by using a change in variables (k D j i) and the bound on the harmonic series in equation (A.9):
+E ŒX D
+n1
+X
+i D1
+Xn
+j Di C1
+2
+j iC1
+D
+n1
+X
+i D1
+ni
+X
+kD1
+2
+kC1
+<
+n1
+X
+i D1
+Xn
+kD1
+2
+k
+D
+n1
+X
+i D1
+O.lg n/
+D O.n lg n/ :
+So the expected running time of quicksort, using RANDOMIZED-PARTITION, is O.n lg n/ if all values being sorted are distinct.
+
+
+Lecture Notes for Chapter 8:
+Sorting in Linear Time
+Chapter 8 overview
+How fast can we sort?
+We will prove a lower bound, then beat it by playing a different game.
+Comparison sorting
+The only operation that may be used to gain order information about a sequence is comparison of pairs of elements.
+All sorts seen so far are comparison sorts: insertion sort, selection sort, merge sort, quicksort, heapsort, treesort.
+Lower bounds for sorting
+Lower bounds
+.n/ to examine all the input.
+All sorts seen so far are .n lg n/.
+We’ll show that .n lg n/ is a lower bound for comparison sorts.
+Decision tree
+Abstraction of any comparison sort.
+Represents comparisons made by
+a specific sorting algorithm on inputs of a given size.
+Abstracts away everything else: control and data movement.
+We’re counting only comparisons.
+
+
+8-2 Lecture Notes for Chapter 8: Sorting in Linear Time
+For insertion sort on 3 elements:
+≤>
+≤>
+1:2
+2:3 1:3
+〈1,2,3〉 1:3 〈2,1,3〉 2:3
+〈1,3,2〉 〈3,1,2〉 〈3,2,1〉
+≤>
+≤>
+≤>
+〈2,3,1〉
+A[1] ≤ A[2] A[1] > A[2] (swap in array)
+A[1] ≤ A[2] A[2] > A[3]
+A[1] > A[2] A[1] > A[3]
+A[1] ≤ A[2] ≤ A[3]
+compare A[1] to A[2]
+[Each internal node is labeled by indices of array elements from their original positions. Each leaf is labeled by the permutation of orders that the algorithm determines.]
+How many leaves on the decision tree? There are nŠ leaves, because every permutation appears at least once.
+For any comparison sort,
+1 tree for each n.
+View the tree as if the algorithm splits in two at each node, based on the information it has determined up to that point.
+The tree models all possible execution traces.
+What is the length of the longest path from root to leaf?
+Depends on the algorithm
+Insertion sort: ‚.n2/
+Merge sort: ‚.n lg n/
+Theorem
+Any decision tree that sorts n elements has height .n lg n/.
+Proof Let the decision tree have height h and l reachable leaves.
+l nŠ
+l 2h (see Section B.5.3: in a complete k-ary tree, there are kh leaves)
+nŠ l 2h or 2h nŠ
+Take logarithms: h lg.nŠ/
+Use Stirling’s approximation: nŠ > .n=e/n (by equation (3.23))
+h lg.n=e/n
+D n lg.n=e/
+D n lg n n lg e
+D .n lg n/ : (theorem)
+Corollary
+Heapsort and merge sort are asymptotically optimal comparison sorts.
+
+
+Lecture Notes for Chapter 8: Sorting in Linear Time 8-3
+Sorting in linear time
+Non-comparison sorts.
+Counting sort
+Depends on a key assumption: numbers to be sorted are integers in f0; 1; : : : ; kg.
+Input: AŒ1 W n , where AŒj 2 f0; 1; : : : ; kg for j D 1; 2; : : : ; n. Array A and values n and k are given as parameters.
+Output: BŒ1 W n , sorted.
+Auxiliary storage: C Œ0 W k
+COUNTING-SORT.A; n; k/ let BŒ1 W n and C Œ0 W k be new arrays for i D 0 to k C Œi D 0 for j D 1 to n
+C ŒAŒj D C ŒAŒj C 1
+// C Œi now contains the number of elements equal to i. for i D 1 to k
+C Œi D C Œi C C Œi 1
+// C Œi now contains the number of elements less than or equal to i. // Copy A to B, starting from the end of A. for j D n downto 1
+BŒC ŒAŒj D AŒj
+C ŒAŒj D C ŒAŒj 1 // to handle duplicate values return B
+Do an example for A D h21; 51; 31; 01; 22; 32; 02; 33i. [Subscripts show original order of equal keys inorder todemonstrate stability.]
+i 012345 C Œi after second for loop 2 0 2 3 0 1 C Œi after third for loop 2 2 4 7 7 8
+Sorted output is h01; 02; 21; 22; 31; 32; 33; 51i.
+Idea: After the third for loop, C Œi counts how many keys are less than or equal to i. If all elements are distinct, then an element with value i should go into BŒi . But if elements are not distinct, by examining values in A in reverse order, the last for loop puts AŒj into BŒC ŒAŒj and then decrements C ŒAŒj so that the next time it finds element with the same value as AŒj , that element goes into the position of B just before AŒj .
+Exercise 8.2-4 is to prove this loop invariant:
+Loop invariant: At the start of each iteration of the last for loop, the last element in A with value i that has not yet been copied into B belongs in BŒC Œi .
+
+
+8-4 Lecture Notes for Chapter 8: Sorting in Linear Time
+Counting sort is stable (keys with same value appear in same order in output as they did in input) because of how the last loop works.
+Analysis
+‚.n C k/, which is ‚.n/ if k D O.n/.
+How big a k is practical?
+Good for sorting 32-bit values? No.
+16-bit? Probably not.
+8-bit? Maybe, depending on n.
+4-bit? Probably (unless n is really small).
+Counting sort will be used in radix sort.
+Radix sort
+How IBM made its money. IBM made punch card readers for census tabulation in early 1900’s. Card sorters worked on one column at a time. It’s the algorithm for using the machine that extends the technique to multi-column sorting. The human operator was part of the algorithm!
+Key idea: Sort least significant digits first.
+To sort d digits:
+RADIX-SORT.A; n; d /
+for i D 1 to d
+use a stable sort to sort array AŒ1 W n on digit i
+Example
+326 453 608 835 751 435 704 690
+326
+453
+608
+835
+751
+435
+704
+690
+326
+453
+608
+835
+751
+435
+704
+690
+326
+453 608
+835
+751
+435
+704
+690
+sorted
+Correctness
+Induction on number of passes (i in pseudocode).
+Assume digits 1; 2; : : : ; i 1 are sorted.
+Show that a stable sort on digit i leaves digits 1; : : : ; i sorted:
+If two digits in position i are different, ordering by position i is correct, and positions 1; : : : ; i 1 are irrelevant.
+
+
+Lecture Notes for Chapter 8: Sorting in Linear Time 8-5
+If two digits in position i are equal, the numbers are already in the right order (by inductive hypothesis). The stable sort on digit i leaves them in the right order.
+This argument shows why it’s so important to use a stable sort for intermediate sort.
+Analysis
+Assume that we use counting sort as the intermediate sort.
+‚.n C k/ per pass (digits in range 0; : : : ; k)
+d passes
+‚.d.n C k// total
+If k D O.n/, time D ‚.d n/.
+How to break each key into digits?
+n words.
+b bits/word.
+Break into r-bit digits. Have d D db=re.
+Use counting sort, k D 2r 1.
+Example: 32-bit words, 8-bit digits. b D 32, r D 8, d D d32=8e D 4, k D 28 1 D 255.
+Time D ‚ ..b=r/.n C 2r //.
+How to choose r? Balance b=r and n C 2r : decreasing r causes b=r to increase, but increasing r causes 2r to increase.
+If b < blg nc, then choose r D b ) .b=r/.n C 2r / D ‚.n/, which is optimal.
+If b blg nc, then choosing r lg n gives ‚ ..b= lg n/.n C n// D ‚.bn= lg n/.
+Choosing r < lg n ) b=r > b= lg n, and n C 2r term doesn’t improve.
+Choosing r > lg n ) n C 2r term gets big. Example: r D 2 lg n ) 2r D
+22 lg n D .2lg n/2 D n2.
+So, to sort 216 32-bit numbers, use r D lg 216 D 16 bits. db=re D 2 passes.
+Compare radix sort to merge sort and quicksort:
+1 million .220/ 32-bit integers.
+Radix sort: d32=20e D 2 passes.
+Merge sort/quicksort: lg n D 20 passes.
+Remember, though, that each radix sort “pass” is really 2 passes—one to take census, and one to move data.
+How does radix sort violate the ground rules for a comparison sort?
+Using counting sort allows us to gain information about keys by means other than directly comparing two keys.
+Used keys as array indices.
+
+
+8-6 Lecture Notes for Chapter 8: Sorting in Linear Time
+Bucket sort
+Assumes that the input is generated by a random process that distributes elements uniformly and independently over Œ0; 1/.
+Idea
+Divide Œ0; 1/ into n equal-sized buckets.
+Distribute the n input values into the buckets. [Canimplementthebuckets with linked lists; see Section 10.2.]
+Sort each bucket.
+Then go through buckets in order, listing elements in each one.
+Input: AŒ1 W n , where 0 AŒi < 1 for all i.
+Auxiliary array: BŒ0 W n 1 of linked lists, each list initially empty.
+BUCKET-SORT.A; n/
+let BŒ0 W n 1 be a new array for i D 0 to n 1
+make BŒi an empty list for i D 1 to n
+insert AŒi into list BŒbn AŒi c for i D 0 to n 1
+sort list BŒi with insertion sort concatenate lists BŒ0 ; BŒ1 ; : : : ; BŒn 1 together in order return the concatenated lists
+Example
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+.78 .17 .39
+.72 .94 .21 .12 .23 .68
+A
+1
+2
+3
+4
+5
+6
+7
+8
+9
+B 0
+.12 .17 .21 .23 .26
+.26 .39
+.68 .72 .78
+.94
+[Thebucketsareshownaftereachhasbeensorted. Slashesindicatetheendofeach bucket.]
+Correctness
+Consider AŒi , AŒj . Assume without loss of generality that AŒi AŒj . Then bn AŒi c bn AŒj c. So AŒi is placed into the same bucket as AŒj or into a bucket with a lower index.
+
+
+Lecture Notes for Chapter 8: Sorting in Linear Time 8-7
+If same bucket, insertion sort fixes up.
+If earlier bucket, concatenation of lists fixes up.
+Analysis
+Relies on no bucket getting too many values.
+All lines of algorithm except insertion sorting take ‚.n/ altogether.
+Intuitively, if each bucket gets a constant number of elements, it takes O.1/ time to sort each bucket ) O.n/ sort time for all buckets.
+We “expect” each bucket to have few elements, since the average is 1 element per bucket.
+But we need to do a careful analysis.
+Define a random variable:
+ni D the number of elements placed in bucket BŒi :
+Because insertion sort runs in quadratic time, bucket sort time is
+T .n/ D ‚.n/ C
+n1
+X
+i D0
+O.n2
+i/:
+Take expectations of both sides:
+E ŒT .n/ D E
+"
+‚.n/ C
+n1
+X
+i D0
+O.n2
+i/
+#
+D ‚.n/ C
+n1
+X
+i D0
+E O.n2
+i / (linearity of expectation)
+D ‚.n/ C
+n1
+X
+i D0
+O.E n2
+i / (E ŒaX D aE ŒX )
+Claim E Œn2
+i D 2 .1=n/ for i D 0; : : : ; n 1.
+Proof of claim [Theproof ofthis claim isnewin thefourth edition.]
+View each ni as number of successes in n Bernoulli trials (see Section C.4). Success occurs when an element goes into bucket BŒi .
+Probability p of success: p D 1=n.
+Probability q of failure: q D 1 1=n.
+Binomial distribution counts number of successes in n trials: E Œni D np D n.1=n/ D 1 and Var Œni D npq D 1 1=n (see equations (C.41) and (C.44)). By equation (C.31):
+E n2
+i D Var Œni C E2 Œni
+D .1 1=n/ C 12
+D 2 1=n (claim)
+
+
+8-8 Lecture Notes for Chapter 8: Sorting in Linear Time
+Therefore:
+E ŒT .n/ D ‚.n/ C
+n1
+X
+i D0
+O.2 1=n/
+D ‚.n/ C O.n/
+D ‚.n/
+Again, not a comparison sort. Used a function of key values to index into an array.
+This is a probabilistic analysis—we used probability to analyze an algorithm whose running time depends on the distribution of inputs.
+Different from a randomized algorithm, where we use randomization to impose a distribution.
+With bucket sort, if the input isn’t drawn from a uniform distribution on Œ0; 1/, the algorithm is still correct, but might not run in ‚.n/ time. It runs in linear time as long as the sum of squares of bucket sizes is ‚.n/.
+
+
+Lecture Notes for Chapter 9:
+Medians and Order Statistics
+Chapter 9 overview
+i th order statistic is the ith smallest element of a set of n elements.
+The minimum is the first order statistic (i D 1).
+The maximum is the nth order statistic (i D n).
+A median is the “halfway point” of the set.
+When n is odd, the median is unique, at i D .n C 1/=2.
+When n is even, there are two medians:
+The lower median, at i D n=2, and The upper median, at i D n=2 C 1.
+We mean lower median when we use the phrase “the median.”
+The selection problem:
+Input: A set A of n distinct numbers and a number i, with 1 i n.
+Output: The element x 2 A that is larger than exactly i 1 other elements in A. In other words, the ith smallest element of A.
+Easy to solve the selection problem in O.n lg n/ time:
+Sort the numbers using an O.n lg n/-time algorithm, such as heapsort or merge sort.
+Then return the ith element in the sorted array.
+There are faster algorithms, however.
+First, we’ll look at the problem of selecting the minimum and maximum of a set of elements.
+Then, we’ll look at a simple general selection algorithm with a time bound of O.n/ in the average case.
+Finally, we’ll look at a more complicated general selection algorithm with a time bound of O.n/ in the worst case.
+
+
+9-2 Lecture Notes for Chapter 9: Medians and Order Statistics
+Minimum and maximum
+We can easily obtain an upper bound of n 1 comparisons for finding the minimum of a set of n elements.
+Examine each element in turn and keep track of the smallest one.
+This is the best we can do, because each element, except the minimum, must be compared to a smaller element at least once.
+The following pseudocode finds the minimum element in array AŒ1 W n :
+MINIMUM.A; n/
+min D AŒ1
+for i D 2 to n if min > AŒi min D AŒi return min
+The maximum can be found in exactly the same way by replacing the > with < in the above algorithm.
+Simultaneous minimum and maximum
+Some applications need both the minimum and maximum of a set of elements.
+For example, a graphics program may need to scale a set of .x; y/ data to fit onto a rectangular display. To do so, the program must first find the minimum and maximum of each coordinate.
+A simple algorithm to find the minimum and maximum is to find each one independently. There will be n 1 comparisons for the minimum and n 1 comparisons for the maximum, for a total of 2n 2 comparisons. This will result in ‚.n/ time.
+In fact, at most 3 bn=2c comparisons suffice to find both the minimum and maximum:
+Maintain the minimum and maximum of elements seen so far.
+Don’t compare each element to the minimum and maximum separately.
+Process elements in pairs.
+Compare the elements of a pair to each other.
+Then compare the larger element to the maximum so far, and compare the smaller element to the minimum so far.
+This leads to only 3 comparisons for every 2 elements.
+Setting up the initial values for the min and max depends on whether n is odd or even.
+If n is even, compare the first two elements and assign the larger to max and the smaller to min. Then process the rest of the elements in pairs.
+If n is odd, set both min and max to the first element. Then process the rest of the elements in pairs.
+
+
+Lecture Notes for Chapter 9: Medians and Order Statistics 9-3
+Analysis of the total number of comparisons
+If n is even, do 1 initial comparison and then 3.n 2/=2 more comparisons.
+# of comparisons D 3.n 2/
+2 C1
+D 3n 6
+2 C1
+D 3n
+2 3C1
+D 3n
+2 2:
+If n is odd, do 3.n 1/=2 D 3 bn=2c comparisons.
+In either case, the maximum number of comparisons is 3 bn=2c.
+Selection in expected linear time
+Selection of the ith smallest element of the array A can be done in ‚.n/ time.
+The function RANDOMIZED-SELECT uses RANDOMIZED-PARTITION from the
+quicksort algorithm in Chapter 7. RANDOMIZED-SELECT differs from quicksort because it recurses on one side of the partition only.
+RANDOMIZED-SELECT .A; p; r; i /
+if p == r
+return AŒp // 1 i r p C 1 when p == r means that i D 1 q D RANDOMIZED-PARTITION.A; p; r / k D q pC1 if i == k
+return AŒq // the pivot value is the answer elseif i < k
+return RANDOMIZED-SELECT.A; p; q 1; i / else return RANDOMIZED-SELECT.A; q C 1; r; i k/
+After the call to RANDOMIZED-PARTITION, the array is partitioned into two subarrays AŒp W q 1 and AŒq C 1 W r , along with a pivot element AŒq .
+The elements of subarray AŒp W q 1 are all AŒq .
+The elements of subarray AŒq C 1 W r are all > AŒq .
+The pivot element is the kth element of the subarray AŒp W r , where k D q p C 1.
+If the pivot element is the ith smallest element (i.e., i D k), return AŒq .
+Otherwise, recurse on the subarray containing the ith smallest element.
+If i < k, this subarray is AŒp W q 1 , and we want the ith smallest element. If i > k, this subarray is AŒq C 1 W r and, since there are k elements in AŒp W r that precede AŒq C 1 W r , we want the .i k/th smallest element of this subarray.
+
+
+9-4 Lecture Notes for Chapter 9: Medians and Order Statistics
+Analysis
+Worst-case running time
+‚.n2/, because we could be extremely unlucky and always recurse on a subarray that is only one element smaller than the previous subarray.
+Expected running time
+RANDOMIZED-SELECT works well on average. Because it is randomized, no particular input brings out the worst-case behavior consistently.
+Analysis assumes that the recursion goes as deep as possible: until only one element remains.
+Intuition: Suppose that each pivot is in the second or third quartiles if the elements were sorted—in the “middle half.” Then at least 1=4 of the remaining elements are ignored in all future recursive calls ) at most 3=4 of the elements are still in play: somewhere within AŒp W r . RANDOMIZE-PARTITION takes ‚.n/ time to partition n elements ) recurrence would be T .n/ D T .3n=4/ C ‚.n/ D ‚.n/ by case 3 of the master method.
+What if the pivot is not always in the middle half? Probability that it is in the middle half is 1=2. View selecting a pivot in the middle half as a Bernoulli trial with probability of success 1=2. Then the number of trials before a success is a geometric distribution with expected value 2. So that half the time, 1=4 of the elements go out of play, and the other half of the time, as few as one element (the pivot) goes out of play. But that just doubles the running time, so still expect ‚.n/.
+Rigorous analysis:
+Define A.j/ as the set of elements still in play (within AŒp W r ) after j recursive calls (i.e., after j th partitioning). A.0/ is all the elements in A.
+jA.j/j is a random variable that depends on A and order statistic i , but not on the order of elements in A.
+Each partitioning removes at least one element (the pivot) ) sizes of A.j/ strictly decrease.
+j th partitioning takes set A.j 1/ and produces A.j /.
+Assume a 0th “dummy” partitioning that produces A.0/.
+j th partitioning is helpful if jA.j/j .3=4/jA.j 1/j. Not all partitionings are necessarily helpful. Think of a helpful partitioning as a successful Bernoulli trial.
+Lemma
+A partitioning is helpful with probability 1=2.
+Proof
+Whether or not a partitioning is helpful depends on the randomly chosen pivot.
+Define “middle half” of an n-element subarray as all but the smallest dn=4e 1 and greatest dn=4e 1 elements. That is, all but the first and last dn=4e 1 if the subarray were sorted.
+
+
+Lecture Notes for Chapter 9: Medians and Order Statistics 9-5
+Will show that if the pivot is in the middle half, then that pivot leads to a helpful partitioning and that the probability that the pivot is in the middle half is 1=2.
+No matter where the pivot lies, either all elements > pivot or all elements < pivot, and the pivot itself, are not in play after partitioning ) if the pivot is in the middle half, at least the smallest dn=4e 1 or greatest dn=4e 1 elements, plus the pivot, will not be in play after partitioning ) dn=4e elements not in play.
+Then, at most n dn=4e D b3n=4c < 3n=4 elements in play ) partitioning is helpful. (n dn=4e D b3n=4c is from Exercise 3.3-2.)
+To find a lower bound on the probability that a randomly chosen pivot is in the middle half, find an upper bound on the probability that it is not: 2.dn=4e 1/
+n
+2..n=4 C 1/ 1/
+n (inequailty (3.2))
+D n=2
+n D 1=2 :
+Since the pivot has probability 1=2 of falling into the middle half, a partitioning is helpful with probability 1=2. (lemma)
+Theorem
+The expected running time of RANDOMIZED-SELECT is ‚.n/.
+Proof
+Let the sequence of helpful partitionings be hh0; h1; : : : ; hmi. Consider the 0th
+partitioning as helpful ) h0 D 0. Can bound m, since after at most  ̇log4=3 n helpful partitionings, only one element remains in play.
+Define nk D jA.hk/j and n0 D jA.0/j, the original problem size. nk D jA.hk/j .3=4/jA.hk 1/j D .3=4/ nk 1 for k D 1; 2; : : : ; m.
+Iterating gives nk .3=4/k n0.
+Break up sets into m “generations.” The sets in generation k are A.hk/; A.hkC1/; : : : ; A.hkC1 1/, where A.hk/ is the result of a helpful partitioning and A.hkC1 1/ is the last set before the next helpful partitioning.
+...... ...
+generation 0 generation 1 generation k
+......
+A.0/
+A.1/ A.2/ A.h1 1/
+A.h1/
+A.h1C1/
+A.h1C2/ A.h2 1/
+A.h2/
+A.hk 1/
+A.hk /
+A.hk C1/
+A.hkC2/A.hkC1 1/
+A.hk C1 / A.hm/
+
+
+9-6 Lecture Notes for Chapter 9: Medians and Order Statistics
+[Height of each line indicates the set of the set (number of elements in play). Heavy lines are sets A.hk/, resulting from helpful partitionings and are first within their generation. Other lines are not first within their generation. A generation maycontain just one set.]
+If A.j / is in the kth generation, then jA.j /j jA.hk/j D nk .3=4/kn0.
+Define random variable Xk D hkC1 hk as the number of sets in the kth generation ) kth generation includes sets A.hk/; A.hkC1/; : : : ; A.hkCXk 1/.
+By previous lemma, a partitioning is helpful with probability 1=2. The probability is even higher, since a partitioning is helpful even if the pivot doesn’t fall into middle half, but the ith smallest element lies in the smaller side. Just use the 1=2 lower bound ) E ŒXk 2 for k D 0; 1; : : : ; m 1 (by equation (C.36), expectation of a geometric distribution).
+The total running time is dominated by the comparisons during partitioning. The j th partitioning takes A.j 1/ and compares the pivot with all the other jA.j 1/j 1 elements ) j th partitioning makes < jA.j 1/j comparisons.
+The total number of comparisons is less than
+m1
+X
+kD0
+hkCXk 1
+X
+j Dhk
+jA.j /j
+m1
+X
+kD0
+hkCXk 1
+X
+j Dhk
+jA.hk / j
+D
+m1
+X
+kD0
+Xk jA.hk/j
+m1
+X
+kD0
+Xk
+3
+4
+k
+n0 :
+Since E ŒXk 2, the expected total number of comparisons is less than
+E
+"m 1
+X
+kD0
+Xk
+3
+4
+k
+n0
+#
+D
+m1
+X
+kD0
+E
+"
+Xk
+3
+4
+k
+n0
+#
+(linearity of expectation)
+D n0
+m1
+X
+kD0
+3
+4
+k
+E ŒXk
+2n0
+m1
+X
+kD0
+3
+4
+k
+< 2n0
+X 1
+kD0
+3
+4
+k
+D 8n0 (infinite geometric series) .
+n0 is the size of the original array A ) an O.n/ upper bound on the expected running time. For the lower bound, the first call of RANDOMIZED-PARTITION examines all n elements ) ‚.n/. (theorem)
+Therefore, we can determine any order statistic in linear time on average, assuming that all elements are distinct.
+
+
+Lecture Notes for Chapter 9: Medians and Order Statistics 9-7
+Selection in worst-case linear time
+We can find the ith smallest element in O.n/ time in the worst case. We’ll describe a procedure SELECT that does so. It’s not terribly practical—primarily of theoretical interest.
+Idea: Like RANDOMIZED-SELECT, recursively partition the input array. But instead of picking a pivot randomly, guarantee a good split by picking a provably good pivot. How? Recursively!
+SELECT uses a simple variant of the PARTITION algorithm that takes as an additional parameter the value of the pivot. Call it PARTITION-AROUND.
+Input to SELECT is the same as for RANDOMIZED-SELECT.
+SELECT.A; p; r; i /
+while .r p C 1/ mod 5 ¤ 0
+for j D p C 1 to r // put the minimum into AŒp if AŒp > AŒj
+exchange AŒp with AŒj // If we want the minimum of AŒp W r , we’re done. if i == 1 return AŒp
+// Otherwise, we want the .i 1/st element of AŒp C 1 W r . p D pC1 i Di 1
+g D .r p C 1/=5 // the number of 5-element groups for j D p to p C g 1 // sort each group
+sort hAŒj ; AŒj C g ; AŒj C 2g ; AŒj C 3g ; AŒj C 4g i in place // All group medians now lie in the middle fifth of AŒp W r . // Find the pivot x recursively as the median of the group medians. x D SELECT.A; p C 2g; p C 3g 1; dg=2e/
+q D PARTITION-AROUND.A; p; r; x/ // partition around the pivot // The rest is just like the end of RANDOMIZED-SELECT. k D q pC1 if i == k
+return AŒq // the pivot value is the answer elseif i < k
+return SELECT.A; p; q 1; i /
+else return SELECT.A; q C 1; r; i k/
+The algorithm works with groups of 5 elements. If n is not a multiple of 5, the beginning while loop removes n mod 5 elements from consideration. If i n mod 5, then the ith iteration of the while loop identifes and returns the ith smallest element. Each iteration puts the smallest element into AŒp . If i D 1, then done. Otherwise, increment p, so that AŒp is no longer in play, and decrement i, so that this minimum element doesn’t matter any longer.
+After the while loop, size of the subarray AŒp W r is divisible by 5. From there:
+Compute g D .r p C 1/=5 D the number of groups of 5 elements.
+
+
+9-8 Lecture Notes for Chapter 9: Medians and Order Statistics
+Compose the groups of 5 elements by taking every 5th one:
+First group is hAŒp ; AŒp C g ; AŒp C 2g ; AŒp C 3g ; AŒ3 C 4g i.
+Second group is hAŒp C 1 ; AŒp C g C 1 ; AŒp C 2g C 1 ; AŒp C 3g C 1 ; AŒp C 4g C 1 i.
+And so on. Last group (.g 1/st group) is hAŒp C g 1 ; AŒp C 2g 1 ; AŒp C 3g 1 ; AŒp C 4g 1 ; AŒr i. (r D p C 5g 1.)
+x
+g
+dg=2e
+bg=2c C 1
+[Eachcolumnis agroup of 5 elements. Arrowspoint from smaller elements to larger elements. The group medians are the middle fifth of the array, shown in the figurewithheavy outlines inthe middle row.]
+Sort each group of 5 to find its median.
+Recursively call SELECT on the medians to find the median of the group medians. That value will be the pivot x. In the middle row, all medians to the left of x are x, and all medians to the right of x are x. We don’t know the ordering of the medians to the left of x relative to each other, and same for to the right of x.
+From there, it’s the same as RANDOMIZED-SELECT:
+Partition the entire subarray AŒp W r around x. The call of PARTITIONAROUND returns the index q of where the pivot x ends up. Compute the relative index k of q within the subarray AŒp W r . If i D k, done. AŒq is the ith smallest element in AŒp W r . Otherwise, recurse on either the elements preceding AŒq or the elements following AŒq . In the latter case, want the .i k/th smallest element.
+Analysis
+Will show that SELECT runs in worst-case time ‚.n/.
+The lower bound of .n/ comes from each iteration of the while loop and also sorting the g groups of 5 elements. (Note: g .n 4/=5.)
+For the upper bound of O.n/:
+
+
+Lecture Notes for Chapter 9: Medians and Order Statistics 9-9
+Define T .n/ as the worst-case time for SELECT on a subarray of size at most n. T .n/ monotonically increases.
+The while loop executes at most 4 times, each iteration taking O.n/ time ) O.n/ time for the while loop.
+Sorting the g groups of 5 takes O.n/ time because sorting 5 elements takes constant time (even using insertion sort) and g n=5.
+Time for PARTITION-AROUND to partition around the pivot x is ‚.n/.
+The code contains three recursive calls, of which at most two execute. The first recursive call to find the median of the medians always executes, taking time T .g/ T .n=5/. At most one of the two other recursive calls executes.
+Claim: Whichever of the latter two calls of SELECT executes, it is on a subarray of at most 7n=10 elements.
+Proof of claim: [Refer tothe previous figure.]
+There are g n=5 groups of 5 elements, each group shown as a column, sorted bottom to top. Arrows go from smaller to larger elements.
+Groups are ordered left to right, with all groups to the left of the pivot x having a median smaller than x and all groups to the right of x having a median greater than x. The upper-right region contains elements known to be x. The lower-left region contains elements known to be x. Pivot x is in both regions.
+The upper-right region contains bg=2cC1 groups ) as least 3.bg=2cC1/ 3g=2 elements are x.
+The lower-left region contains dg=2e groups ) at least 3 dg=2e elements are x. Either way, the recursive call excludes 3g=2 elements, leaving at most 5g 3g=2 D 7g=2 7n=10 elements.
+Get the recurrence T .n/ T .n=5/ C T .7n=10/ C ‚.n/.
+Prove that T .n/ cn by substitution for suitably large constant c.
+Assuming that n 5 gives
+T .n/ c.n=5/ C c.7n=10/ C ‚.n/
+9cn=10 C ‚.n/
+D cn cn=10 C ‚.n/
+cn
+if cn=10 dominates the constant in the ‚.n/ term. Also need to pick c large enough so that T .n/ cn for n 4 (base case).
+Therefore, T .n/ D O.n/. Conclude that T .n/ D ‚.n/.
+Notice that SELECT and RANDOMIZED-SELECT determine information about the relative order of elements only by comparing elements.
+Sorting requires .n lg n/ time in the comparison model.
+Sorting algorithms that run in linear time need to make assumptions about their input.
+
+
+9-10 Lecture Notes for Chapter 9: Medians and Order Statistics
+Linear-time selection algorithms do not require any assumptions about their input.
+Linear-time selection algorithms solve the selection problem without sorting and therefore are not subject to the .n lg n/ lower bound.
+
+
+Lecture Notes for Chapter 10:
+Elementary Data Structures
+Chapter 10 overview
+This chapter examines representations of dynamic sets by simple data structures which use pointers. We will look at rudimentary data structures: arrays, matrices, stacks, queues, linked lists, rooted trees.
+Simple array-based data structures: arrays, matrices, stacks, and queues
+Arrays
+Arrays store elements contiguously in memory.
+If
+the first element of an array has index s, the array starts at memory address a, and each element occupies b bytes,
+then the ith element occupies bytes a C b.i s/ through a C b.i C 1 s/ 1.
+The most common values for s are 0 and 1.
+s D 0 ) a C bi through a C b.i C 1/ 1. s D 1 ) a C b.i 1/ through a C bi 1.
+The computer can access any array element in constant time (assuming that the computer can access all memory locations in same amount of time).
+If elements of an array occupy different numbers of bytes, elements might be accessed incorrectly or not in constant time. Therefore, most programming languages require that each element of an array must be the same size. Sometimes, pointers to objects are stored instead of objects themselves in order to meet this requirement.
+
+
+10-2 Lecture Notes for Chapter 10: Elementary Data Structures
+Matrices
+Notation: an m n matrix has m rows and n columns.
+We represent a matrix with one or more arrays.
+Two common ways to store a matrix:
+Row-major: matrix is stored row by row.
+Column-major: matrix is stored column by column.
+Example: Consider the 2 3 matrix
+MD 1 2 3
+4 5 6 : ()
+Row-major order: store two rows 1 2 3 and 4 5 6
+Column-major order: store three columns 1 4; 2 5; and 3 6.
+There are many ways to store M . Shown below, from left to right, are four possible ways:
+1. In row-major order, single array.
+2. In column-major order, single array.
+3. In row-major order, one array per row with a single array of pointers to the row arrays.
+4. In column-major order, one array per column with a single array of pointers to the column arrays.
+123456 142536
+123 456
+25 36
+14
+There are other ways to store matrices. In the block representation, divide a matrix into blocks and then store each block contiguously. For example, divide a 4 4 matrix into 2 2 blocks, such as
+1234 5678
+9 10 11 12 13 14 15 16
+ ̆
+and store the matrix in a single array in the order h1; 2; 5; 6; 3; 4; 7; 8; 9; 10; 13; 14; 11; 12; 15; 16i.
+Stacks and Queues
+Stacks and queues are dynamic sets in which the element removed from the set by the DELETE operation is prespecified.
+Stack: the element deleted is the one that was most recently inserted. Stacks use a last-in, first-out, or LIFO, policy.
+Queue: the element deleted is the one that has been in the set for the longest time. Queues use a first-in, first-out, or FIFO, policy.

@@ -1,0 +1,2842 @@
+Solutions
+by Thomas H. Cormen
+to Accompany
+Introduction to Algorithms
+Fourth Edition
+by Thomas H. Cormen Charles E. Leiserson Ronald L. Rivest Clifford Stein
+The MIT Press Cambridge, Massachusetts London, England
+
+
+Instructor’s Manual to Accompany Introduction to Algorithms, Fourth Edition by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein
+Published by the MIT Press. Copyright © 2022 by The Massachusetts Institute of Technology. All rights reserved.
+No part of this publication may be reproduced or distributed in any form or by any means, or stored in a database or retrieval system, without the prior written consent of The MIT Press, including, but not limited to, network or other electronic storage or transmission, or broadcast for distance learning.
+
+
+Contents
+Revision History R-1
+Preface P-1
+Chapter 2: Getting Started Solutions 2-1
+Chapter 3: Characterizing Running Times Solutions 3-1
+Chapter 4: Divide-and-Conquer Solutions 4-1
+Chapter 5: Probabilistic Analysis and Randomized Algorithms Solutions 5-1
+Chapter 6: Heapsort Solutions 6-1
+Chapter 7: Quicksort Solutions 7-1
+Chapter 8: Sorting in Linear Time Solutions 8-1
+Chapter 9: Medians and Order Statistics Solutions 9-1
+Chapter 10: Elementary Data Structures Solutions 10-1
+Chapter 11: Hash Tables Solutions 11-1
+Chapter 12: Binary Search Trees Solutions 12-1
+Chapter 13: Red-Black Trees Solutions 13-1
+Chapter 14: Dynamic Programming Solutions 14-1
+Chapter 15: Greedy Algorithms Solutions 15-1
+Chapter 16: Amortized Analysis Solutions 16-1
+Chapter 17: Augmenting Data Structures Solutions 17-1
+Chapter 19: Data Structures for Disjoint Sets Solutions 19-1
+
+
+iv Contents
+Chapter 20: Elementary Graph Algorithms Solutions 20-1
+Chapter 21: Minimum Spanning Trees Solutions 21-1
+Chapter 22: Single-Source Shortest Paths Solutions 22-1
+Chapter 23: All-Pairs Shortest Paths Solutions 23-1
+Chapter 24: Maximum Flow Solutions 24-1
+Chapter 25: Matchings in Bipartite Graphs Solutions 25-1
+Chapter 26: Parallel Algorithms Solutions 26-1
+Chapter 30: Polynomials and the FFT Solutions 30-1
+Chapter 32: String Matching Solutions 32-1
+Chapter 35: Approximation Algorithms Solutions 35-1
+Index I-1
+
+
+Revision History
+Revisions to the lecture notes and solutions are listed by date rather than being numbered.
+14 March 2022. Initial release.
+
+
+
+
+Preface
+This document contains solutions to exercises and problems in Introduction to Algorithms, Fourth Edition, by Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein.
+We have not included solutions for every chapter, nor have we included solutions for every exercise and problem within the chapters that we have selected. Future revisions of this document may include additional solutions. There are two reasons that we have not included solutions to all exercises and problems. First, writing up all these solutions would take a long time, and we felt it more important to release this document in as timely a fashion as possible. Second, if we were to include all solutions, this document would be much longer than the text itself.
+We have numbered the pages using the format CC-PP, where CC is a chapter number of the text and PP is the page number within that chapter. The PP numbers restart from 1 at the beginning of each chapter. We chose this form of page numbering so that if we add or change material, the only pages whose numbering is affected are those for that chapter. Moreover, if we add material for currently uncovered chapters, the numbers of the existing pages will remain unchanged.
+The solutions
+The index lists all the exercises and problems for the included solutions, along with the number of the page on which each solution starts.
+Asides appear in a handful of places throughout the solutions. Also, we are less reluctant to use shading in figures within solutions, since these figures are more likely to be reproduced than to be drawn on a board.
+Source files
+For several reasons, we are unable to publish or transmit source files for this document. We apologize for this inconvenience.
+You can use the clrscode4e package for LATEX 2" to typeset pseudocode in the same way that we do. You can find it at https://mitp-content-server.mit.edu/books/ content/sectbyfn/books pres 0/11599/clrscode4e.sty and its documentation at https://mitp-content-server.mit.edu/books/content/sectbyfn/books pres 0/11599/ clrscode4e.pdf. Make sure to use the clrscode4e package, not the clrscode or clrscode3e packages, which are for earlier editions of the book.
+
+
+P-2 Preface
+Reporting errors and suggestions
+Undoubtedly, this document contains errors. Please report errors by sending email to clrs-manual-bugs@mit.edu.
+As usual, if you find an error in the text itself, please verify that it has not already been posted on the errata web page, https://mitp-content-server.mit.edu/books/ content/sectbyfn/books pres 0/11599/e4-bugs.html, before you submit it. You also can use the MIT Press web site for the text, https://mitpress.mit.edu/books/ introduction-algorithms-fourth-edition, to locate the errata web page and to submit an error report.
+We thank you in advance for your assistance in correcting errors in both this document and the text.
+How we produced this document
+Like the fourth edition of Introduction to Algorithms, this document was produced in LATEX 2". We used the Times font with mathematics typeset using the MathTime Pro 2 fonts. As in all four editions of the textbook, we compiled the index using Windex, a C program that we wrote. We drew the illustrations using MacDraw Pro, with some of the mathematical expressions in illustrations laid in with the psfrag package for LATEX 2". We created the PDF files for this document on a MacBook Pro running OS 12.2.1.
+Acknowledgments
+This document borrows heavily from the manuals for the first three editions. Julie Sussman, P.P.A., wrote the first-edition manual. Julie did such a superb job on the first-edition manual, finding numerous errors in the first-edition text in the process, that we were thrilled to have her serve as technical copyeditor for the subsequent editions of the book. Charles Leiserson also put in large amounts of time working with Julie on the first-edition manual.
+The manual for the second edition was written by Tom Cormen, Clara Lee, and Erica Lin. Clara and Erica were undergraduate computer science majors at Dartmouth at the time, and they did a superb job.
+The other three Introduction to Algorithms authors—Charles Leiserson, Ron Rivest, and Cliff Stein—provided helpful comments and suggestions for solutions to exercises and problems. Some of the solutions are modifications of those written over the years by teaching assistants for algorithms courses at MIT and Dartmouth. At this point, we do not know which TAs wrote which solutions, and so we simply thank them collectively. Several of the solutions to new exercises and problems in the third edition were written by Sharath Gururaj and Priya Natarajan. Neerja Thakkar contributed many lecture notes and solutions for the fourth edition manual.
+We also thank the MIT Press and our editors, Marie Lee and Elizabeth Swayze, for moral and financial support.
+
+
+Preface P-3
+THOMAS H. CORMEN
+Lebanon, New Hampshire March 2022
+
+
+
+
+Solutions for Chapter 2:
+Getting Started
+Solution to Exercise 2.1-2
+Loop invariant: At the start of each iteration i of the for loop, sum D AŒ1 C AŒ2 C C AŒi 1 .
+Now, we will use the initialization, maintenance, and termination properties of the loop invariant to show that SUM-ARRAY returns the sum of the numbers in AŒ1 W n .
+Initialization: Upon entering the first iteration, i D 1. The sum AŒ1 C AŒ2 C C AŒi 1 is empty, since i 1 D 0. The sum of no terms is the identity 0 for addition.
+Maintenance: Assume that the loop invariant is true, so that upon entering an iteration for a value of i, sum D AŒ1 CAŒ2 C CAŒi 1 . The iteration adds AŒi into sum and then increments i, so that the loop invariant holds entering the next iteration.
+Termination: The loop terminates once i D n C 1. According to the loop invariant, sum D AŒ1 C AŒ2 C C AŒn . Therefore, sum, which the procedure returns, is indeed the sum of AŒ1 W n .
+Solution to Exercise 2.1-3
+In line 5 of INSERTION-SORT, change the test AŒj > key to AŒj < key.
+Solution to Exercise 2.1-4
+LINEAR-SEARCH.A; n; x/
+i D1
+while i n and AŒi ¤ x i D iC1 if i > n return NIL else return i
+
+
+2-2 Solutions for Chapter 2: Getting Started
+The procedure checks each array element until either i > n or the value x is found.
+Loop invariant: At the start of each iteration of the while loop, the value x does not appear in the subarray AŒ1 W i 1 .
+Initialization: Upon entering the first iteration, i D 1. The subarray AŒ1 W i 1 is empty, and the loop invariant is trivally true.
+Maintenance: At the start of an iteration for index i, the loop invariant says that x does not appear in the subarray AŒ1 W i 1 . If i n, then either AŒi D x or AŒi ¤ x. In the former case, the test in the for loop header comes up FALSE, and there is no iteration for i C 1. In the latter case, the test comes up TRUE. Since AŒi ¤ x and x does not appear in AŒ1 W i 1 , we have that x does not appear in AŒ1 W i . Incrementing i for the next iteration preserves the loop invariant. If i > n, then the test in the for loop header comes up FALSE, and there is no iteration for i C 1.
+Termination: The for loop terminated for one of two reasons. If it terminated because i > n, then i D n C 1 at that time. By the loop invariant, the value x does not appear in the the subarray AŒ1 W i 1 , which is the entire array AŒ1 W n . The procedure properly returns NIL in this case. If the loop terminated because i n and AŒi D x, then the procedure properly returns the index i.
+Solution to Exercise 2.1-5
+ADD-BINARY-INTEGERS .A; B; n/
+allocate array C Œ0 W n carry D 0
+for i D 0 to n 1
+sum D AŒi C BŒi C carry C Œi D sum mod 2 if sum 1 carry D 0 else carry D 1 C Œn D carry return C
+Solution to Exercise 2.2-1
+In terms of ‚-notation, the function n3=1000 C 100n2 100n C 3 is ‚.n3/.
+
+
+Solutions for Chapter 2: Getting Started 2-3
+Solution to Exercise 2.2-2
+This solution is also posted publicly
+SELECTION-SORT.A; n/
+for i D 1 to n 1 smallest D i
+for j D i C 1 to n
+if AŒj < AŒsmallest smallest D j
+exchange AŒi with AŒsmallest
+The algorithm maintains the loop invariant that at the start of each iteration of the outer for loop, the subarray AŒ1 W i 1 consists of the i 1 smallest elements in the array AŒ1 W n , and this subarray is in sorted order. After the first n 1 elements, the subarray AŒ1 W n 1 contains the smallest n 1 elements, sorted, and therefore element AŒn must be the largest element.
+The running time of the algorithm is ‚.n2/ for all cases.
+Solution to Exercise 2.2-3
+On average, when searching for a value x, half of the elements will be less than or equal to x, and half will be greater than or equal to x, so that n=2 elements are checked on average. In the worst case, x appears only in the last position of the array, so that the entire array must be checked. Therefore, the running time of linear search is ‚.n/ in both the average and worst cases.
+Solution to Exercise 2.2-4
+This solution is also posted publicly
+Modify the algorithm so that it first checks the input array to see whether it is already sorted, taking ‚.n/ time for an n-element array. If the array is already sorted, then the algorithm is done. Otherwise, sort the array as usual. The bestcase running time is generally not a good measure of an algorithm’s efficiency.
+Solution to Exercise 2.3-2
+In order for p ¤ r to suffice, we need to show that a call of MERGE-SORT.A; 1; n/ with n 1 will never result in a recursive call that leads to p > r. In this initial call, p r. We’ll look at any call with p r and show that it cannot lead to a recursive call with p > r.
+
+
+2-4 Solutions for Chapter 2: Getting Started
+If p D r, then in the call MERGE-SORT.A; p; r/, the test p ¤ r evaluates to FALSE, and the code makes no recursive calls.
+If p < r, then we will show that p q in the first recursive call in line 4 and q C 1 r in the second recursive call in line 5. Because p < r, we have p D 2p=2 D b.p C p/=2c b.p C r/=2c D q, so that p q in line 4. Because r > b.r C p/=2c and both r and b.r C p/=2c are integers, r b.r C p/=2cC1 D q C 1. Therefore, we have q C 1 r in line 5.
+Since an initial call of MERGE-SORT.A; 1; n/ with n 1 will always result in calls to MERGE-SORT with p r, changing the condition on line 1 to say p ¤ r will suffice.
+Solution to Exercise 2.3-3
+Loop invariant: At the start of each iteration of the while loop of lines 12–18, the subarray AŒp W k 1 contains the i C j smallest elements of LŒ0 W nL 1 and RŒ0 W nR 1 , in sorted order. Moreover, LŒi and RŒj are the smallest elements of their arrays that have not been copied back into A.
+We must show that this loop invariant holds prior to the first iteration of the while loop of lines 12–18, that each iteration of the loop maintains the invariant, that the loop terminates, and that the invariant provides a useful property to show correctness when the loop terminates. In fact, we will consider as well the while loops of lines 20–23 and lines 24–27 to show that the MERGE procedure works correctly.
+Initialization: Prior to the first iteration of the loop, we have k D p so that the subarray AŒp W k 1 is empty. Since i D j D 0, this empty subarray contains the i C j D 0 smallest elements of L and R, and both LŒi and RŒj are the smallest elements of their arrays that have not been copied back into A.
+Maintenance: To see that each iteration maintains the loop invariant, let us first suppose that LŒi RŒj . Then LŒi is the smallest element not yet copied back into A. Because AŒp W k 1 contains the i C j smallest elements, after line 14 copies LŒi into AŒk , the subarray AŒp W k will contain the i C j C 1 smallest elements. Incrementing i in line 15 and k in line 18 reestablishes the loop invariant for the next iteration. If it was instead the case that LŒi > RŒj , then lines 16–18 perform the appropriate action to maintain the loop invariant.
+Termination: Each iteration of the loop increments either i or j . Eventually, either i nL, so that all elements in L have been copied back into A, or j nR, so that all elements in R have been copied back into A. By the loop invariant, when the loop terminates, the subarray AŒp W k 1 contains the i C j smallest elements of LŒ0 W nL 1 and RŒ0 W nR 1 , in sorted order. The subarray AŒp W r consists of r p C 1 positions, the last r p C 1 .i C j / which have yet to be copied back into.
+Suppose that the loop terminated because i nL. Then the while loop of lines 20–23 iterates 0 times, and the while loop of lines 24–27 copies the remaining nR j elements of R into the rightmost nR j positions of AŒp W r . These elements of R must be the nR j greatest values in L and R. Thus, we just need
+
+
+Solutions for Chapter 2: Getting Started 2-5
+to show that the correct number of elements in R are copied back into AŒp W r , that is, r p C 1 .i C j / D nR j . We use two facts to do so. First, because the number of positions in AŒp W r equals the combined sizes of the L and R arrays, we have r p C 1 D nL C nR, or nL D r p C 1 nR. Second, because i nL and the while loop of lines 12–18 increases i by at most 1 in each iteration, we must have that i D nL when this loop terminated. Thus, we have
+r p C 1 .i C j / D r p C 1 nL j
+D r p C 1 .r p C 1 nR/ j
+D nR j :
+If instead the loop terminated because j nR, then you can show that the remaining nL i elements of L are the greatest values in L and R, and that the while loop of lines 20–23 copies them into the last r p C 1 .i C j / positions of AŒp W r . In either case, we have shown that the MERGE procedure merges the two sorted subarrays AŒp W q and AŒq C 1 W r correctly.
+Solution to Exercise 2.3-4
+The base case is when n D 2, and we have n lg n D 2 lg 2 D 2 1 D 2.
+For the inductive step, our inductive hypothesis is that T .n=2/ D .n=2/ lg.n=2/. Then
+T .n/ D 2T .n=2/ C n
+D 2.n=2/ lg.n=2/ C n
+D n.lg n 1/ C n
+D n lg n n C n
+D n lg n ;
+which completes the inductive proof for exact powers of 2.
+Solution to Exercise 2.3-5
+The pseudocode for a recursive insertion sort is as follows:
+RECURSIVE-INSERTION-SORT.A; n/
+if n > 1
+RECURSIVE-INSERTION-SORT .A; n 1/ key D AŒn j Dn 1 while j > 0 and AŒj > key AŒj C 1 D AŒj j Dj 1 AŒj C 1 D key
+
+
+2-6 Solutions for Chapter 2: Getting Started
+Since it takes ‚.n/ time in the worst case to insert AŒn into the sorted array AŒ1 W n 1 , we get the recurrence
+T .n/ D
+(
+‚.1/ if n D 1 ;
+T .n 1/ C ‚.n/ if n > 1 :
+Although the exercise does not ask you to solve this recurrence, its solution is T .n/ D ‚.n2/.
+Solution to Exercise 2.3-6
+This solution is also posted publicly
+Procedure BINARY-SEARCH takes a sorted array A, a value x, and a range Œlow W high of the array, in which we search for the value x. The procedure compares x to the array entry at the midpoint of the range and decides to eliminate half the range from further consideration. We give both iterative and recursive versions, each of which returns either an index i such that AŒi D x, or NIL if no entry of AŒlow W high contains the value x. The initial call to either version should have the parameters A; x; 1; n.
+ITERATIVE-BINARY-SEARCH .A; x; low; high/
+while low high mid D b.low C high/=2c if x == AŒmid return mid elseif x > AŒmid
+low D mid C 1 else high D mid 1 return NIL
+RECURSIVE-BINARY-SEARCH .A; x; low; high/
+if low > high return NIL
+mid D b.low C high/=2c if x == AŒmid return mid elseif x > AŒmid
+return RECURSIVE-BINARY-SEARCH .A; x; mid C 1; high/ else return RECURSIVE-BINARY-SEARCH .A; x; low; mid 1/
+Both procedures terminate the search unsuccessfully when the range is empty (i.e., low > high) and terminate it successfully if the value x has been found. Based on the comparison of x to the middle element in the searched range, the search continues with the range halved. The recurrence for these procedures is therefore T .n/ D T .n=2/ C ‚.1/, whose solution is T .n/ D ‚.lg n/.
+
+
+Solutions for Chapter 2: Getting Started 2-7
+Solution to Exercise 2.3-7
+The while loop of lines 5–7 of INSERTION-SORT scans backward through the sorted array AŒ1 W i 1 to find the appropriate place for AŒi . The hitch is that the loop not only searches for the proper place for AŒi , but that it also moves each of the array elements that are greater than AŒi one position to the right (line 6). These movements can take as much as ‚.j / time, which occurs when all the i 1 elements preceding AŒi are greater than AŒi . Binary search can improve the running time of the search to O.lg i/, but binary search will have no effect on the running time of moving the elements. Therefore, binary search alone cannot improve the worst-case running time of INSERTION-SORT to ‚.n lg n/.
+Solution to Exercise 2.3-8
+The following algorithm solves the problem. First, observe that since S is a set, if x=2 2 S, then x=2 appears just once, and so it cannot be a solution. Therefore, if x=2 2 S, first remove it from S. Then do the following:
+1. Sort the elements in S.
+2. Form the set S0 D f ́ W  ́ D x y for some y 2 Sg.
+3. Sort the elements in S0.
+4. Merge the two sorted sets S and S0.
+5. There exist two elements in S whose sum is exactly x if and only if the same value appears in consecutive positions in the merged output.
+To justify the claim in step 5, first observe that if any value appears twice in the merged output, it must appear in consecutive positions. Thus, we can restate the condition in step 5 as there exist two elements in S whose sum is exactly x if and only if the same value appears twice in the merged output.
+Suppose that some value w appears twice. Then w appeared once in S and once in S0. Because w appeared in S0, there exists some y 2 S such that w D x y, or x D w C y. Since w 2 S, the elements w and y are in S and sum to x.
+Conversely, suppose that there are values w; y 2 S such that w C y D x. Then, since x y D w, the value w appears in S0. Thus, w is in both S and S0, and so it will appear twice in the merged output.
+Steps 1 and 3 require ‚.n lg n/ steps. Steps 2, 4, and 5 require ‚.n/ steps. Thus the overall running time is ‚.n lg n/.
+A reader submitted a simpler solution that also runs in ‚.n lg n/ worst-case time. First, sort the elements in S (again, first removing x=2 if need be), taking ‚.n lg n/ time. Then, for each element y 2 S, perform a binary search in S for x y. Each binary search takes ‚.lg n/ time in the worst case, and there are are most n of them, so that the worst-case time for all the binary searches is ‚.n lg n/. The overall running time is ‚.n lg n/.
+
+
+2-8 Solutions for Chapter 2: Getting Started
+Here is yet another solution. Again, remove x=2 from S if need be and then sort S. Let’s assume that S is now represented as a sorted array SŒ1 W n . Maintain two indices into S, low and high, with the loop invariant that if S contains two values that sum to x, then they are in the subarray SŒlow W high . Here is pseudocode:
+SUM-PAIR.S; x/ sort S into SŒ1 W n low D 1 high D n while low < high sum D SŒlow C SŒhigh if sum == x return .SŒlow ; SŒhigh / elseif sum < x
+low D low C 1 else high D high 1 return “no pair sums to x”
+Solution to Problem 2-1
+[It maybe better toassign this problem after covering asymptotic notation in Section3.2; otherwise part (c) maybe toodifficult.]
+a. Insertion sort takes ‚.k2/ time per k-element list in the worst case. Therefore, sorting n=k lists of k elements each takes ‚.k2n=k/ D ‚.nk/ worst-case time.
+b. Just extending the 2-list merge to merge all the lists at once would take ‚.n .n=k// D ‚.n2=k/ time (n from copying each element once into the result list, n=k from examining n=k lists at each step to select next item for result list).
+To achieve ‚.n lg.n=k//-time merging, merge the lists pairwise, then merge the resulting lists pairwise, and so on, until there’s just one list. The pairwise merging requires ‚.n/ work at each level, since it is still working on n elements, even if they are partitioned among sublists. The number of levels, starting with n=k lists (with k elements each) and finishing with 1 list (with n elements), is dlg.n=k/e. Therefore, the total running time for the merging is ‚.n lg.n=k//.
+c. The modified algorithm has the same asymptotic running time as standard merge sort when ‚.nk C n lg.n=k// D ‚.n lg n/. The largest asymptotic value of k as a function of n that satisfies this condition is k D ‚.lg n/.
+To see why, first observe that k cannot be more than ‚.lg n/ (i.e., it can’t have a higher-order term than lg n), for otherwise the left-hand expression wouldn’t be ‚.n lg n/ (because it would have a higher-order term than n lg n). So all we need to do is verify that k D ‚.lg n/ works, which we can do by plugging k D lg n into ‚.nk C n lg.n=k// D ‚.nk C n lg n n lg k/ to get
+‚.n lg n C n lg n n lg lg n/ D ‚.2n lg n n lg lg n/ ;
+
+
+Solutions for Chapter 2: Getting Started 2-9
+which, by taking just the high-order term and ignoring the constant coefficient, equals ‚.n lg n/.
+d. In practice, k should be the largest list length on which insertion sort is faster than merge sort.
+Solution to Problem 2-2
+a. You need to show that the elements of A0 form a permutation of the elements of A.
+b. Loop invariant: At the start of each iteration of the for loop of lines 2–4, AŒj is the smallest value in the subarray AŒj W n , and AŒj W n is a permutation of the values that were in AŒj W n at the time that the loop started.
+Initialization: Initially, j D n, and the subarray AŒj W n consists of the single element AŒn . The loop invariant trivially holds. Maintenance: Consider an iteration for a given value of j . By the loop invariant, AŒj is the smallest value in AŒj W n . Lines 3–4 exchange AŒj and AŒj 1 if AŒj is less than AŒj 1 , and so AŒj 1 will be the smallest value in AŒj 1 W n afterward. Since the only change to the subarray AŒj 1 W n is this possible exchange, and the subarray AŒj W n is a permutation of the values that were in AŒj W n at the time that the loop started, we see that AŒj 1 W n is a permutation of the values that were in AŒj 1 W n at the time that the loop started. Decrementing j for the next iteration maintains the invariant. Termination: The loop terminates when j reaches i. By the statement of the loop invariant, AŒi is the smallest value in the subarray AŒi W n , and AŒi W n is a permutation of the values that were in AŒi W n at the time that the loop started.
+c. Loop invariant: At the start of each iteration of the for loop of lines 1–4, the subarray AŒ1 W i 1 consists of the i 1 smallest values originally in AŒ1 W n , in sorted order, and AŒi W n consists of the n i C 1 remaining values originally in AŒ1 W n .
+Initialization: Before the first iteration of the loop, i D 1. The subarray AŒ1 W i 1 is empty, and so the loop invariant vacuously holds. Maintenance: Consider an iteration for a given value of i. By the loop invariant, AŒ1 W i 1 consists of the i 1 smallest values in AŒ1 W n , in sorted order. Therefore, AŒi 1 AŒi . Part (b) showed that after executing the for loop of lines 2–4, AŒi is the smallest value in AŒi W n , and so AŒ1 W i now consists of the i smallest values originally in AŒ1 W n , in sorted order. Moreover, since the for loop of lines 2–4 permutes AŒi W n , the subarray AŒi C 1 W n consists of the n i remaining values originally in AŒ1 W n . Termination: The for loop of lines 1–4 terminates when i D n, so that i 1 D n 1. By the statement of the loop invariant, AŒ1 W i 1 is the subarray AŒ1 W n 1 , and it consists of the n 1 smallest values originally in AŒ1 W n ,
+
+
+2-10 Solutions for Chapter 2: Getting Started
+in sorted order. The remaining element must be the largest value in AŒ1 W n , and it is in AŒn . Therefore, the entire array AŒ1 W n is sorted.
+d. The running time depends on the number of iterations of the for loop of lines 2–4. For a given value of i, this loop makes n i iterations, and i takes on the values 1; 2; : : : ; n 1. The total number of iterations, therefore, is
+n1
+X
+i D1
+.n i/ D
+n1
+X
+i D1
+n
+n1
+X
+i D1
+i
+D n.n 1/ n.n 1/
+2 D n.n 1/
+2 D n2
+2
+n
+2:
+Thus, the running time of bubblesort is ‚.n2/ in all cases. The worst-case running time is the same as that of insertion sort.
+Solution to Problem 2-3
+a. The procedure HORNER runs in ‚.n/ time. The for loop iterates n C 1 times, and each iteration takes constant time.
+b. The following procedure computes each term of the polynomial from scratch.
+EVALUATE-POLYNOMIAL.A; n; x/
+pD0
+for i D 0 to n power D 1
+for k D 1 to i
+power D power x p D p C AŒi power return p
+Note that when i D 0, the for loop makes no iterations.
+To determine the running time, observe that the outer for loop makes n C 1 iterations. For a given value of i, the inner for loop makes i iterations, each taking constant time. The total number of inner-loop iterations is 0 C 1 C 2 C C n D n.n C 1/=2, which is ‚.n2/. (Note that although the parameter n could equal 0, the input size in this case would be 1, so that we don’t have to worry about evaluating ‚.n2/ when the input size is 0.) This method is slower than Horner’s rule.
+c. Initialization: At the start of the first iteration of the for loop, i D n and so the summation in the loop invariant goes from k D 0 to k D 1. That is, it’s an empty summation, equaling 0, which is the initial value of p.
+
+
+Solutions for Chapter 2: Getting Started 2-11
+Maintenance: Assume that the loop invariant holds entering an iteration of the for loop for a given value of i , so that p D Pn .iC1/
+kD0 AŒk C i C 1 xk.
+Denote by p0 the new value of p computed in line 3. Then, we have
+p0 D AŒi C x p
+D AŒi C x
+n .i C1/
+X
+kD0
+AŒk C i C 1 xk
+D AŒi C
+n .i C1/
+X
+kD0
+AŒk C i C 1 xkC1
+D AŒi C
+ni
+X
+kD1
+AŒk C i xk
+D
+ni
+X
+kD0
+AŒk C i xk :
+The next iteration decreases i by 1 so that the value i in this iteration becomes i C 1 in the next iteration. Thus, entering the next iteration, p D
+Pn .i C1/
+kD0 AŒk C i C 1 xk and the invariant is maintained. Termination: The for loop terminates after n C 1 iterations. When it termi
+nates, i D 1. By the loop invariant, we have p D Pn
+kD0 AŒk xk, which equals P .x/.
+Solution to Problem 2-4
+This solution is also posted publicly
+a. The inversions are .1; 5/; .2; 5/; .3; 4/; .3; 5/; .4; 5/. (Remember that inversions are specified by indices rather than by the values in the array.)
+b. The array with elements drawn from f1; 2; : : : ; ng with the most inversions is hn; n 1; n 2; : : : ; 2; 1i. For all 1 i < j n, there is an inversion .i; j /.
+The number of such inversions is n
+2 D n.n 1/=2.
+c. Suppose that the array A starts out with an inversion .k; i/. Then k < i and AŒk > AŒi . At the time that the outer for loop of lines 1–8 sets key D AŒi , the value that started in AŒk is still somewhere to the left of AŒi . That is, it’s in AŒj , where 1 j < i, and so the inversion has become .j; i/. Some iteration of the while loop of lines 5–7 moves AŒj one position to the right. Line 8 will eventually drop key to the left of this element, thus eliminating the inversion. Because line 5 moves only elements that are greater than key, it moves only elements that correspond to inversions. In other words, each iteration of the while loop of lines 5–7 corresponds to the elimination of one inversion.
+d. We follow the hint and modify merge sort to count the number of inversions in ‚.n lg n/ time.
+
+
+2-12 Solutions for Chapter 2: Getting Started
+To start, let us define a merge-inversion as a situation within the execution of merge sort in which the MERGE procedure, after copying AŒp W q to L and AŒq C 1 W r to R, has values x in L and y in R such that x > y. Consider an inversion .i; j /, and let x D AŒi and y D AŒj , so that i < j and x > y. We claim that if we were to run merge sort, there would be exactly one mergeinversion involving x and y. To see why, observe that the only way in which array elements change their positions is within the MERGE procedure. Moreover, since MERGE keeps elements within L in the same relative order to each other, and correspondingly for R, the only way in which two elements can change their ordering relative to each other is for the greater one to appear in L and the lesser one to appear in R. Thus, there is at least one merge-inversion involving x and y. To see that there is exactly one such merge-inversion, observe that after any call of MERGE that involves both x and y, they are in the same sorted subarray and will therefore both appear in L or both appear in R in any given call thereafter. Thus, we have proven the claim.
+We have shown that every inversion implies one merge-inversion. In fact, the correspondence between inversions and merge-inversions is one-to-one. Suppose we have a merge-inversion involving values x and y, where x originally was AŒi and y was originally AŒj . Since we have a merge-inversion, x > y. And since x is in L and y is in R, x must be within a subarray preceding the subarray containing y. Therefore x started out in a position i preceding y’s original position j , and so .i; j / is an inversion.
+Having shown a one-to-one correspondence between inversions and mergeinversions, it suffices for us to count merge-inversions.
+Consider a merge-inversion involving y in R. Let  ́ be the smallest value in L that is greater than y. At some point during the merging process,  ́ and y will be the “exposed” values in L and R, i.e., we will have  ́ D LŒi and y D RŒj in line 13 of MERGE. At that time, there will be merge-inversions involving y and LŒi ; LŒi C 1 ; LŒi C 2 ; : : : ; LŒnL 1 , and these nL i merge-inversions will be the only ones involving y. Therefore, we need to detect the first time that  ́ and y become exposed during the MERGE procedure and add the value of nL i at that time to the total count of merge-inversions.
+The following pseudocode, modeled on merge sort, works as we have just described. It also sorts the array A.
+
+
+Solutions for Chapter 2: Getting Started 2-13
+MERGE-INVERSIONS.A; p; q; r/
+nL D q p C 1 nR D r q
+let LŒ0 W nL 1 and RŒ0 W nR 1 be new arrays for i D 0 to nL 1
+LŒi D AŒp C i 1 for j D 0 to nR 1 RŒj D AŒq C j i D0 j D0 kDp
+inversions D 0
+while i < nL and j < nR if LŒi RŒj
+inversions D inversions C nL i AŒk D LŒi i D iC1 else AŒk D RŒj j D j C1 k D kC1 while i < nL
+AŒk D LŒi i D iC1 k D kC1 while j < nR
+AŒk D RŒj j D j C1 k D kC1 return inversions
+COUNT-INVERSIONS.A; p; r /
+inversions D 0 if p < r
+q D b.p C r/=2c
+inversions D inversions C COUNT-INVERSIONS.A; p; q/ inversions D inversions C COUNT-INVERSIONS.A; q C 1; r/ inversions D inversions C MERGE-INVERSIONS.A; p; q; r/ return inversions
+The initial call is COUNT-INVERSIONS.A; 1; n/.
+In MERGE-INVERSIONS, whenever RŒj is exposed and a value greater than RŒj becomes exposed in the L array, we increase inversions by the number of remaining elements in L. Then because RŒj C 1 becomes exposed, RŒj can never be exposed again.
+Since we have added only a constant amount of additional work to each procedure call and to each iteration of the last for loop of the merging procedure, the total running time of the above pseudocode is the same as for merge sort: ‚.n lg n/.
+
+
+Solutions for Chapter 3:
+Characterizing Running Times
+Solution to Exercise 3.1-1
+If the input size n is not an exact multiple of 3, then divide the array A so that the leftmost and middle sections have bn=3c positions each, and the rightmost section has n 2 bn=3c > bn=3c positions. Use the same argument as in the book, but for an input that has the bn=3c largest values starting in the leftmost section. Each such value must move through the middle bn=3c positions en route to its final position in the rightmost section, one position at a time. Therefore, the total number of executions of line 6 of INSERTION-SORT is at least
+bn=3c bn=3c > .n=3 1/.n=3 1/ (by equation (3.2))
+D n2=9 2n=3 C 1
+D .n2/ :
+Solution to Exercise 3.1-2
+Recall the pseudocode for selection sort, from Exercise 2.2-2:
+SELECTION-SORT.A; n/
+for i D 1 to n 1 smallest D i
+for j D i C 1 to n
+if AŒj < AŒsmallest smallest D j
+exchange AŒi with AŒsmallest
+First, we show that SELECTION-SORT’s running time is O.n2/. The outer loop iterates n 1 times, regardless of the values being sorted. The inner loop iterates at most n 1 times per iteration of the outer loop, and so the inner loop iterates at most .n 1/.n 1/ times, which is less than n2 times. Each iteration of the inner loop takes at most constant time, so that the total time spent in the inner loop is at most cn2 for some constant c. Therefore, selection sort runs in O.n2/ time in all cases.
+
+
+3-2 Solutions for Chapter 3: Characterizing Running Times
+Next, we show that SELECTION-SORT takes .n2/ time. Consider what the procedure does to fill any position i, where i n=2. The procedure must examine each value to the right of position i. Since i n=2, that is, position i is in the leftmost half of the array, the procedure must examine at least every one of the n=2 positions in the rightmost half of the array. Thus, for each of the leftmost n=2 positions, it examines at least n=2 positions, so that at least n2=4 positions are examined in total. Therefore, the time taken by SELECTION-SORT is at least proportional to n2=4, which is .n2/.
+Since the running time of SELECTION-SORT is both O.n2/ and .n2/, it is ‚.n2/.
+Solution to Exercise 3.1-3
+The constant  ̨ must be any constant fraction in the range 0 <  ̨ < 1=2.
+The lower-bound argument for insertion sort goes as follows. The  ̨n largest values must pass through the middle .1 2 ̨/n positions, requiring at least  ̨ n .1 2 ̨/n D . ̨ 2 ̨2/n2 executions of line 6. This function is .n2/ because  ̨ 2 ̨2 is a positive constant. It is constant because  ̨ is a constant, and it is positive because  ̨ < 1=2 implies 1 2 ̨ > 0, and multiplying both sides by  ̨ gives  ̨ 2 ̨2 > 0.
+To determine the value of  ̨ that maximizes the number of times that the  ̨n largest values must pass through the middle 1 2 ̨ array positions, find the value of  ̨ that maximizes  ̨ 2 ̨2. The derivative of this expression with respect to  ̨ is 1 4 ̨. Setting this derivative to 0 and solving for  ̨ gives  ̨ D 1=4.
+Solution to Exercise 3.2-1
+First, let’s clarify what the function max ff .n/; g.n/g is. Let’s define the function h.n/ D max ff .n/; g.n/g. Then
+h.n/ D
+(
+f .n/ if f .n/ g.n/ ;
+g.n/ if f .n/ < g.n/ :
+Since f .n/ and g.n/ are asymptotically nonnegative, there exists n0 such that f .n/ 0 and g.n/ 0 for all n n0. Thus for n n0, f .n/ C g.n/
+f .n/ 0 and f .n/ C g.n/ g.n/ 0. Since for any particular n, h.n/ is either f .n/ or g.n/, we have f .n/ C g.n/ h.n/ 0, which shows that h.n/ D max ff .n/; g.n/g c2.f .n/ C g.n// for all n n0 (with c2 D 1 in the definition of ‚).
+Similarly, since for any particular n, h.n/ is the larger of f .n/ and g.n/, we have for all n n0, 0 f .n/ h.n/ and 0 g.n/ h.n/. Adding these two inequalities yields 0 f .n/ C g.n/ 2h.n/, or equivalently 0 .f .n/ C g.n//=2
+h.n/, which shows that h.n/ D max ff .n/; g.n/g c1.f .n/ C g.n// for all n n0 (with c1 D 1=2 in the definition of ‚).
+
+
+Solutions for Chapter 3: Characterizing Running Times 3-3
+Solution to Exercise 3.2-2
+This solution is also posted publicly
+Since O-notation provides only an upper bound, and not a tight bound, the statement is saying that the running of time of algorithm A is at least a function whose rate of growth is at most n2.
+Solution to Exercise 3.2-3
+This solution is also posted publicly
+2nC1 D O.2n/, but 22n ¤ O.2n/.
+To show that 2nC1 D O.2n/, we must find constants c; n0 > 0 such that
+0 2nC1 c 2n for all n n0 :
+Since 2nC1 D 2 2n for all n, we can satisfy the definition with c D 2 and n0 D 1.
+To show that 22n 6D O.2n/, assume there exist constants c; n0 > 0 such that
+0 22n c 2n for all n n0 :
+Then 22n D 2n 2n c 2n ) 2n c. But no constant is greater than all 2n, and so the assumption leads to a contradiction.
+Solution to Exercise 3.2-4
+If f .n/ D .g.n// then there exist c1 > 0 and n1 such that f .n/ c1g.n/ for all n > n1. Furthermore, if f .n/ D O.g.n// then there exist c2 > 0 and n2 such that f .n/ c2g.n/ for all n > n2. Therefore, if we set n0 D max fn1; n2g, then for all n > n0, we have c1g.n/ f .n/ c2g.n/, which shows that f .n/ D ‚.g.n//.
+The other direction is even simpler. Suppose f .n/ D ‚.g.n//. Then there exist c1; c2 > 0 and n0 such that c1g.n/ f .n/ c2g.n/, which immediately shows that f .n/ D .g.n//, as well as f .n/ D O.g.n//.
+Solution to Exercise 3.2-5
+If the worst-case running time is O.g.n//, then the running time is O.g.n// in all cases. Likewise, if the best-case running time is .g.n//, then the running time is .g.n// in all cases. By Theorem 3.1, therefore, the runnimg time is ‚.g.n//.
+
+
+3-4 Solutions for Chapter 3: Characterizing Running Times
+Solution to Exercise 3.2-6
+Suppose that f .n/ 2 o.g.n//. Then, for any positive constant c > 0, there exists a constant n0 > 0 such that 0 f .n/ < cg.n/ for all n n0. Now suppose that f .n/ 2 !.g.n// as well. Then, for any positive constant c > 0, there exists a constant n00 > 0 such that 0 cg.n/ < f .n/ for all n n00. Fix some positive
+constant c, and let n000 D max fn0; n00g. Then we would have, for all n n000, both 0 f .n/ < cg.n/ and 0 cg.n/ < f .n/, a contradiction.
+Solution to Exercise 3.2-7
+.g.n; m// D ff .n; m/ W there exist positive constants c, n0, and m0 such that 0 cg.n; m/ f .n; m/ for all n n0 or m m0g :
+‚.g.n; m// D ff .n; m/ W there exist positive constants c1, c2, n0, and m0 such that 0 c1g.n; m/ f .n; m/ c2g.n; m/ for all n n0 or m m0g :
+Solution to Exercise 3.3-2
+Equation (3.3) gives b ̨nc D d  ̨ne, so that b ̨nc C d  ̨ne D 0. Thus, we have
+b ̨nc C d.1  ̨/ne D b ̨nc C dn  ̨ne
+D b ̨nc C d  ̨ne C n (by equation (3.10))
+D n (b ̨nc C d  ̨ne D 0) .
+Solution to Exercise 3.3-5
+This solution is also posted publicly
+dlg neŠ is not polynomially bounded, but dlg lg neŠ is.
+Proving that a function f .n/ is polynomially bounded is equivalent to proving that lg f .n/ D O.lg n/ for the following reasons.
+If f .n/ is polynomially bounded, then there exist positive constants c, k, and n0 such that 0 f .n/ cnk for all n n0. Without loss of generality, assume that c 1, since if c < 1, then f .n/ cnk implies that f .n/ nk. Assume also that n0 2, so that n n0 implies that lg c .lg c/.lg n/. Then, we have
+lg f .n/ lg c C k lg n
+.lg c C k/ lg n ;
+which, since c and k are constants, means that lg f .n/ D O.lg n/.
+
+
+Solutions for Chapter 3: Characterizing Running Times 3-5
+Now suppose that lg f .n/ D O.lg n/. Then there exist positive constants c and n0 such that 0 lg f .n/ c lg n for all n n0. Then, we have
+0 f .n/ D 2lg f .n/ 2c lg n D .2lg n/c D nc
+for all n n0, so that f .n/ is polynomially bounded.
+In the following proofs, we will make use of the following two facts:
+1. lg.nŠ/ D ‚.n lg n/ (by equation (3.28)).
+2. dlg ne D ‚.lg n/, because
+dlg ne lg n, and dlg ne < lg n C 1 2 lg n for all n 2.
+We have
+lg.dlg neŠ/ D ‚.dlg ne lg dlg ne/
+D ‚..lg n/.lg lg n//
+D !.lg n/ :
+Therefore, lg.dlg neŠ/ is not O.lg n/, and so dlg neŠ is not polynomially bounded.
+We also have
+lg.dlg lg neŠ/ D ‚.dlg lg ne lg dlg lg ne/
+D ‚..lg lg n/.lg lg lg n//
+D o..lg lg n/2/
+D o.lg2.lg n//
+D o.lg n/ :
+The last step above follows from the property that any polylogarithmic function grows more slowly than any positive polynomial function, i.e., that for constants a; b > 0, we have lgb n D o.na/. Substitute lg n for n, 2 for b, and 1 for a, giving lg2.lg n/ D o.lg n/.
+Therefore, lg.dlg lg neŠ/ D O.lg n/, and so dlg lg neŠ is polynomially bounded.
+Solution to Exercise 3.3-6
+lg .lg n/ is asymptotically larger because lg .lg n/ D lg n 1.
+Solution to Exercise 3.3-7
+Both 2 and C 1 equal .3 C p5/=2, and both y2 and y C 1 equal .3 p5/=2.
+
+
+3-6 Solutions for Chapter 3: Characterizing Running Times
+Solution to Exercise 3.3-8
+We have two base cases: i D 0 and i D 1. For i D 0, we have
+0 y0
+p5 D 1 1
+p5
+D0
+D F0 ;
+and for i D 1, we have
+1 y1
+p5 D .1 C p5/ .1 p5/
+2p5
+D 2p5
+2p5 D1
+D F1 :
+For the inductive case, the inductive hypothesis is that Fi 1 D . i 1 yi 1/=p5
+and Fi 2 D . i 2 yi 2/=p5. We have
+Fi D Fi 1 C Fi 2 (equation (3.31))
+D
+i 1 yi 1
+p5 C
+i 2 yi 2
+p5 (inductive hypothesis)
+D
+i 2. C 1/ yi 2. y C 1/
+p5
+D
+i 2 2 yi 2 y2
+p5 (Exercise 3.3-7)
+D
+i yi
+p5 :
+Solution to Exercise 3.3-9
+If k lg k D ‚.n/, then the symmetry property on page 61 implies that n D ‚.k lg k/. Taking the natural logarithm of both sides gives lg n D ‚.lg.k lg k// D ‚.lg k C lg lg k/ D ‚.lg k/ (dropping the low-order term lg lg k). Thus, we have
+n
+lg n D ‚.k lg k/
+‚.lg k/ D ‚ k lg k
+lg k D ‚.k/ :
+Applying the symmetry property again gives k D ‚.n= lg n/.
+
+
+Solutions for Chapter 3: Characterizing Running Times 3-7
+Solution to Problem 3-2
+A B Oo ! ‚
+a. lgk n n yes yes no no no
+b. nk cn yes yes no no no
+c. pn nsin n no no no no no
+d. 2n 2n=2 no no yes yes no
+e. nlg c clg n yes no yes no yes
+f. lg.nŠ/ lg.nn/ yes no yes no yes
+Reasons:
+a. Any polylogarithmic function is little-oh of any polynomial function with a positive exponent.
+b. Any polynomial function is little-oh of any exponential function with a positive base.
+c. The function sin n oscillates between 1 and 1. There is no value n0 such that sin n is less than, greater than, or equal to 1=2 for all n n0, and so there is no value n0 such that nsin n is less than, greater than, or equal to cn1=2 for all n n0.
+d. Take the limit of the quotient: limn!1 2n=2n=2 D limn!1 2n=2 D 1.
+e. By equation (3.21), these quantities are equal.
+f. By equation (3.28), lg.nŠ/ D ‚.n lg n/. Since lg.nn/ D n lg n, these functions are ‚ of each other.
+Solution to Problem 3-3
+a. Here is the ordering, where functions on the same line are in the same equivalence class, and those higher on the page are of those below them:
+
+
+3-8 Solutions for Chapter 3: Characterizing Running Times
+22nC1
+22n
+.n C 1/Š
+nŠ see justification 7 en see justification 1 n 2n 2n
+.3=2/n
+.lg n/lg n D nlg lg n see identity 1 .lg n/Š see justifications 2, 8 n3
+n2 D 4lg n see identity 2 n lg n and lg.nŠ/ see justification 6 n D 2lg n see identity 3
+.p2/lg n.D pn/ see identity 6, justification 3 2
+p2 lg n see identity 5, justification 4 lg2 n ln n plg n ln ln n see justification 5
+2lg n
+lg n and lg .lg n/ see identity 7 lg.lg n/ n1= lg n.D 2/ and 1 see identity 4
+Much of the ranking is based on the following properties:
+Exponential functions grow faster than polynomial functions, which grow faster than polylogarithmic functions. The base of a logarithm doesn’t matter asymptotically, but the base of an exponential and the degree of a polynomial do matter.
+We have the following identities:
+1. .lg n/lg n D nlg lg n because alogb c D clogb a. 2. 4lg n D n2 because alogb c D clogb a. 3. 2lg n D n. 4. 2 D n1= lg n by raising identity 3 to the power 1= lg n.
+5. 2p2 lg n D n
+p2= lg n by raising identity 4 to the power p2 lg n.
+6. p2 lg n D pn because p2 lg n D 2.1=2/ lg n D 2lg pn D pn.
+7. lg .lg n/ D .lg n/ 1.
+The following justifications explain some of the rankings:
+1. en D 2n.e=2/n D !.n2n/, since .e=2/n D !.n/.
+2. .lg n/Š D !.n3/ by taking logs: lg.lg n/Š D ‚.lg n lg lg n/ by Stirling’s approximation, lg.n3/ D 3 lg n. lg lg n D !.3/.
+
+
+Solutions for Chapter 3: Characterizing Running Times 3-9
+3. .p2/lg n D ! 2p2 lg n by taking logs: lg.p2/lg n D .1=2/ lg n, lg 2p2 lg n D
+p2 lg n. .1=2/ lg n D !.p2 lg n/.
+4. 2p2 lg n D !.lg2 n/ by taking logs: lg 2p2 lg n D p2 lg n, lg lg2 n D 2 lg lg n. p2 lg n D !.2 lg lg n/.
+5. ln ln n D !.2lg n/ by taking logs: lg 2lg n D lg n. lg ln ln n D !.lg n/. 6. lg.nŠ/ D ‚.n lg n/ (equation (3.28)).
+7. nŠ D ‚.nnC1=2e n/ by dropping constants and low-order terms in equation (3.25). 8. .lg n/Š D ‚..lg n/lg nC1=2e lg n/ by substituting lg n for n in the previous justification. .lg n/Š D ‚..lg n/lg nC1=2n lg e/ because alogb c D clogb a.
+b. The following f .n/ is nonnegative, and for all functions gi .n/ in part (a), f .n/ is neither O.gi .n// nor .gi .n//.
+f .n/ D
+(
+22nC2 if n is even ;
+0 if n is odd :
+Solution to Problem 3-4
+a. The conjecture is false. For example, let f .n/ D n and g.n/ D n2. Then f .n/ D O.g.n//, but g.n/ is not O.f .n//.
+b. The conjecture is false. Again, let f .n/ D n and g.n/ D n2. Then the conjecture would be saying that n C n2 D ‚.n/, which is false.
+c. The conjecture is true. Since f .n/ D O.g.n// and f .n/ 1 for sufficiently large n, there are some positive constants c and n0 such that 1 f .n/ cg.n/ for all n n0, which implies 0 lg f .n/ lg c C lg g.n/. Without loss of generality, assume that c > 1=2, so that lg c > 1. Define the constant d D 1 C lg c > 0. Then, we have
+lg f .n/ lg c C lg g.n/
+D 1 C lg c
+lg g.n/ lg g.n/
+.1 C lg c/ lg g.n/ (because lg g.n/ 1)
+D d lg g.n/ ;
+and so there exist positive constants d and n0 such that 0 lg f .n/ d lg g.n/ for n n0. Thus, lg f .n/ D O.lg g.n//.
+d. The conjecture is false. For example, let f .n/ D 2n and g.n/ D n. Then f .n/ D O.g.n//, but 2f .n/ D 22n and 2g.n/ D 2n, so that 2f .n/ is not O.2g.n//.
+e. The conjecture is false. For example, let f .n/ D 1=n, so that f .n/2 D 1=n2. It is not the case that 1=n D O.1=n2/.
+f. The conjecture is true, by transpose symmetry on page 62.
+g. The conjecture is false. Let f .n/ D 2n. It is not the case that 2n is ‚.2n=2/.
+
+
+3-10 Solutions for Chapter 3: Characterizing Running Times
+h. The conjecture is true. Let g.n/ be any function in o.f .n//. Then there exists a constant n0 > 0 such that for any positive constant c > 0 and all n n0, we have 0 g.n/ < cf .n/. Since f .n/ C g.n/ f .n/, we have f .n/ C g.n/ D .f .n//. For the upper bound, choose the n0 used for g.n/ and choose any constant c > 0. Then, we have
+0 f .n/ C g.n/
+< f .n/ C cf .n/
+D .1 C c/f .n/
+c0f .n/
+for the constant c0 D 1 C c. Therefore, f .n/ C g.n/ D O.f .n//, so that f .n/ C g.n/ D ‚.f .n//.
+Solution to Problem 3-7
+a. f0.n/ D n. Since f .n/ just subtracts 1, the answer is how many times you subtract 1 from n before reaching 0, which is just n.
+b. f1.lg n/ D lg n. This answer comes directly from the definition of the iterated logarithm function.
+c. f1.n=2/ D dlg ne. This result is easily shown by induction for n a power of 2. The ceiling function handles values of n between powers of 2.
+d. f2.n=2/ D dlg ne 1. Take the answer for part (c), but halve one fewer time.
+e. f2.pn/ D dlg lg ne. Define m D lg n, so that n D 2m. The problem then becomes determining f1..2m/1=2/ D f1.2m=2/. (It’s f1.2m=2/ instead of f2.2m=2/ because n D 2 implies m D 1.) By part (c), the answer is dlg me D dlg lg ne.
+f. f1.pn/ is undefined. No matter how many times you take the square root of n > 1, you will never reach 1.
+g. dlog3 log3 ne f2.n1=3/ dlog3 log3 ne C 1. Similar to the solution to
+part (e), let n D 3m and m D log3 n, so that the problem becomes finding
+flog3 2.3m=3/. As in part (c), the number of times you divide by 3 before reaching 1 is dlog3 me D dlog3 log3 ne. Since log3 2 < 1, however, you might need to iterate one more time to reach log3 2.
+
+
+Solutions for Chapter 4:
+Divide-and-Conquer
+Solution to Exercise 4.1-1
+The easiest solution is to pad out the matrices with zeros so that their dimensions are the next higher power of 2. If the matrices are padded out to be n0 n0, we have n < n0 < 2n. Run MATRIX-MULTIPLY-RECURSIVE on the padded matrices and then take just the leading n n submatrix of the result. Because n0 < 2n, the padded matrices have less than 4n2 entries, and so we can create them in ‚.n2/ time. And because n0 < 2n, the running time for MATRIX-MULTIPLY-RECURSIVE increases by at most a factor of 8, so that it still runs in ‚.n3/ time. Finally, extracting the leading n n submatrix takes ‚.n2/ time, for a total running time of ‚.n3/.
+Solution to Exercise 4.1-2
+For both parts of the question, divide the matrices into k submatrices, each n n. A k n n matrix consists of a column of k submatrices, and an n k n matrix consists of a row of k submatrices.
+Multiplying a k n n matrix by an n k n matrix produces a k n k n matrix, which has k rows and k columns of n n submatrices. Each submatrix is the result of mulitplying two n n submatrices. Since there are k2 submatrices to compute and each one takes ‚.n3/ time, the total running time is ‚.k2n3/.
+Multiplying an n k n matrix by a k n n matrix produces an n n matrix, which you can compute by multiplying the respective submatrices and adding the results together. Multiplying takes ‚.k n3/ time and adding takes ‚.k n2/ time, for a total time of ‚.k n3/.
+Solution to Exercise 4.1-3
+The recurrence becomes T .n/ D 8T .n=2/ C ‚.n2/. You can use the master method in Section 4.5 to show that the solution is T .n/ D ‚.n3/.
+
+
+4-2 Solutions for Chapter 4: Divide-and-Conquer
+Solution to Exercise 4.2-1
+Assume that C is initialized to all zeros.
+First, compute S1; : : : ; S10:
+S1 D B12 B22 D 8 2 D 6 ; S2 D A11 C A12 D 1 C 3 D 4 ; S3 D A21 C A22 D 7 C 5 D 12 ; S4 D B21 B11 D 4 6 D 2 ; S5 D A11 C A22 D 1 C 5 D 6 ; S6 D B11 C B22 D 6 C 2 D 8 ; S7 D A12 A22 D 3 5 D 2 ; S8 D B21 C B22 D 4 C 2 D 6 ; S9 D A11 A21 D 1 7 D 6 ; S10 D B11 C B12 D 6 C 8 D 14 :
+Next, compute P1; : : : ; P7:
+P1 D A11 S1 D 1 6 D 6 ; P2 D S2 B22 D 4 2 D 8 ; P3 D S3 B11 D 12 6 D 72 ; P4 D A22 S4 D 5 2 D 10 ; P5 D S5 S6 D 6 8 D 48 ; P6 D S7 S8 D 2 6 D 12 ; P7 D S9 S10 D 6 14 D 84 :
+Finally, compute C11; C12; C21; C22:
+C11 D P5 C P4 P2 C P6 D 48 C . 10/ D 18 ; C12 D P1 C P2 D 6 C 8 D 14 ; C21 D P3 C P4 D 72 C . 10/ D 62 ; C22 D P5 C P1 P3 P7 D 48 C 6 72 . 84/ D 66 :
+The result is C D 18 14
+62 66 .
+
+
+Solutions for Chapter 4: Divide-and-Conquer 4-3
+Solution to Exercise 4.2-2
+STRASSEN.A; B; C; n/ if n == 1
+c11 D c11 C a11 b11
+else partition A, B, and C as in equations (4.2)
+create n=2 n=2 matrices S1; S2; : : : ; S10 and P1; P2; : : : ; P7 initialize P1; P2; : : : ; P7 to all zeros
+S1 D B12 B22 S2 D A11 C A12 S3 D A12 C A22
+S4 D B21 B11 S5 D A11 C A22 S6 D B11 C B22
+S7 D A12 A22 S8 D B21 C B22
+S9 D A11 A21
+S10 D B11 C B12
+STRASSEN.A11; S1; P1; n=2/ STRASSEN.S2; B22; P2; n=2/ STRASSEN.S3; B11; P3; n=2/ STRASSEN.A22; S4; P4; n=2/ STRASSEN.S5; S6; P5; n=2/ STRASSEN.S7; S8; P6; n=2/ STRASSEN.S9; S10; P7; n=2/
+C11 D C11 C P5 C P4 P2 C P6 C12 D C12 C P1 C P2 C21 D C21 C P3 C P4 C22 D C22 C P5 C P1 P3 P7
+combine C11, C12, C21, and C22 into C
+Solution to Exercise 4.2-3
+This solution is also posted publicly
+If you can multiply 3 3 matrices using k multiplications, then you can multiply n n matrices by recursively multiplying n=3 n=3 matrices, in time T .n/ D kT .n=3/ C ‚.n2/.
+Using the master method to solve this recurrence, consider the ratio of nlog3 k and n2:
+If log3 k D 2, case 2 applies and T .n/ D ‚.n2 lg n/. In this case, k D 9 and
+T .n/ D o.nlg 7/.
+If log3 k < 2, case 3 applies and T .n/ D ‚.n2/. In this case, k < 9 and
+T .n/ D o.nlg 7/.
+
+
+4-4 Solutions for Chapter 4: Divide-and-Conquer
+If log3 k > 2, case 1 applies and T .n/ D ‚.nlog3 k/. In this case, k > 9.
+T .n/ D o.nlg 7/ when log3 k < lg 7, i.e., when k < 3lg 7 21:85. The largest such integer k is 21.
+Thus, k D 21 and the running time is ‚.nlog3 k/ D ‚.nlog3 21/ D O.n2:80/ (since log3 21 2:77).
+Solution to Exercise 4.2-4
+Because Strassen’s algorithm has subproblems of size n=2 and requires 7 recursive multiplications, the recurrence for analyzing it is T .n/ D 7T .n=2/ C ‚.n2/. To generalize, if the subproblems have size n=b and require a recursive multiplications, the recurrence is T .n/ D aT .n=b/ C ‚.n2/. Using the master method in Section 4.5 gives the following running times:
+a D 132,464, b D 68: ‚.nlog68 132,464/ D O.n2:795129/.
+a D 143,640, b D 70: ‚.nlog70 143,640/ D O.n2:795123/.
+a D 155,424, b D 72: ‚.nlog72 155,424/ D O.n2:795148/.
+Of the three methods that Pan discovered, the middle one—multiplying 70 70 matrices using 143,640 multiplications—has the best asymptotic running time. All three are asymptotically faster than Strassen’s method, because ‚.nlg 7/ D .n2:8/.
+Solution to Exercise 4.2-5
+The three multiplications needed are ac, bd , and .a C b/.c C d / D ac C ad C bc C bd . With ac and bd , compute the real component ac bd . With ac, bd , and .a C b/.c C d /, compute the imaginary component .a C b/.c C d / ac bd D ad C bc.
+Solution to Exercise 4.2-6
+Create the 2n 2n matrix M D 0 A
+B 0 , so that M 2 D AB 0
+0 BA . It
+takes ‚.n2/ time to create M and extract the product AB from M . The time to square M is ‚..2n/ ̨/, which is ‚.n ̨/ since 2 ̨ is a constant.
+Solution to Exercise 4.3-1
+a. We guess that T .n/ cn2 for some constant c > 0. We have
+T .n/ D T .n 1/ C n
+
+
+Solutions for Chapter 4: Divide-and-Conquer 4-5
+c.n 1/2 C n
+D cn2 2cn C c C n
+D cn2 C c.1 2n/ C n :
+This last quantity is less than or equal to cn2 if c.1 2n/ C n 0 or, equivalently, c n=.2n 1/. This last condition holds for all n 1 and c 1.
+For the boundary condition, we set T .1/ D 1, and so T .1/ D 1 c 12. Thus, we can choose n0 D 1 and c D 1.
+b. We guess that T .n/ D c lg n, where c is the constant in the ‚.1/ term. We have
+T .n/ D T .n=2/ C c
+D c lg.n=2/ C c
+D c lg n c C c
+D c lg n :
+For the boundary condition, choose T .2/ D c.
+c. We guess that T .n/ D n lg n. We have
+T .n/ D 2T .n=2/ C n
+D 2..n=2/ lg.n=2// C n
+D n lg.n=2/ C n
+D n lg n n C n
+D n lg n :
+For the boundary condition, choose T .2/ D 2.
+d. We will show that T .n/ cn lg n for c D 20 and n 917. (Different combinations of c and n0 work. We just happen to choose this combination.) First, observe that n=2 C 17 3n=4 < n for all n 68. We have
+T .n/ D 2T .n=2 C 17/ C n
+D 2.c.n=2 C 17/ lg.n=2 C 17// C n
+D cn lg.n=2 C 17/ C 34c lg.n=2 C 17/ C n
+< cn lg.3n=4/ C 34c lg n C n (because n 68)
+D cn lg n cn lg.4=3/ C 34c lg n C n
+D cn lg n C .34c lg n n.c lg.4=3/ 1//
+cn lg n
+if 34c lg n n.c lg.4=3/ 1/. If we choose c D 20, then this inequality holds for all n 917. (Notice that for there to be an n0 such that the inequality holds for all n n0, we must choose c such that c lg.4=3/ 1 > 0, or c > 1= lg.4=3/ 3:476.)
+e. Let c be the constant in the ‚.n/ term. We need to show only the upper bound of O.n/, since the lower bound of .n/ follows immediately from the ‚.n/ term in the recurrence. We guess that T .n/ d n, where d is a constant that we will choose. We have
+T .n/ D 2T .n=3/ C cn
+2d n=3 C cn
+
+
+4-6 Solutions for Chapter 4: Divide-and-Conquer
+D n.2d=3 C c/
+dn
+if 2d=3 C c d or, equivalently, d 3c.
+f. Let c be the constant in the ‚.n/ term. We guess that T .n/ D d n2 d 0n for constants d and d 0 that we will choose. We will show the upper (O) and lower ( ) bounds separately.
+For the upper bound, we have
+T .n/ 4T .n=2/ C cn
+D 4.d.n=2/2 d 0n=2/ C cn
+D d n2 2d 0n C cn
+d n2 d 0n
+if 2d 0n C cn d 0n or, equivalently, d 0 c. For the lower bound, we just need d 0 c. Thus, setting d 0 D c works for both the upper and lower bounds.
+Solution to Exercise 4.3-2
+We want to solve the recurrence T .n/ D 4T .n=2/ C n. Using the substitution method while assuming that T .n/ cn2 will fail:
+T .n/ D 4T .n=2/ C n
+4c n
+2
+2
+Cn
+D cn2 C n ;
+which is greater than cn2. In order to make the substitution proof work, subtract off a lower-order term and assume that T .n/ cn2 d n, where we get to choose d . Now,
+T .n/ D 4T .n=2/ C n
+4cn
+2
+2 dn
+2 Cn
+D cn2 2d n C n ;
+which is less than or equal to cn2 d n if d 1.
+Solution to Exercise 4.3-3
+For the recurrence T .n/ D 2T .n 1/ C 1, if we use the guess that T .n/ c2n, the proof will fail:
+T .n/ D 2T .n 1/ C 1
+2.c2n 1/ C 1
+D c2n C 1 ;
+
+
+Solutions for Chapter 4: Divide-and-Conquer 4-7
+which is greater than c2n. Instead, subtract off a constant d , which we get to choose: T .n/ c2n d . Now, we have
+T .n/ D 2T .n 1/ C 1
+2.c2n 1 d / C 1
+D c2n 2d C 1 ;
+which is less than or equal to c2n d if d 1.
+Solution to Exercise 4.4-1
+a. T .n/ D T .n=2/ C n3
+...
+...
+n3
+n3
+n 2
+3
+n 4
+3
+n3
+8
+n3
+64
+Total: n3
+lg n
+X
+kD0
+1
+8k < n3
+1
+X
+kD0
+1
+8k D O.n3/
+lg n C 1
+The recursion tree has a single node at each level, contributing .n=2k/3 D n3=8k at each depth k. The total is
+lg n
+X
+kD0
+n3
+8k < n3
+1
+X
+kD0
+.1=8/k
+D n3 1
+1 1=8
+D .8=7/n3
+D O.n3/ :
+Now, we prove that T .n/ D O.n3/ with the substitution method. We need to show that T .n/ cn3 for some constant c. We have
+T .n/ D T .n=2/ C n3
+c.n=2/3 C n3
+D cn3=8 C n3
+D n3.c=8 C 1/ ;
+which is less than or equal to cn3 if c 8=7.
+b. T .n/ D 4T .n=3/ C n.
+
+
+4-8 Solutions for Chapter 4: Divide-and-Conquer
+...
+nn
+n=3 n=3 n=3 n=3
+n=9 n=9 n=9 n=9 n=9 n=9 n=9 n=9 n=9 n=9 n=9 n=9 n=9 n=9 n=9 n=9
+4
+3n
+16
+9n
+log3 n
+4log3 n D nlog3 4
+‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.nlog3 4/
+Total: ‚.nlog3 4/
+The number of nodes increases by a factor of 4 as we go down each level in the recursion tree, and the size of each subproblem decreases by a factor of 3. Thus, at each depth k above the leaves, there are 4k nodes, each with cost n=3k, so that the total cost at depth k is .4=3/kn. The subproblem size reduces to 1 after log3 n levels, so that there are log3 n 1 levels above the leaves. The number
+of leaves is 4log3 n D nlog3 4, each costing ‚.1/. The total cost is then
+log3 n 1
+X
+kD0
+4
+3
+k
+n C ‚.nlog3 4/ D n .4=3/log3 n 1
+.4=3/ 1 C ‚.nlog3 4/
+< 3n.4=3/log3 n C ‚.nlog3 4/
+D 3n.4log3 n/.1=3/log3 n C ‚.nlog3 4/
+D 3n.nlog3 4/.3 log3 n/ C ‚.nlog3 4/
+D 3nlog3 4C1n log3 3 C ‚.nlog3 4/
+D 3nlog3 4C1n 1 C ‚.nlog3 4/
+D 3nlog3 4 C ‚.nlog3 4/
+D ‚.nlog3 4/ :
+Now, we prove that T .n/ D O.nlog3 4/ with the substitution method. We guess that T .n/ nlog3 4 cn, where c > 0 is a constant that we will choose. We have
+T .n/ D 4T .n=3/ C n
+4..n=3/log3 4 cn=3/ C n
+D 4nlog3 4.1=3/log3 4 .4=3/cn C n
+D 4nlog3 4.3 log3 4/ .4=3/cn C n
+D 4nlog3 4.4 log3 3/ .4=3/cn C n
+D 4nlog3 4.4 1/ .4=3/cn C n
+nlog3 4 cn
+
+
+Solutions for Chapter 4: Divide-and-Conquer 4-9
+if .4=3/cn C n cn or, equivalently, c 3. Hence, T .n/ D O.nlog3 4/.
+c. T .n/ D 4.n=2/ C n.
+...
+nn
+n=2 n=2 n=2 n=2
+n=4 n=4 n=4 n=4 n=4 n=4 n=4 n=4 n=4 n=4 n=4 n=4 n=4 n=4 n=4 n=4
+2n
+4n
+lg n
+4lg n D n2
+‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.n2/
+Total: ‚.n2/
+The number of nodes increases by a factor of 4 as we go down each level in the recursion tree, and the size of each subproblem decreases by a factor of 2. Thus, at each depth k above the leaves, there are 4k nodes, each with cost n=2k, so that the total cost at depth k is .4=2/kn D 2kn. The subproblem size reduces to 1 after lg n levels, so that there are lg n 1 levels above the leaves. The number of leaves is 4lg n D n2, each costing ‚.1/. The total cost is then
+lg n 1
+X
+kD0
+2kn C ‚.n2/ D n 2lg n 1 1
+2 1 C ‚.n2/
+< n2 C ‚.n2/
+D ‚.n2/ :
+Now, we prove that T .n/ D O.n2/ with the substitution method. We guess that T .n/ n2 cn, where c > 0 is a constant that we will choose. We have
+T .n/ D 4T .n=2/ C n
+4..n=2/2 cn=2/ C n
+D n2 2cn C n
+n2 cn
+if 2cn C n cn or, equivalently, c 1. Hence, T .n/ D O.n2/.
+d. T .n/ D 3T .n 1/ C 1
+
+
+4-10 Solutions for Chapter 4: Divide-and-Conquer
+1
+1
+11
+...
+...
+1
+3
+9
+...
+n
+1
+...
+1
+11
+...
+...
+1
+...
+1
+11
+...
+...
+1
+...
+Total: 1 C 3 C 9 C C 3n 1 D O.3n/
+The recursion tree is full, with each depth i contributing 3i . The total contribu
+tion is Pn 1
+iD0 3i D .3n 1/=.3 1/ D O.3n/.
+Now we prove that T .n/ D O.3n/ by the substitution method. We guess that T .n/ D 3n c, where c > 0 is a constant that we will choose. We have
+T .n/ D 3T .n 1/ C 1
+3.3n 1 c/ C 1
+D 3n 3c C 1
+3n c
+if 3c C 1 c or, equivalently, c 1=2. Hence, T .n/ D O.3n/.
+Solution to Exercise 4.4-2
+We guess that L.n/ d n, where d > 0 is a constant that we will choose. We have
+L.n/ D L.n=3/ C L.2n=3/
+d n=3 C 2d n=3
+D dn :
+Choosing d > 0 so that L.n/ d n for all n < n0 finishes the proof.
+Solution to Exercise 4.4-3
+To show by substitution that T .n/ D .n lg n/, we guess that T .n/ d n lg n, where d > 0 is a constant that we will choose. Let c > 0 be the constant in the ‚.n/ term of the recurrence, so that we have
+T .n/ D T .n=3/ C T .2n=3/ C cn
+.d n=3/ lg.n=3/ C .2d n=3/ lg.2n=3/ C cn
+D .d n=3/ lg n .d n=3/ lg 3 C .2d n=3/ lg n C .2d n=3/ lg.2=3/ C cn
+D d n lg n .d n=3/ lg 3 C .2d n=3/ lg.2=3/ C cn
+d n lg n
+if .d n=3/ lg 3 C .2d n=3/ lg.2=3/ C cn 0. This requirement is equivalent to d c=..1=3/ lg 3 .2=3/ lg.2=3//. Since the denominator on the right-hand side is positive, we can choose such a d > 0. Therefore, T .n/ D .n lg n/. Since the text showed that T .n/ D O.n lg n/, we have that T .n/ D ‚.n lg n/.
+
+
+Solutions for Chapter 4: Divide-and-Conquer 4-11
+Solution to Exercise 4.4-4
+This solution is also posted publicly
+T .n/ D T . ̨n/ C T ..1  ̨/n/ C cn
+We saw the solution to the recurrence T .n/ D T .n=3/ C T .2n=3/ C cn in the text. This recurrence can be similarly solved.
+Without loss of generality, let  ̨ 1  ̨, so that 0 < 1  ̨ 1=2 and 1=2  ̨ < 1.
+...
+...
+log1=.1  ̨/ n log1= ̨ n
+cn
+cn
+cn
+cn
+Total: O.n lg n/
+c ̨n c.1  ̨/n
+c ̨2n c ̨.1  ̨/n c ̨.1  ̨/n c.1  ̨/2n
+The recursion tree is full for log1=.1  ̨/ n levels, each contributing cn, so we guess .n log1=.1  ̨/ n/ D .n lg n/. It has log1= ̨ n levels, each contributing cn, so we guess O.n log1= ̨ n/ D O.n lg n/.
+Now we show that T .n/ D ‚.n lg n/ by substitution. To prove the upper bound, we need to show that T .n/ d n lg n for a suitable constant d > 0:
+T .n/ D T . ̨n/ C T ..1  ̨/n/ C cn
+d ̨n lg. ̨n/ C d.1  ̨/n lg..1  ̨/n/ C cn
+D d ̨n lg  ̨ C d ̨n lg n C d.1  ̨/n lg.1  ̨/ C d.1  ̨/n lg n C cn
+D d n lg n C d n. ̨ lg  ̨ C .1  ̨/ lg.1  ̨// C cn
+d n lg n ;
+if d n. ̨ lg  ̨ C .1  ̨/ lg.1  ̨// C cn 0. This condition is equivalent to
+d. ̨ lg  ̨ C .1  ̨/ lg.1  ̨// c :
+Since 1=2  ̨ < 1 and 0 < 1  ̨ 1=2, we have that lg  ̨ < 0 and lg.1  ̨/ < 0. Thus,  ̨ lg  ̨ C .1  ̨/ lg.1  ̨/ < 0, so that when we multiply both sides of the inequality by this factor, we need to reverse the inequality:
+dc
+ ̨ lg  ̨ C .1  ̨/ lg.1  ̨/
+or
+dc
+ ̨ lg  ̨ C .1  ̨/ lg.1  ̨/ :
+
+
+4-12 Solutions for Chapter 4: Divide-and-Conquer
+The fraction on the right-hand side is a positive constant, and so it suffices to pick any value of d that is greater than or equal to this fraction.
+To prove the lower bound, we need to show that T .n/ d n lg n for a suitable constant d > 0. We can use the same proof as for the upper bound, substituting for , and we get the requirement that
+0<d c
+ ̨ lg  ̨ .1  ̨/ lg.1  ̨/ :
+Therefore, T .n/ D ‚.n lg n/.
+Solution to Exercise 4.5-1
+In all parts of this problem, we have a D 2 and b D 4, and thus nlogb a D nlog4 2 D
+n1=2 D pn.
+a. T .n/ D ‚.pn/. Here, f .n/ D O.n1=2 / for D 1=2. Case 1 applies, and
+T .n/ D ‚.n1=2/ D ‚.pn/.
+b. T .n/ D ‚.pn lg n/. Now f .n/ D pn D ‚.nlogb a/. Case 2 applies, with k D 0.
+c. T .n/ D ‚.pn lg3 n/. Now f .n/ D pn lg2 n D ‚.nlogb a lg2 n/. Case 2 applies, with k D 2.
+d. T .n/ D ‚.n/. This time, f .n/ D n1, and so f .n/ D .nlogb aC / for D 1=2. In order for case 3 to apply, we have to check the regularity condition: af .n=b/ cf .n/ for some constant c < 1. Here, af .n=b/ D n=2, and so the regularity condition holds for c D 1=2. Therefore, case 3 applies.
+e. T .n/ D ‚.n2/. Now, f .n/ D n2, and so f .n/ D .nlogb aC / for D 3=2. In order for case 3 to apply, we again have to check the regularity condition: af .n=b/ cf .n/ for some constant c < 1. Here, af .n=b/ D n2=8, and so the regularity condition holds for c D 1=8. Therefore, case 3 applies.
+Solution to Exercise 4.5-2
+We need to find the largest integer a such that log4 a < lg 7. The answer is a D 48.
+Solution to Exercise 4.5-3
+Here, we have nlogb a D nlg 1 D n0. Since the driving function is ‚.n0/, case 2 of the master theorem applies with k D 0. The solution is T .n/ D ‚.lg n/.
+
+
+Solutions for Chapter 4: Divide-and-Conquer 4-13
+Solution to Exercise 4.5-4
+In order for af .n=b/ cf .n/ to hold with a D 1, b D 2, and f .n/ D lg n, we would need to have .lg.n=2//= lg n < c. Since lg.n=2/ D lg n 1, we would need .lg n 1/= lg n < c, and for any constant c < 1, there exist an infinite number of values for n for which this inequality does not hold.
+Furthermore, since nlogb a D n0, there is no constant > 0 such that lg n D .n /.
+Solution to Exercise 4.5-5
+Choose a D 1, b D p2, and D 1, in which case we have nlogb aC D n0 n1 D n. Since f .n/ D 2dlg ne 2lg n D n D .n/, the condition that f .n/ D .nlogb aC / is satisfied. For all n D 2k, where k > 0 is integer, we have f .n/ D 2dlg ne D 2k D
+n and af .n=b/ D f .n=p2/ D 2dlg n lg.p2/e D 2dlg n 1=2e D 2dk 1=2e D 2k D n D f .n/, and thus for n D 2k, we have af .n=b/ D f .n/. Consequently, no c < 1 can exist for which af .n=b/ cf .n/ for all sufficiently large n.
+Solution to Problem 4-1
+Note: In parts (a), (b), and (e) below, we are applying case 3 of the master theorem, which requires the regularity condition that af .n=b/ cf .n/ for some constant c < 1. In each of these parts, f .n/ has the form nk. The regularity condition is satisfied because af .n=b/ D ank=bk D .a=bk/nk D .a=bk/f .n/, and in each of the cases below, a=bk is a constant strictly less than 1.
+a. T .n/ D 2T .n=2/ C n3 D ‚.n3/. This is a divide-and-conquer recurrence with a D 2, b D 2, f .n/ D n3, and nlogb a D nlog2 2 D n. Since n3 D .nlog2 2C2/ and a=bk D 2=23 D 1=4 < 1, case 3 of the master theorem applies, and T .n/ D ‚.n3/.
+b. T .n/ D T .8n=11/ C n D ‚.n/. This is a divide-and-conquer recurrence with a D 1, b D 11=8, f .n/ D n, and nlogb a D nlog11=8 1 D n0 D 1. Since n D .nlog11=8 1C1/ and a=bk D 1=.11=8/1 D 8=11 < 1, case 3 of the master theorem applies, and T .n/ D ‚.n/.
+c. T .n/ D 16T .n=4/ C n2 D ‚.n2 lg n/. This is a divide-and-conquer recurrence with a D 16, b D 4, f .n/ D n2, and nlogb a D nlog4 16 D n2. Since n2 D ‚.nlog4 16/, case 2 of the master theorem applies with k D 0, and T .n/ D ‚.n2 lg n/.
+d. T .n/ D 4T .n=2/ C n2 lg n D ‚.n2 lg2 n/. This is a divide-and-conquer recurrence with a D 4, b D 2, f .n/ D n2 lg n, and nlogb a D nlog2 4 D n2. Again, case 2 of the master theorem applies, this time with k D 1, and T .n/ D ‚.n2 lg2 n/.
+
+
+4-14 Solutions for Chapter 4: Divide-and-Conquer
+e. T .n/ D 8T .n=3/ C n2 D ‚.n2/. This is a divide-and-conquer recurrence with a D 8, b D 3, f .n/ D n2, and nlogb a D nlog3 8. Since 1 < log3 8 < 2, we have
+that n2 D .nlog3 8C / for some constant > 0. We also have a=bk D 8=32 D 8=9 < 1, so that case 3 of the master theorem applies, and T .n/ D ‚.n2/.
+f. T .n/ D 7T .n=2/Cn2 lg n D O.nlg 7/. This is a divide-and-conquer recurrence with a D 7, b D 2, f .n/ D n2 lg n, and nlogb a D nlog2 7. Since 2 < lg 7 < 3, we have that n2 lg n D O.nlog2 7 / for some constant > 0. Thus, case 1 of the master theorem applies, and T .n/ D ‚.nlg 7/.
+g. T .n/ D 2T .n=4/ C pn D ‚.pn lg n/. This is another divide-and-conquer
+recurrence with a D 2, b D 4, f .n/ D pn, and nlogb a D nlog4 2 D pn.
+Since pn D ‚.nlog4 2/, case 2 of the master theorem applies with k D 0, and
+T .n/ D ‚.pn lg n/.
+h. T .n/ D T .n 2/ C n2. To guess a bound, assume that n is even. Then if the recurrence were iterated out, it would contain n=2 terms before getting down to n D 0. Each of these terms is at most n2, so that the sum is at most .n=2/n2 D n3=2, giving an upper bound of O.n3/. To get a lower bound, observe that of the n=2 terms in the summation, half of them (that is, n=4 of them) are at least n=2, giving a sum that is at least .n=4/.n=2/2 D n3=16, or .n3/. Therefore, our guess is that T .n/ D ‚.n3/.
+First, we prove the T .n/ D .n3/ part by induction. The inductive hypothesis is T .n/ cn3 for some constant c > 0.
+T .n/ D T .n 2/ C n2
+c.n 2/3 C n2
+D cn3 6cn2 C 12cn 8c C n2
+cn3
+if 6cn2 C 12cn 8c C n2 0. This condition holds when n 1 and 0 < c 1=6.
+For the upper bound, T .n/ D O.n3/, we use the inductive hypothesis that T .n/ cn3 for some constant c > 0. By a similar derivation, we get that T .n/ cn3 if 6cn2 C 12cn 8c C n2 0. This condition holds for c 1=2 and n 1.
+Thus, T .n/ D .n3/ and T .n/ D O.n3/, so we conclude that T .n/ D ‚.n3/.
+Solution to Problem 4-3
+a. Since m D lg n, we also have n D 2m. The recurrence becomes T .2m/ D 2T .2m=2/ C ‚.m/. As a recurrence for S.m/, it becomes S.m/ D 2S.m=2/ C ‚.m/.
+b. The recurrence for S.m/ falls into case 2 of the master theorem, with a D b D 2 and k D 1, so that its solution is S.m/ D ‚.m lg m/.
+c. Substituting back into the recurrence for T .n/, we get that T .n/ D T .2m/ D S.m/ D ‚.m lg m/ D ‚.lg n lg lg n/.
+
+
+Solutions for Chapter 4: Divide-and-Conquer 4-15
+d. Here is the recursion tree:
+...
+c lg n
+c
+2 lg n
+c
+2 lg n
+c
+4 lg n
+c
+4 lg n
+c
+4 lg n
+c
+4 lg n
+c
+8 lg n
+c
+8 lg n c
+8 lg n
+c
+8 lg n
+c
+8 lg n
+c
+8 lg n c
+8 lg n
+c
+8 lg n
+lg lg n
+‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/ ‚.1/
+c lg n
+c lg n
+c lg n
+c lg n
+2lg lg n D lg n Total: c lg n lg lg n C ‚.lg n/
+The constant c stands for the constant in the ‚.lg n/ term. The root contributes
+a cost of c lg n. Each child of the root has a subproblem size of pn D n1=2, contributing a cost of c lg n1=2 D .c lg n/=2, for a combined cost of c lg n for both children. At the next level down, the subproblem sizes are n1=4, each contributing a cost of .c lg n/=4; with 4 such subproblems, the combined cost at this level is also c lg n. At each level above the leaves, the cost per level is c lg n.
+How many levels until we get down to a subproblem size of 1? We never do, because if n > 1, repeatedly taking square roots will never get down to 1. We can use a subproblem size of 2 as a base case, however. How many levels until getting down to a subproblem of size 2? Think of how many bits we need to represent the subproblem size. At each level, the number of bits is halved, until we get down to 1 bit to represent a subproblem of size 2. That is, the number of levels is (lg the number of bits for the original problem). Since the original problem requires lg n bits to represent n, the number of levels is lg lg n. The total cost of all levels above the leaves is then c lg n lg lg n.
+How many leaves are there? The number of leaves doubles in each level, and there are lg lg n levesl, so that the total number of leaves becomes 2lg lg n D lg n. Since each leaf costs ‚.1/, the total cost of the leaves is ‚.lg n/.
+Adding up the costs at all levels, we get a total cost of c lg n lg lg n C ‚.lg n/ D ‚.lg n lg lg n/.
+e. T .n/ D 2T .pn/ C ‚.1/.
+Again, we let m D lg n so that n D 2m. The recurrence is then T .2m/ D T .2m=2/ C ‚.1/. As a recurrence for S.m/, it becomes S.m/ D 2S.m=2/ C ‚.1/. This recurrence falls into case 2 of the master theorem with a D 2 and b D 2 so that its solution is S.m/ D ‚.m/. Substituting back into the recurrence for T .n/, we get T .n/ D ‚.lg n/.
+f. T .n/ D 3T . 3 pn/ C ‚.n/.
+This time, we let m D log3 n so that n D 3m. The recurrence is T .3m/ D
+3T .3m=3/ C ‚.3m/. As a recurrence for S.m/, it becomes S.m/ D 3S.m=3/ C
+
+
+4-16 Solutions for Chapter 4: Divide-and-Conquer
+‚.3m/. If we were to draw out recursion tree for this recurrence, it would have log3 m levels with the costs summing as 3m C 3 3m=3 C 32 3m=9 C (ignoring
+for the moment the constant in the ‚.3m/ term). The 3m term dominates this summation, so that S.m/ D ‚.3m/. Substituting back into the recurrence for T .n/, we get T .n/ D ‚.n/.
+Solution to Problem 4-4
+a. T .n/ D 5T .n=3/ C n lg n. We have f .n/ D n lg n and nlogb a D nlog3 5
+n1:465. Since n lg n D O.nlog3 4 / for any 0 < 0:46, by case 1 of the master theorem, we have T .n/ D ‚.nlog3 5/.
+b. T .n/ D 3T .n=3/Cn= lg n. If we were to draw the recursion tree, depth i of the tree would have 3i nodes. Each node at depth i incurs a cost of n=.3i lg.n=3i //, for a total cost at depth i of n= lg.n=3i /. Using equation (3.19), we have
+lg.n=3i / D log3.n=3i /
+log3 2 D log3 n i
+log3 2 :
+The number of leaves is 3log3 n D n, each contributing ‚.1/, for a total contribution from the leaves of ‚.n/. Thus, the total cost of the recursion tree is
+‚.n/ C
+log3 n 1
+X
+i D0
+n
+lg 3i D ‚.n/ C n log3 2
+log3 n 1
+X
+i D0
+1
+log3 n i
+D ‚.n/ C n log3 2
+log3 n 1
+X
+i D0
+1
+i
+D ‚.n/ C n log3 2 Hlog3 n 1
+D ‚.n/ C n log3 2 ‚.ln log3 n 1/
+D ‚.n lg lg n/ :
+c. T .n/ D 8T .n=2/ C n3pn. We have f .n/ D n3pn D n7=2 and nlogb a D nlog2 8 D n3. Since n7=2 D .n3C / for D 1=2, we look at the regularity condition in case 3 of the master theorem. We have af .n=b/ D 8.n=2/3pn=2 D
+n7=2=p2 cn7=2 for 1=p2 c < 1. Case 3 applies, and we have T .n/ D
+‚.n3pn/.
+d. T .n/ D 2T .n=2 2/ C n=2. Subtracting 2 in the argument shouldn’t make much difference, and so this recurrence looks like T .n/ D 2T .n=2/ C ‚.n/, which falls into case 2 of the master theorem with k D 0. Therefore, we guess that T .n/ D ‚.n lg n/. We’ll prove the upper and lower bounds separately.
+The upper bound is easy. We assume that T .n/ monotonically increases, and so T .n/ D 2T .n=2 2/ C n=2 2T .n=2/ C n=2. We can use case 2 of the master theorem with k D 0 for the upper bound, getting T .n/ D O.n lg n/.
+For the lower bound, we use a substitution proof, which relies on the inequality n=2 2 n=4 for n 8. We assume that T .n/ cn lg n for some positive
+
+
+Solutions for Chapter 4: Divide-and-Conquer 4-17
+constant c that we will choose. We have
+T .n/ D 2T .n=2 2/ C n=2
+2c.n=2 2/ lg.n=2 2/ C n=2
+D cn lg.n=2 2/ 4c lg.n=2 2/ C n=2
+cn lg.n=4/ 4c lg.n=2/ C n=2 for n 8
+D cn lg n 2cn 4c lg n C 4c C n=2
+cn lg n
+if 2cn 6c lg nC4cCn=2 0, which is equivalent to c n=.4nC8 lg n 4/. Choosing c 1=10 satisfies this inequality.
+e. T .n/ D 2T .n=2/ C n= lg n. This part is similar to part (b) and, in fact, a little simpler. If we were to draw the recursion tree, depth i of the tree would have 2i nodes. Each node at depth i incurs a cost of n=.2i lg.n=2i //, for a total cost at depth i of n= lg.n=2i /. The number of leaves is 2lg n D n, each contributing ‚.1/, for a total contribution from the leaves of ‚.n/. Thus, the total cost of the recursion tree is
+‚.n/ C
+lg n 1
+X
+i D0
+n
+lg.n=2i / D ‚.n/ C n
+lg n 1
+X
+i D0
+1
+lg n i
+D ‚.n/ C n
+lg n 1
+X
+i D0
+1
+i
+D ‚.n/ C n Hlg n 1
+D ‚.n/ C n ‚.ln lg n 1/
+D ‚.n lg lg n/ :
+We did a careful accounting in our recursion tree, but we can use this analysis as a guess that T .n/ D ‚.n lg lg n/. If we were to do a straight substitution proof, it would be rather involved. Instead, we will show by substitution that T .n/ n.1 C Hblg nc/ and T .n/ n Hdlg ne, where Hk is the kth harmonic number: Hk D 1=1 C 1=2 C 1=3 C C 1=k. We also define H0 D 0. Since Hk D ‚.lg k/, we have that Hblg nc D ‚.lg blg nc/ D ‚.lg lg n/ and Hdlg ne D ‚.lg dlg ne/ D ‚.lg lg n/. Thus, we will have that T .n/ D ‚.n lg lg n/.
+The base case for the proof is for n D 1, and we use T .1/ D 1. Here, lg n D 0, so that lg n D blg nc D dlg ne. Since H0 D 0, we have T .1/ D 1 1.1 C H0/ and T .1/ D 1 0 D 1 H0.
+For the upper bound of T .n/ n.1 C Hblg nc/, we have
+T .n/ D 2T .n=2/ C n= lg n
+2..n=2/.1 C Hblg.n=2/c// C n= lg n
+D n.1 C Hblg n 1c/ C n= lg n
+D n.1 C Hblg nc 1 C 1= lg n/
+n.1 C Hblg nc 1 C 1= blg nc/
+D n.1 C Hblg nc/ ;
+where the last line follows from the identity Hk D Hk 1 C 1=k.
+
+
+4-18 Solutions for Chapter 4: Divide-and-Conquer
+The upper bound of T .n/ n Hdlg ne is similar:
+T .n/ D 2T .n=2/ C n= lg n
+2..n=2/ Hdlg.n=2/e/ C n= lg n
+D n Hdlg n 1e C n= lg n
+D n .Hdlg ne 1 C 1= lg n/
+n .Hdlg ne 1 C 1= dlg ne/
+D n Hdlg ne :
+Thus, T .n/ D ‚.n lg lg n/.
+f. T .n/ D T .n=2/ C T .n=4/ C T .n=8/ C n. Using the recursion tree shown below, we get a guess of T .n/ D ‚.n/.
+nn
+log4 n
+n 2
+n 4
+n 4
+n 8
+n 8
+n 8
+n 16
+n 16
+n 16
+n 32
+n 32
+n 64
+log8 n
+:::
+n. 4C2C1
+8 /D 7
+8n
+n. 1
+4C2
+8C 3
+16 C 2
+32 C 1
+64 / D n 16C16C12C4C1
+64 D n 49
+64 D 7
+8
+2n
+log n
+X
+i D1
+7 8
+i
+n D ‚.n/
+We use the substitution method to prove that T .n/ D O.n/. Our inductive hypothesis is that T .n/ cn for some constant c > 0. We have
+T .n/ D T .n=2/ C T .n=4/ C T .n=8/ C n
+cn=2 C cn=4 C cn=8 C n
+D 7cn=8 C n
+D .1 C 7c=8/n
+cn if c 8 :
+Therefore, T .n/ D O.n/.
+Showing that T .n/ D .n/ is easy:
+T .n/ D T .n=2/ C T .n=4/ C T .n=8/ C n n :
+Since T .n/ D O.n/ and T .n/ D .n/, we have that T .n/ D ‚.n/.
+In fact, T .n/ D 8n is an exact solution, as we can see by substitution:
+T .n/ D T .n=2/ C T .n=4/ C T .n=8/ C n
+D 4n C 2n C n C n
+D 8n :
+
+
+Solutions for Chapter 4: Divide-and-Conquer 4-19
+g. T .n/ D T .n 1/ C 1=n. This recurrence corresponds to the harmonic series, so that T .n/ D Hn, where Hn D 1=1 C 1=2 C 1=3 C C 1=n. For the base case, we have T .1/ D 1 D H1. For the inductive step, we assume that T .n 1/ D Hn 1, and we have
+T .n/ D T .n 1/ C 1=n
+D Hn 1 C 1=n
+D Hn :
+Since Hn D ‚.lg n/ by equation (A.9), we have that T .n/ D ‚.lg n/.
+h. T .n/ D T .n 1/ C lg n. We guess that T .n/ D ‚.n lg n/. Observe that with
+base case of n D 1, we have T .n/ D Pn
+iD1 lg i . We’ll bound this summation from above and below to obtain bounds of O.n lg n/ and .n lg n/.
+For the upper bound, we have
+T .n/ D
+n
+X
+i D1
+lg i
+n
+X
+i D1
+lg n
+D n lg n :
+To obtain a lower bound, we use just the upper half of the summation:
+T .n/ D
+n
+X
+i D1
+lg i
+n
+X
+i Ddn=2e
+lg i
+bn=2c lg dn=2e
+.n=2 1/ lg.n=2/
+D .n=2 1/ lg n .n=2 1/
+D .n lg n/ :
+Since T .n/ D O.n lg n/ and T .n/ D .n lg n/, we conclude that T .n/ D ‚.n lg n/.
+i. T .n/ D T .n 2/ C 1= lg n. The solution is T .n/ D ‚.n= lg n/. To see why, expand out the sum:
+T .n/ D T .n 2/ C 1
+lg n
+D T .n 4/ C 1
+lg.n 2/ C 1
+lg n
+D T .n 6/ C 1
+lg.n 4/ C 1
+lg.n 2/ C 1
+lg n
+:::
+D T .2/ C 1
+lg 4 C C 1
+lg.n 4/ C 1
+lg.n 2/ C 1
+lg n
+
+
+4-20 Solutions for Chapter 4: Divide-and-Conquer
+D1
+lg 2 C 1
+lg 4 C C 1
+lg.n 4/ C 1
+lg.n 2/ C 1
+lg n ; where the summation on the last line has n=2 terms.
+The lower bound of .n= lg n/ is easily seen. The smallest term is 1= lg n, and there are n=2 terms. Thus, the sum is at least n=.2 lg n/ D .n= lg n/.
+For the upper bound, break the summation into the first pn=2 terms and the
+last .n pn/=2 terms. Of the first pn=2 terms, the largest is the first one,
+1= lg 2 D 1, and so the first pn=2 terms sum to at most pn=2. Each of the last
+.n pn/=2 terms is at most 1= lg pn D 2= lg n, and so the last .n pn/=2 terms sum to at most
+n pn
+2
+2
+lg n D n pn
+lg n :
+Therefore, the sum of all n=2 terms is at most pn
+2 C n pn
+lg n :
+The .n pn/= lg n term dominates for n 4, and the sum is O.n= lg n/.
+j. T .n/ D pnT .pn/ C n. If we draw the recursion tree, we see that at depth 0, there is one node with a cost of n; at depth 1, there are n1=2 nodes, each with a cost of n1=2, for total cost of n at depth 1; at depth 2, there are n1=2 n1=4 D n3=4 nodes, each with a cost of n1=4, for total cost of n at depth 2; at depth 3, there are n3=4 n1=8 D n7=8 nodes, each with a cost of n1=8, for total cost of n at depth 3; and so on. In general, at depth i , there are n1 1=2i nodes, each with a cost of n1=2i , for a total cost of n at each level. Because the subproblem sizes decrease by a square root for each increase in the depth, the recursion tree has lg lg n levels. Therefore, we guess that T .n/ D ‚.n lg lg n/. In fact, this recurrence has the exact solution T .n/ D n lg lg n, which we show by substitution:
+T .n/ D pnT .pn/ C n
+D pn.pn lg lg pn/ C n
+D n lg lg n1=2 C n
+D n lg..1=2/ lg n/ C n
+D n.lg.1=2/ C lg lg n/ C n
+D n C n lg lg n C n
+D n lg lg n :
+Solution to Problem 4-5
+a. The identity can be shown by expanding F . ́/ and using the definition of the Fibonacci series.
+ ́ C  ́F . ́/ C  ́2F . ́/ D  ́ C  ́
+1
+X
+i D0
+Fi  ́i
+!
+C  ́2
+1
+X
+i D0
+Fi  ́i
+!
+
+
+Solutions for Chapter 4: Divide-and-Conquer 4-21
+D  ́C
+1
+X
+i D0
+Fi  ́iC1 C
+1
+X
+i D0
+Fi  ́iC2
+D  ́C
+1
+X
+i D1
+Fi 1 ́i C
+1
+X
+i D2
+Fi 2 ́i
+D  ́ C F0 ́ C
+1
+X
+i D2
+.Fi 1 C Fi 2/ ́i
+D F1 ́ C F0 ́ C
+1
+X
+i D2
+Fi  ́i
+D F . ́/ :
+b. The equation in part (a) gives  ́ D F . ́/  ́F . ́/  ́2F . ́/ D F . ́/.1  ́  ́2/, so that F . ́/ D  ́=.1  ́  ́2/. For the next step, start by observing that
+C y D 1 and y D 1. Then, we have
+.1  ́/.1 y ́/ D 1 . C y/ ́ C y ́2
+D 1  ́  ́2 :
+Finally, by observing that y D p5 and making a common denominator, we have
+p15
+1
+1 ́
+1
+1 y ́ D p15
+.1 y ́/ .1  ́/
+.1  ́/.1 y ́/
+D p15
+p5 ́
+.1  ́/.1 y ́/
+D ́
+.1  ́/.1 y ́/ :
+c. Using the hint, apply equation (A.7) to produce
+F . ́/ D p15
+1
+1 ́
+1
+1 y ́
+D p15
+1
+X
+i D0
+.  ́/i
+1
+X
+i D0
+. y ́/i
+!
+D p15
+1
+X
+i D0
+. i yi / ́i :
+d. The definition of F . ́/ in the problem and part (c) give
+1
+X
+i D0
+Fi  ́i D p15
+1
+X
+i D0
+. i yi / ́i :
+Since these summations are formal power series, we have
+Fi D p15 . i yi /
+for all i 0. Equivalently, we have
+Fi
+p15
+i D p15
+yi :
+
+
+4-22 Solutions for Chapter 4: Divide-and-Conquer
+Because y D 0:61803 : : : < 0, the factor yi is positive for odd i > 0 and
+negative for even i > 0, but ˇ
+ˇ yˇ
+ˇ
+i < 1 for all i > 0. Therefore,
+ˇ ˇ ˇ ˇ
+Fi
+i
+p5
+ˇ ˇ ˇ ˇ
+D
+ˇ ˇ ˇ ˇ
+yi
+p5
+ˇ ˇ ˇ ˇ
+< p15 < 1
+2
+for all i > 0. Thus, rounding i =p5 to the nearest integer gives Fi .
+e. We start by showing that FiC2 i for i D 0; 1; 2: F2 D 1 D 0, F3 D 2 >
+D 1:61803 : : :, and F4 D 3 > .3 C p5/=2 D 2 (because 2 D .3 C p5/=2
+and 2 < p5 < 3).
+Now we’ll show that FiC2 > i for i 3. By part (d), because Fi D i =p5, rounded to the nearest integer, we have
+Fi C2
+i C2
+p5
+1
+2
+Di
+2
+p5
+1
+2i :
+Observe that
+2
+p5
+1 2i
+2
+p5
+1 23
+for i 3. If we can prove that
+2
+p5
+1
+2 3 >1;
+then for i 3, we have
+FiC2 i
+2
+p5
+1 2i
+i
+2
+p5
+1 23
+> i;
+as desired. Noting that 3 D 2 C p5, we have
+2
+p5
+1
+2 3 D 3 C p5
+2p5
+1
+2.2 C p5/
+D1
+2
+3 C p5
+p5
+1
+2 C p5
+D1
+2 1 C p35
+1
+2 C p5
+D1
+2 1 C 6 C 3p5
+5 C 2p5
+p5
+5 C 2p5
+D1
+2 1 C 6 C 2p5
+5 C 2p5
+>1
+2 .1 C 1/
+D 1;
+which completes the proof.
+
+
+Solutions for Chapter 4: Divide-and-Conquer 4-23
+Solution to Problem 4-6
+a. We will prove by contradiction that if at least n=2 chips are bad, there is no algorithm A that can determine which chips are good using a strategy based on pairwise tests.
+Assume for sake of contradiction that there exists an algorithm A that, if at least n=2 chips are bad, can output a good chip, using pairwise tests.
+Since we can assign arbitrary behavior to bad chips, a bad chip can always mislead about the other chip, so that pairwise tests could always go as follows:
+If both chips are good, then both are reported as good. If both chips are bad, then both are reported as good. If one chip is good and one chip is bad, then both are reported as bad.
+Partition the n chips into sets X and Y , where jX j D bn=2c and jY j D dn=2e. Assume that the results above happen when pairwise tests are carried out.
+First, consider the case where all the chips in X are good and all the chips in Y are bad. In this case, A will use the results of the pairwise tests to output some chip x from X . Now, consider the case where all the chips in X are bad and all the chips in Y are good. In this case, A will again use the results of the pairwise tests to output some chip y from Y .
+Since these two cases will have the exact same results from pairwise comparisons, the chips x and y would be the same chip. However, a single chip cannot be from both X and Y , so that A is not a correct algorithm. Therefore, the assumption that a correct algorithm that can output a good chip exists is wrong, and no algorithm exists.
+b. Execute the following procedure. If n is an odd number, set one arbitrary chip c aside to give an even number of remaining chips. If n is even, do not set a chip aside. Call the chips that remain (either n or n 1 of them) set C . Start with a set R of chips, initially empty. Repeatedly take two chips at a time from C and conduct a pairwise test. If a test reports that both chips are bad or that one is good and one is bad, do not put either chip into set R. If a test reports that both chips are good, add one of the two chips to set R. At the end of all of the pairwise tests, if jRj is even and a chip c had been set aside at the beginning, add c to R. We will show that the set R has at most dn=2e chips and that more than half of the chips in R are good.
+We first prove that jRj dn=2e. Since jC j is equal to n if n is even and to n 1 if n is odd, jC j n. There are jC j =2 pairwise tests, and each test contributes either 0 or 1 chip to R, so that jRj jC j =2. If n is even, then jRj jC j =2 D n=2 D dn=2e. If n is odd, jC j =2 with the addition of a single chip that might be added back in equals .n 1/=2 C 1 D dn=2e, so that jRj jC j =2 C 1 D .n 1/=2 C 1 D dn=2e.
+Now, we show that R will always have more good chips than bad chips. Let GG be the set of chips in pairs where both chips are good, BB be the set of chips in pairs where both chips are bad, and BG D C .GG [ BB/ be the set of chips
+
+
+4-24 Solutions for Chapter 4: Divide-and-Conquer
+in pairs with one bad and one good. The number of good chips in C is jGGj C jBGj =2, and the number of bad chips in C is jBBj CjBGj =2. We know that at the start of the procedure, there are more good chips than bad chips. If n is even, so that no chip was set aside, then jGGj C jBGj =2 > jBBj C jBGj =2, so that jGGj > jBBj. If n is odd, the chip c set aside at the beginning could have been either good or bad. If it was good, then we have jGGj C jBGj =2 C 1 > jBBj C jBGj =2, so that jGGj C jBGj =2 jBBj C jBGj =2 and thus jGGj jBBj. If chip c was bad, then we have jGGj C jBGj =2 > jBBj C jBGj =2 C 1, so that jGGj C jBGj =2 > jBBj C jBGj =2 and thus jGGj > jBBj.
+We will proceed through several cases to show that we will always maintain R having strictly more good than bad chips. To show this, let GG0 D GG \R, the chips in GG that go into R, and BB0 D BB \R, the chips in BB that go into R. No chips from BG go into R, since the good chip in a pair always reports that the other chip is bad. Thus, R contains only chips from GG and BB, so that R D GG0 [ BB0 before adding in the chip set aside.
+First, consider the case where n is even and no chip is set aside, so that jGGj > jBBj. Because there are strictly more good than bad chips and n is even, there are at least two more good chips than bad chips. Whenever the test reports that both are bad or one is good and one is bad, at least one chip in the pair is bad. Therefore, if a test reports at least one chip is bad, it does not add a bad chip to R. If the test reports that both are good, either both chips are good (from GG) or both chips are bad (from BB). In this case, one chip from the pair is added to R, so that jGG0j D jGGj =2 and jBB0j D jBBj =2. Since R D GG0 [ BB0 and jGG0j D jGGj =2 > jBBj =2 D jBB0j, we know that R ends up with strictly more good chips than bad chips in this case.
+Now, let us consider the case where n is odd and a chip c was put aside. Chip c could be good or bad.
+If c is a good chip, then we know that jGGj jBBj from above. All of the pairs of chips that are reported as both bad or one good and one bad will not be added to R, and R will contain only half of the chips from the pairs of chips reported as both good. As before, this will result in jGG0j D jGGj =2 and jBB0j D jBBj =2, so that jGG0j jBB0j. Since R D GG0 [ BB0, at minimum half of the chips in R will be good. If R ends up with an equal number of good and bad chips, then adding c into R gives R more good chips than bad chips. Of course, if R contains more good chips than bad chips, then since c is a good chip, R still contains more good chips than bad chips after adding in c.
+Finally, consider the case in which c is a bad chip. In this case, n 1 is even, and we have that jGGj > jBBj from above. As in the case where n is even, R ends up with more good chips than bad chips after all the pairwise tests. Now, if jRj is even, then since R contains more good chips than bad chips, it must contain at least two more good chips than bad chips. Therefore, after R has c added in at the end, R still contains more good chips than bad chips. If jRj is odd, it might have just one more good chip than bad chip, but since c is not added into R in this case, R still has more good chips than bad chips.
+Therefore, in all cases, we are able to use bn=2c pairwise tests to obtain a set R with at most dn=2e chips, maintaining the property that more than half of the chips are good.
+
+
+Solutions for Chapter 4: Divide-and-Conquer 4-25
+c. In order to identify one good chip, start with all n chips, and execute the procedure from part (b) to get a set R with at most dn=2e chips, more than half of which will be good. Then, recursively repeat the procedure on set R, and continue to do so until a set of one chip remains. We know that this procedure will terminate with one chip, since every recursive call will end with a set of size at most dm=2e, where m is the size of the set at the beginning of the recursive call. Since this set will retain the property that more chips are good than bad, as proven in part (b), the one remaining chip must be good.
+The recurrence that describes the number of tests needed is T .n/ D T .dn=2e/C bn=2c, since bn=2c pairwise tests occur at each execution of the procedure, leaving at most dn=2e for the next recursive call. Since floors and ceilings usually do not matter when solving recurrences asymptotically, we can write the recurrence as T .n/ D T .n=2/ C ‚.n/. Then, by the master method, we have a D 1, b D 2, and f .n/ D ‚.n/. Plugging into nlogb a, we get nlog2 1 D 1. Since f .n/ D .n0C / for D 1, and f .n=2/ cf .n/ for all c 1=2, case 3 of the master theorem applies, and T .n/ D ‚.n/.
+d. From part (c), we know how to identify one good chip g. Since a good chip always accurately reports whether the other chip in a pairwise test is good or bad, just test g against each of the other n 1 chips, requiring an additional n 1 D ‚.n/ pairwise tests.
+
+
+Solutions for Chapter 5:
+Probabilistic Analysis and Randomized
+Algorithms
+Solution to Exercise 5.1-3
+To get an unbiased random bit, given only calls to BIASED-RANDOM, call BIASED-RANDOM twice. Repeatedly do so until the two calls return different values, and when this occurs, return the first of the two bits:
+UNBIASED-RANDOM./
+while TRUE
+x D BIASED-RANDOM./ y D BIASED-RANDOM./ if x ¤ y return x
+To see that UNBIASED-RANDOM returns 0 and 1 each with probability 1=2, observe that the probability that a given iteration returns 0 is
+Pr fx D 0 and y D 1g D .1 p/p ;
+and the probability that a given iteration returns 1 is
+Pr fx D 1 and y D 0g D p.1 p/ :
+(We rely on the bits returned by BIASED-RANDOM being independent.) Thus, the probability that a given iteration returns 0 equals the probability that it returns 1. Since there is no other way for UNBIASED-RANDOM to return a value, it returns 0 and 1 each with probability 1=2.
+Assuming that each iteration takes O.1/ time, the expected running time of UNBIASED-RANDOM is linear in the expected number of iterations. We can view each iteration as a Bernoulli trial, where “success” means that the iteration returns a value. The probability of success equals the probability that 0 is returned plus the probability that 1 is returned, or 2p.1 p/. The number of trials until a success occurs is given by the geometric distribution, and by equation (C.36), the expected number of trials for this scenario is 1=.2p.1 p//. Thus, the expected running time of UNBIASED-RANDOM is ‚.1=.2p.1 p//.
+
+
+5-2 Solutions for Chapter 5: Probabilistic Analysis and Randomized Algorithms
+Solution to Exercise 5.2-1
+This solution is also posted publicly
+Since HIRE-ASSISTANT always hires candidate 1, it hires exactly once if and only if no candidates other than candidate 1 are hired. This event occurs when candidate 1 is the best candidate of the n, which occurs with probability 1=n.
+HIRE-ASSISTANT hires n times if each candidate is better than all those who were interviewed (and hired) before. This event occurs precisely when the list of ranks given to the algorithm is h1; 2; : : : ; ni, which occurs with probability 1=nŠ.
+Solution to Exercise 5.2-2
+We make three observations:
+1. Candidate 1 is always hired.
+2. The best candidate, i.e., the one whose rank is n, is always hired.
+3. If the best candidate is candidate 1, then that is the only candidate hired.
+Therefore, in order for HIRE-ASSISTANT to hire exactly twice, candidate 1 must have rank i n 1 and all candidates whose ranks are i C 1; i C 2; : : : ; n 1 must be interviewed after the candidate whose rank is n. (When i D n 1, this second condition vacuously holds.)
+Let Ei be the event in which candidate 1 has rank i ; clearly, Pr fEi g D 1=n for any given value of i.
+Letting j denote the position in the interview order of the best candidate, let F be the event in which candidates 2; 3; : : : ; j 1 have ranks strictly less than the rank of candidate 1. Given that event Ei has occurred, event F occurs when the best candidate is the first one interviewed out of the n i candidates whose ranks are i C 1; i C 2; : : : ; n. Thus, Pr fF j Ei g D 1=.n i /.
+Our final event is A, which occurs when HIRE-ASSISTANT hires exactly twice. Noting that the events E1; E2; : : : ; En are disjoint, we have
+A D F \ .E1 [ E2 [ [ En 1/
+D .F \ E1/ [ .F \ E2/ [ [ .F \ En 1/ :
+and
+Pr fAg D
+n1
+X
+i D1
+Pr fF \ Ei g :
+By equation (C.16),
+Pr fF \ Ei g D Pr fF j Ei g Pr fEi g
+D1
+ni
+1
+n;
+
+
+Solutions for Chapter 5: Probabilistic Analysis and Randomized Algorithms 5-3
+and so
+Pr fAg D
+n1
+X
+i D1
+1
+ni
+1
+n
+D1
+n
+n1
+X
+i D1
+1
+ni
+D1
+n
+1
+n 1C 1
+n 2C C1
+1
+D1
+n Hn 1 ;
+where Hn 1 is the nth harmonic number.
+Solution to Exercise 5.2-3
+For i D 1; 2; : : : ; 6, define the indicator random variable
+Xi D I fi is rolledg
+D
+(
+1 if i is rolled ;
+0 if i is not rolled :
+Since each face value has a probability of 1=6 of being rolled, E ŒXi D 1=6, for i D 1; 2; : : : ; 6.
+Now define a random variable Yj that is equal to the value rolled on die j , where j D 1; 2; : : : ; n. Then,
+E ŒYj D
+6
+X
+i D1
+i E ŒXi
+D
+6
+X
+i D1
+i1
+6
+D1
+6
+6
+X
+i D1
+i
+D7
+2:
+Finally, define a random variable Z equal to the sum of the n dice rolls. We want to compute EŒZ . Therefore, we have
+E ŒZ D
+n
+X
+j D1
+E ŒYj
+D
+n
+X
+j D1
+7
+2
+D 7n
+2;
+and so 7n=2 is the expected sum of n dice rolls.
+
+
+5-4 Solutions for Chapter 5: Probabilistic Analysis and Randomized Algorithms
+Solution to Exercise 5.2-4
+From Exercise 5.2-3, the expected value of the sum of two dice is 7 (7n=2 for n D 2).
+For the case in which the first die is rolled normally and the second die is set equal to the first die’s value, define the indicator random variable
+Xi D I fi is rolled on the first dieg :
+We have E ŒXi D 1=6 for i D 1; : : : ; 6. Define a random variable Y that is equal to the sum of the two dice, so that
+E ŒY D
+6
+X
+i D1
+2i E ŒXi
+D
+6
+X
+i D1
+2i 1
+6
+D1
+3
+6
+X
+i D1
+i
+D 7:
+For the case in which the first die is rolled normally and the second die is set to 7 minus the value of the first die, define the indicator random variables Xi and Y as above. This time, we have
+E ŒY D
+6
+X
+i D1
+.i C .7 i //E ŒXi
+D
+6
+X
+i D1
+71
+6
+D 7:
+Solution to Exercise 5.2-5
+This solution is also posted publicly
+Another way to think of the hat-check problem is that we want to determine the expected number of fixed points in a random permutation. (A fixed point of a permutation is a value i for which .i/ D i.) We could enumerate all nŠ permutations, count the total number of fixed points, and divide by nŠ to determine the average number of fixed points per permutation. This would be a painstaking process, and the answer would turn out to be 1. We can use indicator random variables, however, to arrive at the same answer much more easily.
+Define a random variable X that equals the number of customers that get back their own hat, so that we want to compute E ŒX .
+For i D 1; 2; : : : ; n, define the indicator random variable
+
+
+Solutions for Chapter 5: Probabilistic Analysis and Randomized Algorithms 5-5
+Xi D I fcustomer i gets back his own hatg :
+Then X D X1 C X2 C C Xn.
+Since the ordering of hats is random, each customer has a probability of 1=n of getting back their own hat. In other words, Pr fXi D 1g D 1=n, which, by Lemma 5.1, implies that E ŒXi D 1=n.
+Thus,
+E ŒX D E
+"n X
+i D1
+Xi
+#
+D
+n
+X
+i D1
+E ŒXi (linearity of expectation)
+D
+n
+X
+i D1
+1=n
+D 1;
+and so we expect that exactly 1 customer gets back their own hat.
+Note that this is a situation in which the indicator random variables are not independent. For example, if n D 2 and X1 D 1, then X2 must also equal 1. Conversely, if n D 2 and X1 D 0, then X2 must also equal 0. Despite the dependence, Pr fXi D 1g D 1=n for all i, and linearity of expectation holds. Thus, we can use the technique of indicator random variables even in the presence of dependence.
+Solution to Exercise 5.2-6
+This solution is also posted publicly
+Let Xij be an indicator random variable for the event where the pair AŒi ; AŒj for i < j is inverted, i.e., AŒi > AŒj . More precisely, we define Xij D I fAŒi > AŒj g for 1 i < j n. We have Pr fXij D 1g D 1=2, because given two distinct random numbers, the probability that the first is bigger than the second is 1=2. By Lemma 5.1, E ŒXij D 1=2.
+Let X be the the random variable denoting the total number of inverted pairs in the array, so that
+XD
+n1
+X
+i D1
+n
+X
+j Di C1
+Xij :
+We want the expected number of inverted pairs, so we take the expectation of both sides of the above equation to obtain
+E ŒX D E
+"n 1
+X
+i D1
+n
+X
+j Di C1
+Xij
+#
+:
+We use linearity of expectation to get
+E ŒX D E
+"n 1
+X
+i D1
+n
+X
+j Di C1
+Xij
+#
+
+
+5-6 Solutions for Chapter 5: Probabilistic Analysis and Randomized Algorithms
+D
+n1
+X
+i D1
+n
+X
+j Di C1
+E ŒXij
+D
+n1
+X
+i D1
+n
+X
+j Di C1
+1=2
+Dn
+2
+!
+1
+2
+D n.n 1/
+2
+1
+2 D n.n 1/
+4:
+Thus the expected number of inverted pairs is n.n 1/=4.
+Solution to Exercise 5.3-1
+Here’s the rewritten procedure:
+RANDOMLY-PERMUTE.A; n/
+swap AŒ1 with AŒRANDOM.1; n/ for i D 2 to n
+swap AŒi with AŒRANDOM.i; n/
+The loop invariant becomes
+Loop invariant: Just prior to the iteration of the for loop for each value of i D 2; : : : ; n, for each possible .i 1/-permutation, the subarray AŒ1 W i 1 contains this .i 1/-permutation with probability .n i C 1/Š=nŠ.
+The maintenance and termination parts remain the same. The initialization part is for the subarray AŒ1 W 1 , which contains any 1-permutation with probability .n 1/Š=nŠ D 1=n.
+Solution to Exercise 5.3-2
+This solution is also posted publicly
+Along with the identity permutation, there are other permutations that PERMUTEWITHOUT-IDENTITY fails to produce. For example, consider its operation when n D 3, when it should be able to produce the nŠ 1 D 5 non-identity permutations. The for loop iterates for i D 1 and i D 2. When i D 1, the call to RANDOM returns one of two possible values (either 2 or 3), and when i D 2, the call to RANDOM returns just one value (3). Thus, PERMUTE-WITHOUT-IDENTITY can produce only 2 1 D 2 possible permutations, rather than the 5 that are required.
+
+
+Solutions for Chapter 5: Probabilistic Analysis and Randomized Algorithms 5-7
+Solution to Exercise 5.3-3
+The PERMUTE-WITH-ALL procedure does not produce a uniform random permutation. Consider the permutations it produces when n D 3. The procedure makes 3 calls to RANDOM, each of which returns one of 3 values, and so calling PERMUTE-WITH-ALL has 27 possible outcomes. Since there are 3Š D 6 permutations, if PERMUTE-WITH-ALL did produce a uniform random permutation, then each permutation would occur 1=6 of the time. That would mean that each permutation would have to occur an integer number m times, where m=27 D 1=6. No integer m satisfies this condition.
+In fact, if we were to work out the possible permutations of h1; 2; 3i and how often they occur with PERMUTE-WITH-ALL, we would get the following probabilities:
+permutation probability h1; 2; 3i 4=27 h1; 3; 2i 5=27 h2; 1; 3i 5=27 h2; 3; 1i 5=27 h3; 1; 2i 4=27 h3; 2; 1i 4=27
+Although these probabilities sum to 1, none are equal to 1=6.
+Solution to Exercise 5.3-4
+This solution is also posted publicly
+PERMUTE-BY-CYCLIC chooses offset as a random integer in the range 1 offset n, and then it performs a cyclic rotation of the array. That is, BŒ..i C offset 1/ mod n/ C 1 D AŒi for i D 1; 2; : : : ; n. (The subtraction and addition of 1 in the index calculation is due to the 1-origin indexing. If we had used 0-origin indexing instead, the index calculation would have simplied to BŒ.i C offset/ mod n D AŒi for i D 0; 1; : : : ; n 1.)
+Thus, once offset is determined, so is the entire permutation. Since each value of offset occurs with probability 1=n, each element AŒi has a probability of ending up in position BŒj with probability 1=n.
+This procedure does not produce a uniform random permutation, however, since it can produce only n different permutations. Thus, n permutations occur with probability 1=n, and the remaining nŠ n permutations occur with probability 0.
+
+
+5-8 Solutions for Chapter 5: Probabilistic Analysis and Randomized Algorithms
+Solution to Exercise 5.3-5
+First, we show that the set S returned by RANDOM-SAMPLE contains m elements. Each iteration of the for loop adds exactly one element into S. The number of iterations is n .n m C 1/ C 1 D m, and so jSj D m at completion.
+Because the elements of set S are chosen independently of each other, it suffices to show that each of the n values appears in S with probability m=n. We use an inductive proof. The inductive hypothesis is that after an iteration of the for loop for a specific value of k, the set S contains jSj D k .n m/ elements, each appearing with probability jSj =k. During the first iteration, i is equally likely to be any integer in f1; 2; : : : ; kg and is added to S, which is initially empty; therefore the inductive hypothesis holds after the first iteration.
+For the inductive step, denote by S0 the set S after the iteration for k 1. By the inductive hypothesis, jS0j D jSj 1 D k 1 .n m/, and each value in f1; 2; : : : ; k 1g appears with probability jS0j =.k 1/. For the iteration with value k, we consider separately the probabilities that S contains j < k and that S contains k. Let Rj be the event that the call RANDOM.1; k/ returns j , so that Pr fRj g D 1=k.
+For j < k, the event that j 2 S is the union of two disjoint events:
+j 2 S 0, and
+j ... S0 and Rj (these events are independent),
+Thus,
+Pr fj 2 Sg D Pr fj 2 S0g C Pr fj ... S0 and Rj g (the events are disjoint) D jS 0j
+k 1 C 1 jS 0j
+k1
+1
+k (by the inductive hypothesis)
+D jSj 1
+k 1C k 1
+k1
+jSj 1 k1
+1
+k D jSj 1
+k1
+k
+k C k jSj
+k1
+1
+k D .jSj 1/k C .k jSj/
+.k 1/k
+D jSj k k C k jSj
+.k 1/k D jSj .k 1/
+.k 1/k
+D jSj
+k:
+The event that k 2 S is also the union of two disjoint events:
+Rk, and
+Rj and j 2 S0 for some j < k (these events are independent).
+
+
+Solutions for Chapter 5: Probabilistic Analysis and Randomized Algorithms 5-9
+Thus, Pr fk 2 Sg
+D Pr fRkg C Pr fRj and j 2 S0 for some j < kg (the events are disjoint)
+D1
+kC 1 1
+k
+jS 0j
+k 1 (by the inductive hypothesis)
+D1
+kCk 1
+k
+jS 0j k1
+D1
+k
+k1
+k 1Ck 1
+k
+jSj 1
+k1 D k 1 C k jSj k jSj C 1
+k.k 1/ D k jSj jSj
+k.k 1/ D jSj .k 1/
+k.k 1/
+D jSj
+k:
+Therefore, after the last iteration, in which k D n, each of the n values appears in S with probability jSj =n D m=n.
+Solution to Exercise 5.4-7
+First we determine the expected number of empty bins. We define a random variable X to be the number of empty bins, so that we want to compute E ŒX . Next, for i D 1; 2; : : : ; n, we define the indicator random variable Yi D I fbin i is emptyg. Thus,
+XD
+n
+X
+i D1
+Yi ;
+and so
+E ŒX D E
+"n X
+i D1
+Yi
+#
+D
+n
+X
+i D1
+E ŒYi (by linearity of expectation)
+D
+n
+X
+i D1
+Pr fbin i is emptyg (by Lemma 5.1) .
+Let us focus on a specific bin, say bin i. We view a toss as a success if it misses bin i and as a failure if it lands in bin i. We have n independent Bernoulli trials, each with probability of success 1 1=n. In order for bin i to be empty, we need n successes in n trials. Using a binomial distribution, therefore, we have that
+Pr fbin i is emptyg D n
+n
+!
+11
+n
+n1
+n
+0
+
+
+5-10 Solutions for Chapter 5: Probabilistic Analysis and Randomized Algorithms
+D1 1
+n
+n
+:
+Thus,
+E ŒX D
+n
+X
+i D1
+11
+n
+n
+Dn 1 1
+n
+n
+:
+By equation (3.16), as n approaches 1, the quantity .1 1=n/n approaches 1=e, and so E ŒX approaches n=e.
+Now we determine the expected number of bins with exactly one ball. We redefine X to be number of bins with exactly one ball, and we redefine Yi to be I fbin i gets exactly one ballg. As before, we find that
+E ŒX D
+n
+X
+i D1
+Pr fbin i gets exactly one ballg :
+Again focusing on bin i, we need exactly n 1 successes in n independent Bernoulli trials, and so
+Pr fbin i gets exactly one ballg D n
+n1
+!
+11
+n
+n1 1
+n
+1
+Dn 1 1
+n
+n 11
+n
+D1 1
+n
+n1
+;
+and so
+E ŒX D
+n
+X
+i D1
+11
+n
+n1
+Dn 1 1
+n
+n1
+:
+Because
+n1 1
+n
+n1
+Dn 1 1
+n
+n
+11
+n
+;
+as n approaches 1, we find that E ŒX approaches
+n=e
+1 1=n D n2
+e.n 1/ :
+Solution to Problem 5-1
+a. To determine the expected value represented by the counter after n INCREMENT operations, we define some random variables:
+
+
+Solutions for Chapter 5: Probabilistic Analysis and Randomized Algorithms 5-11
+For j D 1; 2; : : : ; n, let Xj denote the increase in the value represented by the counter due to the j th INCREMENT operation. Let Vn be the value represented by the counter after n INCREMENT operations.
+Then Vn D X1 C X2 C C Xn. We want to compute E ŒVn . By linearity of expectation,
+E ŒVn D E ŒX1 C X2 C C Xn D E ŒX1 C E ŒX2 C C E ŒXn :
+We shall show that E ŒXj D 1 for j D 1; 2; : : : ; n, which will prove that E ŒVn D n.
+We actually show that E ŒXj D 1 in two ways, the second more rigorous than the first:
+1. Suppose that at the start of the j th INCREMENT operation, the counter holds the value i , which represents ni . If the counter increases due to this INCREMENT operation, then the value it represents increases by niC1 ni . The counter increases with probability 1=.niC1 ni /, and so
+E ŒXj D .0 Pr fcounter does not increaseg/
+C ..niC1 ni / Pr fcounter increasesg/
+D0 1 1
+niC1 ni
+C .niC1 ni / 1
+niC1 ni
+D 1;
+and so E ŒXj D 1 regardless of the value held by the counter. 2. Let Cj be the random variable denoting the value held in the counter at the start of the j th INCREMENT operation. Since we can ignore values of Cj greater than 2b 1, we use a formula for conditional expectation:
+E ŒXj D E ŒE ŒXj j Cj
+D
+2b 1
+X
+i D0
+E ŒXj j Cj D i Pr fCj D i g :
+To compute E ŒXj j Cj D i , we note that
+Pr fXj D 0 j Cj D i g D 1 1=.niC1 ni /,
+Pr fXj D niC1 ni j Cj D i g D 1=.niC1 ni /, and
+Pr fXj D k j Cj D i g D 0 for all other k.
+Thus,
+E ŒXj j Cj D i D X
+k
+k Pr fXj D k j Cj D i g
+D0 1 1
+niC1 ni
+C .niC1 ni / 1
+niC1 ni
+D 1:
+Therefore, noting that
+2b 1
+X
+i D0
+Pr fCj D i g D 1 ;
+
+
+5-12 Solutions for Chapter 5: Probabilistic Analysis and Randomized Algorithms
+we have
+E ŒXj D
+2b 1
+X
+i D0
+1 Pr fCj D i g
+D 1:
+Why is the second way more rigorous than the first? Both ways condition on the value held in the counter, but only the second way incorporates the conditioning into the expression for E ŒXj .
+b. Defining Vn and Xj as in part (a), we want to compute Var ŒVn , where ni D 100i . The Xj are pairwise independent, and so by equation (C.33), Var ŒVn D Var ŒX1 C Var ŒX2 C C Var ŒXn .
+Since ni D 100i , we see that niC1 ni D 100.i C 1/ 100i D 100. Therefore, with probability 99=100, the increase in the value represented by the counter due to the j th INCREMENT operation is 0, and with probability 1=100, the value represented increases by 100. Thus, by equation (C.31),
+Var ŒXj D E X 2
+j E2 ŒXj
+D 02 99
+100 C 1002 1
+100 12 D 100 1
+D 99 :
+Summing up the variances of the Xj gives Var ŒVn D 99n.
+Solution to Problem 5-2
+a. Here is pseudocode for RANDOM-SEARCH:
+RANDOM-SEARCH.A; n; x/ allocate an array checkedŒ1 W n for i D 1 to n
+checkedŒi D FALSE
+count D 0 // number of TRUE entries in checked while count < n
+i D RANDOM.1; n/ if AŒi == x return i
+elseif checkedŒi == FALSE checkedŒi D TRUE count D count C 1 return NIL
+b. We can model this question with a geometric distribution, where success means finding x. The probability of success is 1=n, and so by equation (C.36), the expected number of indices into A that must be picked equals n.
+
+
+Solutions for Chapter 5: Probabilistic Analysis and Randomized Algorithms 5-13
+c. Using the same idea as in part (b), if k positions in A contain x, then the probability of success becomes k=n. Equation (C.36) says that the expected number of indices into A that must be picked equals n=k.
+d. We can model this question using by the answer to “How many balls must you toss until every bin contains at least one ball?” on page 143. Here, a ball landing in a particular bin corresponds to picking a particular array index. There are n “bins”, so that using the analysis on page 143, the expected number of indices into A that must be picked is n.ln n C O.1//.
+e. Intuitively, we know that the average-case running time of DETERMINISTICSEARCH is ‚.n/ when x appears in the array exactly once, because on average x appears halfway into the array. Let’s prove it rigorously. Let Xi D
+I fAŒi is examinedg and X D Pn
+iD1 Xi equal the number of indices of A that are examined. Suppose that AŒj D x. Then AŒi is examined if it occurs before AŒj . Taking positions i and j together, the probability that i ¤ j occurs before j for random i and j is 1=2, so that E ŒXi D 1=2 if i ¤ j . Position j is always examined, so that E ŒXj D 1. Thus,
+E ŒX D E
+"n X
+i D1
+Xi
+#
+DE
+" X
+1 i n;i ¤j
+Xi C Xj
+#
+D
+X
+1 i n;i ¤j
+E ŒXi C E ŒXj (by linearity of expectation)
+D .n 1/ 1
+2 C1
+D nC1
+2:
+In the worst case, AŒn D x, and the running time is also ‚.n/.
+f. As in part (e), let Xi D I fAŒi is examinedg and X D Pn
+iD1 Xi equal the number of indices of A that are examined. Let S D fi W AŒi D xg and S D fi W AŒi ¤ xg, so that jSj D k and jSj D n k. A position i 2 S is examined only if it’s the first position in S, which occurs with probability 1=k. A position i ... S is examined only if, out of position i and all k positions in S, i is the first position, which occurs with probability 1=.k C 1/. Thus,
+E ŒX D E
+"n X
+i D1
+Xi
+#
+D
+X
+i 2S
+E ŒXi C X
+i ...S
+E ŒXi (by linearity of expectation)
+Dk 1
+k C .n k/ 1
+kC1
+D 1C n k
+kC1 D kC1
+kC1 C n k
+kC1
+
+
+5-14 Solutions for Chapter 5: Probabilistic Analysis and Randomized Algorithms
+D nC1
+kC1 :
+Observe that when k D 1, we get the same result as in part (e).
+In the worst case, the k positions of A containing x are the last k positions, so that the running time is ‚.n k C 1/.
+g. If x does not appear in A, then all positions of A are examined in all cases, so that the running time is ‚.n/.
+h. SCRAMBLE-SEARCH runs in the time to randomly permute the array, plus the time for DETERMINISTIC-SEARCH. Assuming that randomly permuting the array takes ‚.n/ time (for example, by calling RANDOMLY-PERMUTE on page 136), SCRAMBLE-SEARCH runs in ‚.n/ time in all cases.
+i. Of the three searching algorithms, DETERMINISTIC-SEARCH has the best expected and worst-case running times.
+
+
+Solutions for Chapter 6:
+Heapsort
+Solution to Exercise 6.1-1
+This solution is also posted publicly
+Since a heap is an almost-complete binary tree (complete at all levels except possibly the lowest), it has at most 2hC1 1 elements (if it is complete) and at least 2h 1 C 1 D 2h elements (if the lowest level has just 1 element and the other levels are complete).
+Solution to Exercise 6.1-2
+This solution is also posted publicly
+Given an n-element heap of height h, we know from Exercise 6.1-1 that
+2h n 2hC1 1 < 2hC1 :
+Thus, h lg n < h C 1. Since h is an integer, h D blg nc (by definition of b c).
+Solution to Exercise 6.1-3
+Assume that the claim is false—i.e., that there is a subtree whose root is not the largest element in the subtree. Then the maximum element is somewhere else in the subtree, possibly even at more than one location. Let m be the index at which the maximum appears (the lowest such index if the maximum appears more than once). Since the maximum is not at the root of the subtree, node m has a parent. Since the parent of a node has a lower index than the node, and m was chosen to be the smallest index of the maximum value, AŒPARENT.m/ < AŒm . But by the max-heap property, we must have AŒPARENT.m/ AŒm . So our assumption is false, and the claim is true.
+
+
+6-2 Solutions for Chapter 6: Heapsort
+Solution to Exercise 6.1-4
+The smallest element must reside in a leaf.
+Solution to Exercise 6.1-5
+For 2 k bn=2c, the kth largest element could be at any level except the root. Consider a max-heap that is a full binary tree with the bn=2c largest elements other than the root in the left subtree of the root and the bn=2c smallest elements in the right subtree.
+Solution to Exercise 6.1-6
+Yes, an array in sorted order is a min-heap, since AŒi AŒ2i where 2i n, and AŒi AŒ2i C 1 where 2i C 1 n.
+Solution to Exercise 6.1-7
+No, this array is not a max-heap. Element 15 has 13 and 16 as children, and 16 > 15.
+Solution to Exercise 6.1-8
+To show that the leaves of an n-element heap stored in the array representation are indexed by bn=2c C 1; bn=2c C 2; : : : ; n, it suffices to show that node bn=2c is not a leaf and that node bn=2c C 1 is a leaf.
+To show that node bn=2c is not leaf, we just need to show that it has a left child, i.e., that the index of its left child is at most n. The left child has index 2 bn=2c 2.n=2/ D n.
+To show that node bn=2c C 1 is a leaf, we need to show that it has no left child, i.e., that the index of the node that would be its left child is greater than n. The index of the would-be left child is 2.bn=2c C 1/ > 2..n=2 1/ C 1/ D n.
+Thus, the leaves are indexed by bn=2c C 1; bn=2c C 2; : : : ; n.
+
+
+Solutions for Chapter 6: Heapsort 6-3
+Solution to Exercise 6.2-2
+The greatest imbalance occurs when the left subtree of the root is a full binary tree with k levels and the right subtree of the root is a full binary tree with k 1 levels. The left subtree then contains 2k 1 nodes, and the right subtree contains 2k 1 1 nodes. With the root, the total number of nodes is n D .2k 1/ C .2k 1 1/ C 1 D 2k C 2k 1 1. Therefore, the ratio of nodes in the left subtree to the total number of nodes is 2k 1
+2k C 2k 1 1 D 2 2k 1 1
+3 2k 1 1 < 2 2k 1
+3 2k 1 (the numerator is smaller than the denominator)
+D 2=3 :
+The smallest constant  ̨ such that each subtree has at most  ̨n nodes is 3=5, and it occurs in a heap with 5 nodes. As long as  ̨ is a constant strictly less than 1, the recurrence T .n/ T . ̨n/ C ‚.1/ has the same solution of O.lg n/.
+Solution to Exercise 6.2-4
+The heap doesn’t change because line 8 of MAX-HEAPIFY finds that largest D i .
+Solution to Exercise 6.2-5
+The heap doesn’t change because by Exercise 6.1-8, node i is a leaf for i > A: heap-size=2.
+
+
+6-4 Solutions for Chapter 6: Heapsort
+Solution to Exercise 6.2-6
+ITERATIVE-HEAPIFY .A; i /
+heapified D FALSE while heapified == FALSE l D LEFT.i / r D RIGHT.i /
+if l A:heap-size and AŒl > AŒi largest D l else largest D i if r A:heap-size and AŒr > AŒlargest largest D r if i ¤ largest
+exchange AŒi with AŒlargest i D largest else heapified D TRUE
+Solution to Exercise 6.2-7
+This solution is also posted publicly
+If you put a value at the root that is less than every value in the left and right subtrees, then MAX-HEAPIFY will be called recursively until a leaf is reached. To make the recursive calls traverse the longest path to a leaf, choose values that make MAX-HEAPIFY always recurse on the left child. It follows the left branch when the left child is greater than or equal to the right child, so putting 0 at the root and 1 at all the other nodes, for example, will accomplish that. With such values, MAX-HEAPIFY will be called h times (where h is the heap height, which is the number of edges in the longest path from the root to a leaf), so its running time will be ‚.h/ (since each call does ‚.1/ work), which is ‚.lg n/. Since we have a case in which MAX-HEAPIFY’s running time is ‚.lg n/, its worst-case running time is .lg n/.
+Solution to Exercise 6.3-2
+For 0 h dlg ne, we have
+ln
+2hC1
+m ln
+2lg nC1
+m
+D
+ln
+2n
+m
+1=2 :
+
+
+Solutions for Chapter 6: Heapsort 6-5
+Solution to Exercise 6.3-3
+We want to proceed from the leaves to the root because MAX-HEAPIFY assumes that both subtrees of node i have the max-heap property.
+Solution to Exercise 6.3-4
+This solution relies on five facts:
+1. Every node not on the unique simple path from the last leaf to the root is the root of a complete binary subtree.
+2. A node that is the root of a complete binary subtree and has height h is the ancestor of 2h leaves. (If h D 0, then the node is a leaf and its own ancestor.)
+3. By Exercise 6.1-8, an n-element heap has dn=2e leaves.
+4. For nonnegative reals a and b, we have dae b dabe.
+5. Subtrees whose roots have equal heights are disjoint.
+The proof is by contradiction. Assume that for some height h, an n-element heap contains at least  ̇n=2hC1 C 1 nodes of height h. Exactly one node of height h is on the unique simple path from the last leaf to the root, and the subtree rooted at this node has at least one leaf (that being the last leaf). All other nodes of height h, of which the heap contains at least  ̇n=2hC1 , are the roots of complete binary subtrees, and each such node is the root of a subtree with 2h leaves. Since each subtree whose root is at height h is disjoint, the number of leaves in the entire heap
+is at least
+ln
+2hC1
+m
+2h C 1
+ln
+2hC1 2hm
+C1
+D
+ln
+2
+m
+C1;
+which contradicts the property that an n-element heap has dn=2e leaves.
+
+
+6-6 Solutions for Chapter 6: Heapsort
+Solution to Exercise 6.4-1
+This solution is also posted publicly
+(b) (c)
+(d) (e) (f)
+(g) (h) (i)
+2 4 5 7 8 13 17 20 25
+20
+4
+25
+7 8 13 17
+25
+2
+45
+7 8 13 17
+20 25
+5
+42
+7 8 13 17
+20 25
+7
+45
+2 8 13 17
+20 25
+13
+85
+2 7 4 17
+20 25
+8
+75
+2 4 13 17
+20 25
+17
+13 5
+8 74 2
+20 25
+20
+13 17
+8 74 2
+5 25
+A
+i i
+i ii
+i
+ii
+(a)
+25
+13 20
+8 7 17 2
+54
+Solution to Exercise 6.4-2
+Initialization: Prior to the first iteration, i D n. The subarray AŒ1 W i is the entire array, which is a heap from having already called BUILD-MAX-HEAP, and the subarray AŒi C 1 W n is empty.
+Maintenance: Because AŒ1 W i is a max-heap, the largest element out of the i smallest is in AŒ1 . Because AŒi C 1 W n contains the n i largest elements, sorted, moving AŒ1 to position i makes AŒi W n the n i C 1 largest elements, sorted. Moving AŒi to AŒ1 , decrementing A:heap-size, and calling MAXHEAPIFY makes AŒ1 W i 1 a max-heap. Decrementing i reestablishes the loop invariant for the next iteration.
+
+
+Solutions for Chapter 6: Heapsort 6-7
+Termination: At termination, i D 1. The subarray AŒ1 W i is just one node, which is the smallest element in AŒ1 W n . The subarray AŒi C 1 W n is AŒ2 W n , which contains the n 1 largest elements in AŒ1 W n , sorted. Thus, AŒ1 W n is sorted.
+Solution to Exercise 6.5-2
+This solution is also posted publicly
+22
+22
+18 18
+8
+1 10
+i
+8
+1 -∞
+15
+13 9
+5 12 8 7
+406
+(a)
+15
+13 9
+5 12 8 7
+406
+(b)
+15
+13 9
+0
+12 10 7
+4
+5
+6
+(c)
+i
+15
+5
+10
+0
+12 9 7
+4
+13
+6
+(d)
+i
+Solution to Exercise 6.5-4
+MAX-HEAP-DECREASE-KEY.A; x; k/
+if k > x:key
+error “new key is greater than current key” x:key D k
+find the index i in array A where object x occurs while i > 1 and AŒPARENT.i / :key > AŒi :key
+exchange AŒi with AŒPARENT.i / , updating the information that maps priority queue objects to array indices i D PARENT.i /
+The running time is O.lg n/ plus the overhead for mapping priority queue objects to array indices.
+
+
+6-8 Solutions for Chapter 6: Heapsort
+Solution to Exercise 6.5-5
+Setting the key of the inserted object to 1 avoids the “new key is smaller than current key” error in MAX-HEAP-INCREASE-KEY.
+Solution to Exercise 6.5-7
+Initialization: The subarray AŒ1 W A:heap-size satisfies the max-heap property at the time MAX-HEAP-INCREASE-KEY is called, so at that moment all three parts of the loop invariant hold. When AŒi :key increases, that does not change the relationship between AŒPARENT.i / :key and AŒLEFT.i / :key or between AŒPARENT.i / :key and AŒRIGHT.i / :key, assuming that these nodes exist. Increasing AŒi :key could cause AŒi :key to become greater than AŒPARENT.i / :key entering the first iteration of the loop.
+Maintenance: Entering a loop iteration, AŒPARENT.i / :key AŒLEFT.i / :key and AŒPARENT.i / :key AŒRIGHT.i / :key, if these nodes exist. The loop iteration swaps AŒi :key and AŒPARENT.i / :key, so that after the swap, AŒi :key AŒLEFT.i / :key and AŒi :key AŒLEFT.i / :key; thus, there is no violation of the max-heap property among node i and its children. Before the swap, the only possible violation of the max-heap property was between node i and its parent, so that AŒi :key AŒLEFT.i / :key and AŒi :key AŒLEFT.i / :key before the swap. After the swap, i ’s key moves to its parent, so that AŒPARENT.i / :key AŒLEFT.i / :key and AŒPARENT.i / :key AŒRIGHT.i / :key after the swap. If there is a violation of the max-heap property after the swap, it is between PARENT.i / and PARENT.PARENT.i //. Setting i D PARENT.i / restores the loop invariant for the next iteration.
+Termination: The loop terminates because either i > 1, so that node i is the root and has no parent, or AŒPARENT.i / :key AŒi :key. If the second condition never occurs, the first one will because each iteration moves i one level closer to the root. Whether node i is the root or node i’s key is no larger than its parent’s key, there is no violation of the max-heap property between node i and its parent. By the loop invariant, that would have been the only possible vioation of the max-heap property, and so terminating the loop at that time results in no violations of the max-heap property anywhere in the heap.
+Solution to Exercise 6.5-8
+Change the procedure to the following:
+
+
+Solutions for Chapter 6: Heapsort 6-9
+MAX-HEAP-INCREASE-KEY .A; x; k/
+if k < x:key
+error “new key is smaller than current key” x:key D k
+find the index i in array A where object x occurs while i > 1 and AŒPARENT.i / :key < AŒi :key
+AŒi D AŒPARENT.i / , updating the information that maps priority queue objects to array indices i D PARENT.i / AŒi D x, mapping x to index i
+Solution to Exercise 6.5-9
+For a stack, use a max-priority queue and keep a counter c of how many objects have been pushed onto the stack, initially 0. To push, call INSERT with the current value of c as the key, and then increment c. To pop, just call MAXIMUM.
+For a queue, use a min-priority queue, again keeping the counter c, initially 0. To enqueue, do the same as pushing: call INSERT with the current value of c as the key, and then increment c. To dequeue, call MINIMUM.
+Solution to Exercise 6.5-10
+MAX-HEAP-DELETE.A; x/
+find the index i in array A where object x occurs AŒi D AŒA:heap-size
+update the mapping information A:heap-size D A:heap-size 1
+MAX-HEAPIFY.A; i /, updating the mapping information
+Solution to Exercise 6.5-11
+Maintain a min-heap that always contains at most k elements, one from each list. The lists are all merged together at once by repeatedly extracting the minimum element from the heap and placing it into the sorted outout. If the element placed into the output was from the ith list, then the next element from the ith list is read in and inserted into the min-heap. Each such heap operation takes O.lg k/ time, for a total of O.n lg k/ time.
+
+
+6-10 Solutions for Chapter 6: Heapsort
+Solution to Problem 6-1
+This solution is also posted publicly
+a. The procedures BUILD-MAX-HEAP and BUILD-MAX-HEAP0 do not always create the same heap when run on the same input array. Consider the following counterexample.
+Input array A:
+A 123
+BU ILD -M A X -H EA P .A/:
+1
+23
+3
+21
+A 321
+BU ILD -M A X -H EA P 0.A/:
+1
+2
+2
+13
+3
+12
+A 312
+3
+b. An upper bound of O.n lg n/ time follows immediately from there being n 1 calls to MAX-HEAP-INSERT, each taking O.lg n/ time. For a lower bound of .n lg n/, consider the case in which the input array is given in strictly increasing order. Each call to MAX-HEAP-INSERT causes HEAP-INCREASEKEY to go all the way up to the root. Since the depth of node i is blg ic, the total time is
+n
+X
+i D1
+‚.blg ic/
+n
+X
+i Ddn=2e
+‚.blg dn=2ec/
+n
+X
+i Ddn=2e
+‚.blg.n=2/c/
+D
+n
+X
+i Ddn=2e
+‚.blg n 1c/
+.n=2/ ‚.lg n/
+D .n lg n/ :
+In the worst case, therefore, BUILD-MAX-HEAP0 requires ‚.n lg n/ time to build an n-element heap.
+Solution to Problem 6-2
+a. Represent a d -ary heap in a 1-dimensional array as follows. The root resides in AŒ1 , its d children reside in order in AŒ2 through AŒd C 1 , their children reside in order in AŒd C 2 through AŒd 2 C d C 1 , and so on. Nodes at
+
+
+Solutions for Chapter 6: Heapsort 6-11
+depth k start at index Pk 1
+iD0 d i C 1 and end at index Pk
+iD0 d i . The following two procedures map a node with index i to its parent and to its j th child (for 1 j d ), respectively.
+D-ARY-PARENT.i /
+return b.i 2/=d c C 1
+D-ARY-CHILD.i; j /
+return d.i 1/ C j C 1
+To convince yourself that these procedures really work, verify that
+D-ARY-PARENT.D-ARY-CHILD.i; j // D i ;
+for any 1 j d . Notice that the binary heap procedures are a special case of the above procedures when d D 2.
+b. Since each node has d children, the height of a d -ary heap with n nodes is ‚.logd n/ D ‚.lg n= lg d /.
+c. The procedure MAX-HEAP-EXTRACT-MAX given in the text for binary heaps works fine for d -ary heaps too. The change needed to support d -ary heaps is in MAX-HEAPIFY, which must compare the argument node to all d children instead of just 2 children. Here is an updated version of MAX-HEAPIFY for a d -ary heap (ignoring the mapping between objects and heap elements). It assumes that the degree d of the d -ary heap is global.
+MAX-HEAPIFY.A; i /
+rightmost-child D min fD-ARY-CHILD.i; d /; A:heap-sizeg largest D i
+j D D-ARY-CHILD.i; 1/ while j rightmost-child if AŒj > AŒlargest largest D j j D j C1 if largest ¤ i
+exchange AŒi with AŒlargest MAX-HEAPIFY.A; largest/
+The running time of MAX-HEAP-EXTRACT-MAX is still the running time for MAX-HEAPIFY, but that now takes worst-case time proportional to the product of the height of the heap by the number of children examined at each node (at most d ), namely ‚.d logd n/ D ‚.d lg n= lg d /.
+d. The procedure MAX-HEAP-INCREASE-KEY given in the text for binary heaps works fine for d -ary heaps too, with calls to PARENT changed to calls to D-ARY-PARENT. The worst-case running time is still ‚.h/, where h is the height of the heap. For a d -ary heap, this running time is ‚.logd n/ D ‚.lg n= lg d /.
+e. The MAX-HEAP-INSERT procedure needs no changes for a d -ary heap. The worst-case running time is the same as for MAX-HEAP-INCREASE-KEY: ‚.logd n/ D ‚.lg n= lg d /.
+
+
+6-12 Solutions for Chapter 6: Heapsort
+Solution to Problem 6-3
+a. There are many ways to arrange these elements in a Young tableau. Here are three of them:
+2 3 9 12 4 8 14 1 5 111 16 1 1 1
+2345 8 9 11 12 14 1 1 16 1 1 1
+2 4 12 1 3 5 16 1 8 14 1 1 9111
+b. In a Young tableau, each row and each column is in nondecreasing order. If an entry of a row is 1, then all entries to its right must also be 1. Likewise, if an entry of a column is 1, then all entries below it must also be 1. Therefore, if Y Œ1; 1 D 1, then the rest of row 1 must be 1. Since columns 1 through n in row 1 are 1, columns 1 through n must be 1 in all rows. Hence, the Young tableau Y is emmpty.
+The argument goes the other way if Y Œm; n < 1. Each entry in row m must be finite. Because each entry in every column of row m is finite, each entry in every column of every row is finite, so that Young tableau Y is full.
+c. MAX-HEAPIFY compares a heap element with its children and, if either of the children is greater than the element, swaps the greater of the children with the heap element and recurses on that child’s position. The procedure SINK follows the same idea, but instead of children of a node, it looks at the neighboring elements to the right and below of element Y Œi; j and uses the smaller of the two.
+SINK.Y; i; j; m; n/
+if i < m
+below D Y Œi C 1; j else below D 1 if j < n
+right D Y Œi; j C 1 else right D 1 if min fbelow; rightg < 1 if below < right
+exchange Y Œi; j with Y Œi C 1; j SINK.A; i C 1; j; m; n/
+else exchange Y Œi; j with Y Œi; j C 1 SINK.A; i; j C 1; m; n/
+EXTRACT-MIN saves the element in Y Œ1; 1 in a local variable, places 1 into Y Œ1; 1 , calls SINK to let this 1 “sink down” into the Young tableau, and returns the saved value. Before making any changes, however, it checks for the error condition of an empty Young tableau.
+
+
+Solutions for Chapter 6: Heapsort 6-13
+EXTRACT-MIN.Y; m; n/ min D Y Œ1; 1 if min == 1
+error “Young tableau is empty” Y Œ1; 1 D 1 SINK.Y; 1; 1/ return min
+Clearly, EXTRACT-MIN runs in O.1/ time plus the time for SINK. To see that SINK runs in O.m C n/ time, observe that each recursive call moves either down by one row or to the right by one column. It must get to Y Œm; n after at most .m 1/ C .n 1/ recursive calls. Since each call takes O.1/ time plus the time for the recursive calls, the total time for SINK is O.m C n/. In general, the call SINK.Y; i; j; m; n/ takes O.m C n .i C j // time.
+d. If the Young tableau Y is not full, then Y Œm; n D 1. INSERT works by inserting the new element k in Y Œm; n and then letting it float up and/or to the left. The procedure FLOAT is analogous to SINK, replacing 1 by 1 and going up instead of down and left instead of right.
+INSERT.Y; k; m; n/
+if Y Œm:n ¤ 1
+error “Young tableau is full” Y Œm; n D k FLOAT.Y; m; n/
+FLOAT.Y; i; j / if i > 1
+above D Y Œi 1; j else above D 1 if j > 1
+left D Y Œi; j 1 else left D 1
+if max fabove; leftg > 1 if above > left
+exchange Y Œi; j with Y Œi 1; j FLOAT.Y; i 1; j /
+else exchange Y Œi; j with Y Œi; j 1 FLOAT.Y; i; j 1/
+Just as SINK runs in O.m C n/ time, so does FLOAT, since each recursive call decrements either i or j .
+e. To sort n2 numbers in O.n3/ with a Young tableau:
+1. Create an empty n n Young tableau. Time: ‚.n2/. 2. Call INSERT for each of the n2 numbers. Time: O.n3/.
+3. Create an index l into the output array, and initialize it to 1. Time: ‚.1/, or O.n/ if the output array needs to be created.
+
+
+6-14 Solutions for Chapter 6: Heapsort
+4. Call EXTRACT-MIN n2 times, placing each returned number into index l of the output array, then incrementing l. Time: O.n3/.
+Total time: O.n3/.
+f. The following procedure returns either the position .i; j / of the number k in Young tableau Y , or NIL if k does not appear in Y .
+SEARCH.Y; k; m; n/
+i D1 j Dn
+while i m and j 1 if k == Y Œi; j
+return .i; j / elseif k < Y Œi; j j Dj 1 else i D i C 1 return NIL
+The SEARCH procedure maintains the following loop invariant:
+Loop invariant: At the start of each iteration of the while loop, Y Œi 0; j 0 ¤ k for all i 0 < i or j 0 > j .
+Pictorially, the loop invariant looks like this:
+i
+j
+≠k
+Y[i,j]
+≥ Y[i,j]
+≤ Y[i,j]
+Initialization: Initially, i D 1 and j D n, so that no row numbers are less than i and no column numbers are greater than j . That is, fY Œi 0; j 0 W i 0 < i and j 0 > j g is an empty set.
+Maintenance: If k < Y Œi; j , then as the figure shows, k < Y Œi0; j for all i0 > i. The section labeled “ Y Œi; j ” contains only numbers that are greater than k. Therefore, this section can be ruled out. Decrementing j does so and maintains the loop invariant for the next iteration. If instead, k > Y Œi; j , then k > Y Œi; j 0 for all j 0 < j , so that the section labeled “ Y Œi; j ” contains only numbers that are less than k. Thus, this section can be ruled out, and incrementing i does so, maintaining the loop invariant for the next iteration.
+Termination: The loop terminates for one of three reasons. If k D Y Œi; j , then SEARCH returns .i; j /, having found an element equal to k. If i > m, then all rows have been determined to contain only numbers not equal to k. In other words, no row contains a number equal to k. The loop terminates, and the procedure returns NIL. Likewise, if j < 1, then all columns have
+
+
+Solutions for Chapter 6: Heapsort 6-15
+been determined to contain only numbers not equal to k, i.e., no column contains a number equal to k. As in the case for i > m, the loop terminates, and the procedure returns NIL. The loop is guaranteed to terminate, since each iteration either increments i or decrements j .
+The SEARCH procedure runs in O.m C n/ time, since in the worst case, the while loop increments i m times and decrements j n times, with each iteration taking O.1/ time.
+
+
+Solutions for Chapter 7:
+Quicksort
+Solution to Exercise 7.1-2
+If all the elements in subarray AŒp W r have the same value, then the test in line 4 of PARTITION evaluates to true every time. When the for loop of lines 3–6 terminates, all elements other than the pivot will be in the subarray AŒp W i , where i D r 1. Line 7 leaves the pivot in AŒr , and line 8 returns r as the pivot index. The result is unbalanced partitioning.
+One way to make the partition balanced when all elements in AŒp W r are equal is to check specifically for this case before moving elements around, and just return the index b.p C r/=2c if all elements are equal.
+Another way, which does not require a check beforehand, is to keep a flag saying which partition elements equal to the pivot go into, flipping the value of the flag each time the procedure finds an element equal to the pivot. Here is pseudocode:
+PARTITION.A; p; r /
+x D AŒr iDp 1 flag D LEFT
+for j D p to r 1
+if AŒj < x or (AŒj = = x and flag = = LEFT) if AŒj == x
+flag D RIGHT i D iC1
+exchange AŒi with AŒj elseif AŒj == x flag D left
+exchange AŒi C 1 with AŒr return i C 1
+Solution to Exercise 7.1-3
+The for loop of lines 3–6 iterates n 1 times, and each iteration takes ‚.1/ time. The parts of the procedure outside the loop take ‚.1/ time, for a total of ‚.n/ time.
+
+
+7-2 Solutions for Chapter 7: Quicksort
+Solution to Exercise 7.1-4
+Just change the test in line 4 to AŒj x.
+Solution to Exercise 7.2-1
+To show that T .n/ D O.n2/, denote by c the constant hidden in the ‚.n/ term. Guess that T .n/ d n2 for a constant d to be chosen. We have
+T .n/ T .n 1/ C cn
+d.n 1/2 C cn
+D d n2 2d n C d C cn :
+This last quantity is less than or equal to d n2 if 2d n C d C cn 0, which is equivalent to d cn=.2n 1/. This last inequality holds for all n 1 and d c.
+For the lower bound, use the same c as for the upper bound, and guess that T .n/ d n2 for a constant d to be chosen. Changing to above yields T .n/ d n2 if d cn=.2n 1/, which holds for all n 1 and d c=2.
+Thus, T .n/ D ‚.n2/.
+Solution to Exercise 7.2-2
+When all elements of array A have the same value, every split of partition yields a maximally unbalanced partition. The recurrence for the running time is then T .n/ D T .n 1/ C ‚.n/ D ‚.n2/.
+Solution to Exercise 7.2-3
+This solution is also posted publicly
+Suppose that PARTITION is called on a subarray AŒp W r whose elements are distinct and in decreasing order. PARTITION chooses the smallest element, in AŒr , as the pivot. Every test in line 4 comes up false, so that no elements are exchanged during the execution of the for loop. Before PARTITION returns, line 6 finds that i D p 1, and so it swaps the elements in AŒp and AŒr . PARTITION returns p as the position of the pivot. The subarray containing elements less than or equal to the pivot is empty. The subarray containing elements greater than the pivot, AŒp C 1 W r , has all but the pivot and is in decreasing order except that the maximum element of this subarray is in AŒr .
+When QUICKSORT calls PARTITION on AŒp W q 1 , nothing changes, as this subarray is empty. When QUICKSORT calls PARTITION on AŒq C 1 W r , now the pivot is the greatest element in the subarray. Although every test in line 4 comes up true,
+
+
+Solutions for Chapter 7: Quicksort 7-3
+the indices i and j are always equal in line 6, so that just as in the case where the pivot is the smallest element, no elements are exchanged during the execution of the for loop. Before PARTITION returns, line 6 finds that i D r 1, so that the swap in line 6 leaves the pivot in AŒr . PARTITION returns r as the position of the pivot. Now the subarray containing elements less than or equal to the pivot has all but the pivot and is in decreasing order, and the subarray containing elements greater than the pivot is empty. The next call to PARTITION, therefore, is on a subarray that is in decreasing order, so that it goes back to the first case above.
+Therefore, each recursive call is on a subarray only one element smaller, giving a recurrence for the running time of T .n/ D T .n 1/ C ‚.n/, whose solution is ‚.n2/.
+Solution to Exercise 7.2-4
+In the best case, QUICKSORT runs in ‚.n lg n/ time. In the situation with bank checks, suppose that on average, each check is within k positions of where it belongs in the sorted order, where k is a constant. Then in INSERTION-SORT, array elements move a total of at most k n times overall. Each iteration of the while loop of lines 5–7 of INSERTION-SORT moves one element by one position, so that total number of iterations of this loop is at most k n. Since k is a constant, INSERTIONSORT runs in ‚.n/ time in this case, beating QUICKSORT.
+Solution to Exercise 7.2-5
+This solution is also posted publicly
+The minimum depth follows a path that always takes the smaller part of the partition—i.e., that multiplies the number of elements by  ̨. One level of recursion reduces the number of elements from n to  ̨n, and i levels of recursion reduce the number of elements to  ̨i n. At a leaf, there is just one remaining element, and so at a minimum-depth leaf of depth m, we have  ̨mn D 1. Thus,  ̨m D 1=n. Taking logarithms, we get m lg  ̨ D lg n, or m D lg n= lg  ̨. (This quantity is positive because 0 <  ̨ < 1 implies that lg  ̨ < 0.)
+Similarly, the maximum-depth path corresponds to always taking the larger part of the partition, i.e., keeping a fraction ˇ of the elements each time. The maximum depth M is reached when there is one element left, that is, when ˇM n D 1. Thus, M D lg n= lg ˇ. (Again, this quantity is positive because 0 < ˇ < 1 implies that lg ˇ < 0.)
+All these equations are approximate because we are ignoring floors and ceilings.
+
+
+7-4 Solutions for Chapter 7: Quicksort
+Solution to Exercise 7.2-6
+Let the array have n elements. The split is less balanced than 1  ̨ to  ̨ if the pivot occurs in the smallest  ̨n elements or in the largest  ̨n elements. The split is balanced if the pivot occurs anywhere else, i.e., in the middle n 2 ̨n elements, taken by size. The probability of that happening—any of the middle n 2 ̨n elements being in the last position, where the pivot is selected—is .n 2 ̨n/=n D 1 2 ̨.
+Solution to Exercise 7.3-1
+We may be interested in the worst-case performance, but in that case, the randomization is irrelevant: it won’t improve the worst case. What randomization can do is make the chance of encountering a worst-case scenario small.
+Solution to Exercise 7.3-2
+In the best case, the recursion tree is as balanced as possible at every level. Thinking of a full binary tree with n leaves, each internal node represents a call of
+RANDOMIZED-QUICKSORT that calls RANDOMIZED-PARTITION. Since a full bi
+nary tree with n leaves has ‚.n/ internal nodes, there are ‚.n/ calls to RANDOM in the best case.
+The worst-case recursion tree always has a split of n 1 to 0, so that each recursive call is on a subproblem only one element smaller. This recursion tree has n 1 internal nodes, so that again there are ‚.n/ calls to RANDOM.
+Solution to Exercise 7.4-2
+To show that quicksort’s best-case running time is .n lg n/, we use a technique similar to the one used in Section 7.4.1 to show that its worst-case running time is O.n2/.
+Let T .n/ be the best-case time for the procedure QUICKSORT on an input of size n. We have the recurrence
+T .n/ D min fT .q/ C T .n q 1/ W 0 q n 1g C ‚.n/ :
+We guess that T .n/ cn lg n for some constant c. Substituting this guess into the recurrence, we obtain
+T .n/ min fcq lg q C c.n q 1/ lg.n q 1/ W 0 q n 1g C ‚.n/
+D c min fq lg q C .n q 1/ lg.n q 1/ W 0 q n 1g C ‚.n/ :
+
+
+Solutions for Chapter 7: Quicksort 7-5
+As we’ll show below, the expression q lg q C .n q 1/ lg.n q 1/ achieves a minimum over the range 0 q n 1 when q D n q 1, or q D .n 1/=2, since the first derivative of the expression with respect to q is 0 when q D .n 1/=2 and the second derivative of the expression is positive. (It doesn’t matter that q is not an integer when n is even, since we’re just trying to determine the minimum value of a function, knowing that when we constrain q to integer values, the function’s value will be no lower.)
+Choosing q D .n 1/=2 gives n q 1 D .n 1/=2, and thus the bound min fq lg q C .n q 1/ lg.n q 1/ W 0 q n 1g n1
+2 lg n 1
+2 Cn n 1
+2 1 lg n n 1
+21
+D .n 1/ lg n 1
+2:
+Continuing with our bounding of T .n/, we obtain, for n 2,
+T .n/ c.n 1/ lg n 1
+2 C ‚.n/
+D c.n 1/ lg.n 1/ c.n 1/ C ‚.n/
+D cn lg.n 1/ c lg.n 1/ c.n 1/ C ‚.n/
+cn lg.n=2/ c lg.n 1/ c.n 1/ C ‚.n/ (since n 2)
+D cn lg n cn c lg.n 1/ cn C c C ‚.n/
+D cn lg n .2cn C c lg.n 1/ c/ C ‚.n/
+cn lg n ;
+since we can pick the constant c small enough so that the ‚.n/ term dominates the quantity 2cn C c lg.n 1/ c. Thus, the best-case running time of quicksort is .n lg n/.
+Letting f .q/ D q lg q C .n q 1/ lg.n q 1/, we now show how to find the minimum value of this function in the range 0 q n 1. We need to find the value of q for which the derivative of f with respect to q is 0. We rewrite this function as
+f .q/ D q ln q C .n q 1/ ln.n q 1/
+ln 2 ; and so
+f 0.q/ D d
+dq
+q ln q C .n q 1/ ln.n q 1/
+ln 2
+D ln q C 1 ln.n q 1/ 1
+ln 2
+D ln q ln.n q 1/
+ln 2 : The derivative f 0.q/ is 0 when q D n q 1, or when q D .n 1/=2. To verify that q D .n 1/=2 is indeed a minimum (not a maximum or an inflection point), we need to check that the second derivative of f is positive at q D .n 1/=2:
+f 00.q/ D d
+dq
+ln q ln.n q 1/
+ln 2
+D1
+ln 2
+1
+qC 1
+nq1
+
+
+7-6 Solutions for Chapter 7: Quicksort
+and
+f 00 n 1
+2 D1
+ln 2
+2
+n 1C 2
+n1
+D1
+ln 2
+4
+n1
+> 0 (since n 2) :
+Solution to Problem 7-2
+a. If all elements are equal, then when PARTITION returns, q D r and all elements in AŒp W q 1 are equal. We get the recurrence T .n/ D T .n 1/ C ‚.n/ for the running time, and so T .n/ D ‚.n2/.
+b. The PARTITION0 procedure here chooses AŒp as the pivot, instead of AŒr :
+PARTITION0.A; p; r /
+x D AŒp i Dp hDp
+for j D p C 1 to r
+// Invariant: AŒp W i 1 < x, AŒi W h D x, AŒh C 1 W j 1 > x, AŒj W r unknown. if AŒj < x y D AŒj AŒj D AŒh C 1 AŒh C 1 D AŒi AŒi D y i D i C1 h D hC1 elseif AŒj == x
+exchange AŒh C 1 with AŒj h D hC1 return .i; h/
+c. RANDOMIZED-PARTITION 0 is the same as RANDOMIZED-PARTITION, but
+with the call to PARTITION replaced by a call to PARTITION0.
+QUICKSORT0.A; p; r /
+if p < r
+.q; t / D RANDOMIZED-PARTITION 0.A; p; r / QUICKSORT0.A; p; q 1/ QUICKSORT0.A; t C 1; r /
+d. Putting elements equal to the pivot in the same partition as the pivot can only help, because QUICKSORT0 does not recurse on elements equal to the pivot. Thus, the subproblem sizes with QUICKSORT0, even with equal elements, are no larger than the subproblem sizes with QUICKSORT when all elements are distinct.
+
+
+Solutions for Chapter 7: Quicksort 7-7
+Solution to Problem 7-3
+a. For any given element, RANDOMIZED-PARTITION has a 1=n probability of placing it into the pivot position, AŒr . Since we assume that the elements are distinct, the probability that the ith smallest element is chosen as the pivot is 1=n. Therefore, Pr fXi g D E ŒXi D 1=n.
+b. If RANDOMIZED-PARTITION selects the qth smallest element as the pivot, then one recursive call of RANDOMIZED-QUICKSORT will be on a subarray of size q 1, and the other recursive call will be on a subarray of size n q. RANDOMIZED-PARTITION takes ‚.n/ time, no matter what. In the recursive
+case of RANDOMIZED-QUICKSORT, if RANDOMIZED-PARTITION returns the
+index of the qth smallest element, then the running time of RANDOMIZEDQUICKSORT is given by T .q 1/ C T .n q/ C ‚.n/.
+The indicator random variable Xq equals 1 only if RANDOMIZED-PARTITION returns the index of the qth smallest element, and it equals 0 otherwise. Taking into account all possible values of q, we get that
+T .n/ D
+n
+X
+qD1
+Xq.T .q 1/ C T .n q/ C ‚.n// :
+Taking expectations of both sides gives
+E ŒT .n/ D E
+"n X
+qD1
+Xq.T .q 1/ C T .n q/ C ‚.n//
+#
+:
+c. E ŒT .n/ D E
+"n X
+qD1
+Xq.T .q 1/ C T .n q/ C ‚.n//
+#
+D
+n
+X
+qD1
+E ŒXq.T .q 1/ C T .n q/ C ‚.n//
+(linearity of expectation)
+D
+n
+X
+qD1
+E ŒXq E Œ.T .q 1/ C T .n q/ C ‚.n//
+(independence)
+D
+n
+X
+qD1
+1
+n E Œ.T .q 1/ C T .n q/ C ‚.n//
+D1
+nE
+"n X
+qD1
+T .q 1/
+#
+C1
+nE
+"n X
+qD1
+T .n q/
+#
+C1
+nE
+"n X
+qD1
+‚.n/
+#
+(linearity of expectation)
+D1
+nE
+"n 1
+X
+qD0
+T .q/
+#
+C1
+nE
+"n 1
+X
+qD0
+T .q/
+#
+C ‚.n/ (reindexing)
+D2
+nE
+"n 1
+X
+qD0
+T .q/
+#
+C ‚.n/
+
+
+7-8 Solutions for Chapter 7: Quicksort
+D2
+n
+n1
+X
+qD0
+E ŒT .q/ C ‚.n/ (linearity of expectation)
+D2
+n
+n1
+X
+qD1
+E ŒT .q/ C ‚.n/ (T .0/ D ‚.1/) .
+d. Splitting the summation as given in the hint yields
+n1
+X
+qD1
+q lg q D
+dn=2e 1
+X
+qD1
+q lg q C
+n1
+X
+qDdn=2e
+q lg q
+lg.n=2/
+dn=2e 1
+X
+qD1
+q C lg n
+n1
+X
+qDdn=2e
+q
+D .lg n 1/
+dn=2e 1
+X
+qD1
+q C lg n
+n1
+X
+qDdn=2e
+q
+D lg n
+n1
+X
+qD1
+q
+dn=2e 1
+X
+qD1
+q
+1
+2 n.n 1/ lg n 1
+2
+n
+2 1n
+2 1
+2 n2 lg n 1
+8 n2
+if n 2.
+e. Assume that E ŒT .n/ an lg n C b for some constants a; b > 0 that we get to choose. Choose b such that E ŒT .1/ b, so that E ŒT .n/ an lg n C b for n D 1. Then, for n 2, by substitution we have
+E ŒT .n/ D 2
+n
+n1
+X
+qD1
+E ŒT .q/ C ‚.n/
+2
+n
+n1
+X
+qD1
+.aq lg q C b/ C ‚.n/
+D 2a
+n
+n1
+X
+qD1
+q lg q C 2b.n 1/
+n C ‚.n/
+2a
+n
+n2
+2 lg n n2
+8 C 2b.n 1/
+n C ‚.n/ (by part (d))
+< an lg n an
+4 C 2b C ‚.n/
+D an lg n C b C ‚.n/ C b an
+4 an lg n C b ;
+since we can choose a large enough that an=4 dominates ‚.n/ C b. We conclude that E ŒT .n/ D O.n lg n/.
+
+
+Solutions for Chapter 7: Quicksort 7-9
+Solution to Problem 7-4
+a. We first demonstrate that we always have p r in line 1, so that if line 2 executes, then the greater element moves to a higher index. In the initial call, n 1, so that p D 1 n D r. Now, consider any recursive call. Recursive calls occur only if line 3 finds that p C 1 < r, so that the subarray AŒp W r has r p C 1 3 elements. The value of k computed in line 4 is at least 1 and at most .r p C 1/=3 and so we have that p < r k in lines 5 and 7 and that p C k < r in line 6. Therefore, all three recursive calls have the second parameter strictly less than the third parameter.
+Note that by computing k as the floor of .r p C1/=3, rather than the ceiling, if the size of the subarray AŒp W r is not an exact multiple of 3, then the subarray sizes in the recursive calls are for subarrays of size d2.r p C 1/=3e, so that lines 5–7 are calls on subarrays at least 2=3 as large.
+So now we need merely argue that sorting the first two-thirds, sorting the last two-thirds, and sorting the first two-thirds again suffices to sort the entire subarray. Denote the subarray size by n. Where can the bn=3c largest elements be after the first recursive call? They were either in the rightmost bn=3c positions, in which case they have not moved, or they were in the leftmost d2n=3e positions, in which case they are in the rightmost positions within the leftmost d2n=3e. That is, they are in the middle bn=3c positions. The second recursive call guarantees that the largest bn=3c elements are in the rightmost bn=3c positions, and that they are sorted. All that remains is to sort the smallest d2n=3e elements, which is taken care of by the third recursive call.
+b. The recurrence is T .n/ D 3T .2n=3/ C ‚.1/. We solve this recurrence by the master theorem with a D 3, b D 3=2, and f .n/ D ‚.1/ D ‚.n0/. We need to determine log3=2 3, and it is approximately 2:71. Since f .n/ D
+O.nlog3=2 3 / for D 2:7, this recurrence falls into case 1, with the solution T .n/ D ‚.nlog3=2 3/.
+c. The running time of STOOGE-SORT is asymptotically greater than the worstcase running times of each of the four sorting methods in the question. No tenure for Professors Howard, Fine, and Howard. They should go back to teaching “Swingin’ the Alphabet.”1
+Solution to Problem 7-5
+a. TRE-QUICKSORT does exactly what QUICKSORT does, so that it sorts correctly.
+QUICKSORT and TRE-QUICKSORT do the same partitioning, and then each calls itself with arguments A; p; q 1. QUICKSORT then calls itself again, with
+1And Curly’s a dope.
+
+
+7-10 Solutions for Chapter 7: Quicksort
+arguments A; q C 1; r. TRE-QUICKSORT instead sets p D q C 1 and performs another iteration of its while loop. This executes the same operations as calling itself with A; q C 1; r, because in both cases, the first and third arguments (A and r) have the same values as before, and p has the old value of q C 1.
+b. The stack depth of TRE-QUICKSORT will be ‚.n/ on an n-element input array if there are ‚.n/ recursive calls to TRE-QUICKSORT. This happens if every call to PARTITION.A; p; r/ returns q D r. The sequence of recursive calls in this scenario is
+TRE-QUICKSORT.A; 1; n/ ; TRE-QUICKSORT.A; 1; n 1/ ; TRE-QUICKSORT.A; 1; n 2/ ; :::
+TRE-QUICKSORT.A; 1; 1/ :
+Any array that is already sorted in increasing order will cause TREQUICKSORT to behave this way.
+c. The problem demonstrated by the scenario in part (b) is that each invocation of TRE-QUICKSORT calls TRE-QUICKSORT again with almost the same range. To avoid such behavior, we must change TRE-QUICKSORT so that the recursive call is on a smaller interval of the array. The following variation of TREQUICKSORT checks which of the two subarrays returned from PARTITION is smaller and recurses on the smaller subarray, which is at most half the size of the current array. Since the array size is reduced by at least half on each recursive call, the number of recursive calls, and hence the stack depth, is ‚.lg n/ in the worst case. Note that this method works no matter how partitioning is performed (as long as the PARTITION procedure has the same functionality as the procedure given in Section 7.1).
+TRE-QUICKSORT0.A; p; r/
+while p < r
+// Partition and sort the small subarray first. q D PARTITION.A; p; r/ if q p < r q
+TRE-QUICKSORT0.A; p; q 1/ p D qC1
+else TRE-QUICKSORT0.A; q C 1; r/ r Dq 1
+The expected running time is not affected, because exactly the same work is done as before: the same partitions are produced, and the same subarrays are sorted.
+
+
+Solutions for Chapter 8:
+Sorting in Linear Time
+Solution to Exercise 8.1-2
+For either the upper bound or lower bound, start by observing that
+lg.nŠ/ D lg
+n
+Y
+kD1
+k
+!
+D
+n
+X
+kD1
+lg k :
+For the lower bound of .n lg n/:
+lg.nŠ/ D
+n
+X
+kD1
+lg k
+n
+X
+kDdn=2e
+lg k
+jn
+2
+k
+lg
+ln
+2
+m
+n
+2 1 lg n
+2
+Dn
+2 1 .lg n 1/
+D n lg n
+2
+n
+2 lg n C 1
+D .n lg n/ :
+For the upper bound of O.n lg n/:
+lg.nŠ/ D
+n
+X
+kD1
+lg k
+n
+X
+kD1
+lg n
+D n lg n :
+
+
+8-2 Solutions for Chapter 8: Sorting in Linear Time
+Solution to Exercise 8.1-3
+This solution is also posted publicly
+If the sort runs in linear time for m input permutations, then the height h of the portion of the decision tree consisting of the m corresponding leaves and their ancestors is linear.
+Use the same argument as in the proof of Theorem 8.1 to show that this is impossible for m D nŠ=2, nŠ=n, or nŠ=2n.
+We have 2h m, which gives us h lg m. For all the possible values of m given here, lg m D .n lg n/, hence h D .n lg n/.
+In particular, using equation (3.25):
+lg nŠ
+2 D lg nŠ 1 n lg n n lg e 1 ;
+lg nŠ
+n D lg nŠ lg n n lg n n lg e lg n ;
+lg nŠ
+2n D lg nŠ n n lg n n lg e n :
+Solution to Exercise 8.1-4
+To get a permutation, place each of the i mod 4 D 0 elements; there are 3n=4 ways to do so. Now you can place each of the remaining 3n=4 items in any order in the remaining places, so that there are 3n=4.3n=4/Š possible sorted orders and 3n=4.3n=4/Š leaves in the decision tree. The height of this decision tree is at least lg.3n=4.3n=4/Š/, which is .n lg n/.
+Solution to Exercise 8.2-3
+This solution is also posted publicly
+[The following solution also answers Exercise 8.2-2.]
+Notice that the correctness argument in the text does not depend on the order in which A is processed. The algorithm is correct whether A is processed front to back or back to front.
+But the modified algorithm is not stable. As before, in the final for loop an element equal to one taken from A earlier is placed before the earlier one (i.e., at a lower index position) in the output arrray B. The original algorithm was stable because an element taken from A later started out with a lower index than one taken earlier. But in the modified algorithm, an element taken from A later started out with a higher index than one taken earlier.
+In particular, the algorithm still places the elements with value k in positions C Œk 1 C 1 through C Œk , but in the reverse order of their appearance in A.
+
+
+Solutions for Chapter 8: Sorting in Linear Time 8-3
+Rewrite of COUNTING-SORT that writes elements with the same value into the output array in order of increasing index and is stable:
+COUNTING-SORT.A; n; k/ let BŒ1 W n , C Œ0 W k , and LŒ0 W k be new arrays for i D 0 to k C Œi D 0 for j D 1 to n
+C ŒAŒj D C ŒAŒj C 1
+// C Œi now contains the number of elements equal to i. LŒ0 D 1
+for i D 1 to k
+LŒi D LŒi 1 C C Œi 1
+// LŒi now contains the index of the first element of A with value i for j D 1 to n
+BŒLŒAŒj D AŒj LŒAŒj D LŒAŒj C 1 return B
+Solution to Exercise 8.2-4
+Loop invariant: At the start of each iteration of the for loop of lines 11–13, the last element in A with value i that has not yet been copied into B belongs in BŒC Œi .
+Initialization: Initially, no elements in A have been copied into B, so that the last element in A with value i that has not been copied into B is just the last element in A with value i. Since there are C Œi elements in A with value less than or equal to i, this last element in A with value i belongs in BŒC Œi .
+Maintenance: Let AŒj D i in a given iteration of the for loop of lines 11–13. By the loop invariant, AŒj belongs in BŒC Œi . Let m D maxfl W l < j and AŒl D ig be the index of the rightmost element of A with value i that occurs before AŒj . Then AŒm should go into the position of B immediately before where AŒj goes, that is, AŒm should go into position C Œi 1. Decrementing C ŒAŒj in line 13 causes that to happen in the later iteration when j D m.
+Termination: The loop terminates after n iterations. At that time, each element of A has been copied into its correct location in B.
+Solution to Exercise 8.2-5
+Count how many of each key there are and then just refill A with the correct number of each key.
